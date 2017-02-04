@@ -82,6 +82,9 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASS',''),
         'HOST': os.getenv('DB_HOST','127.0.0.1'),
         'PORT': os.getenv('DB_PORT','3306'),
+        'TEST': {
+            'NAME': 'circle_test',
+        },
     }
 }
 
