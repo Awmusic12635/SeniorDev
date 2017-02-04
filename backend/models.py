@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 #classes with no FKs
 
@@ -46,7 +47,7 @@ class Item(models.Model):
     model = models.CharField(max_length=200)
     serial = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
-    cost = models.DecimalField(decimal_places=2)
+    cost = models.DecimalField(decimal_places=2,max_digits=10)
     location = models.CharField(max_length=200)
     generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog')
@@ -56,7 +57,7 @@ class ItemStateLog(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     itemState = models.ForeignKey(ItemState, on_delete=models.CASCADE)
     dateTimeChanged = models.DateTimeField()
-    changedBy = models.ForeignKey(auth_user, on_delete=models.CASCADE)
+    changedBy = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class CheckInOrOutList(models.Model):
@@ -64,7 +65,7 @@ class CheckInOrOutList(models.Model):
     itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE)
     itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    inOrOut = models.CharField(max_length=3)  #nullable boolean?
+    inOrOut = models.CharField(max_length=3)  # nullable boolean?
     description = models.CharField(max_length=500)
     checkInListItems = models.ManyToManyField(CheckInOrOutListItem, through='CheckInListItems')
 
@@ -77,13 +78,13 @@ class CheckInListItems(models.Model):
 
 class Checkout(models.Model):
     itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
-    person = models.ForeignKey(auth_user, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE)
     dateTimeOut = models.DateTimeField()
     expectedDateTimeIn = models.DateTimeField()
-    checkedOutBy = models.ForeignKey(auth_user,on_delete=models.CASCADE)
-    checkedInBy = models.ForeignKey(auth_user,on_delete=models.CASCADE)
-    signatureFormFile = models.CharField(max_length=400)  #use a file field?
-    checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
+    checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE)
+    checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE)
+    signatureFormFile = models.CharField(max_length=400)  # use a file field?
+    #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 
 
 class CheckInListResults(models.Model):
@@ -99,7 +100,7 @@ class Reservation(models.Model):
     itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    requester = models.CharField(max_length=100)  #fk?
+    requester = models.CharField(max_length=100)  # fk?
     isApproved = models.BooleanField(max_length=200)
     major = models.CharField(max_length=50)
     lengthOfCheckout = models.DurationField()
@@ -107,5 +108,8 @@ class Reservation(models.Model):
    
    
 class ReservationUser(models.Model):
-    reservationID = models.ForeignKey(Reservation, on_delete=models.CASCADE, primary_key=True)
-    userID= models.ForeignKey(auth_user, on_delete=models.CASCADE, primary_key=True)
+    reservationID = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    userID= models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('userID', 'reservationID')
