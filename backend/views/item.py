@@ -19,12 +19,6 @@ def getItemByID(request, item_id):
 
 
 @login_required
-def getItemByID(request, item_id):
-    context = {'item': Item.objects.get(pk=item_id)}
-    return render(request, 'app/itemView.html', context)
-
-
-@login_required
 def deleteItem(request, item_id):
     context = {'deleted': Item.objects.filter(pk=item_id).delete()}
     return render(request, 'app/itemDelete.html', context)
@@ -45,7 +39,6 @@ def createItem(request):
     item.generalAccessRule = request.POST['generalAccessRule']
     #item state
     item.save()
-    context = {'created':item.id}
     return HttpResponseRedirect(reverse('app/itemView.html', args=(item.id,)))
 
 
