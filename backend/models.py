@@ -84,7 +84,6 @@ class CheckoutItem(models.Model):
 
 
 class Checkout(models.Model):
-    itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
     person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE)
     dateTimeOut = models.DateTimeField()
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE)
