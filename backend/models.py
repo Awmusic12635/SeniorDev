@@ -77,12 +77,6 @@ class CheckInListItems(models.Model):
     order = models.IntegerField()
 
 
-class CheckoutItem(models.Model):
-    dateTimeDue = models.DateTimeField()
-    checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-
-
 class Checkout(models.Model):
     person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE)
     dateTimeOut = models.DateTimeField()
@@ -90,8 +84,13 @@ class Checkout(models.Model):
     checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE)
     status = models.CharField(max_length=50)
     signatureFormFile = models.CharField(max_length=400)  # use a file field?
-    checkOutItems = models.ManyToManyField(Item, through='CheckoutItem')
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
+
+
+class CheckoutItem(models.Model):
+    dateTimeDue = models.DateTimeField()
+    checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 
 class CheckInListResults(models.Model):
