@@ -51,6 +51,7 @@ class Item(models.Model):
     location = models.CharField(max_length=200)
     generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog')
+    checkoutStatus = models.CharField(max_length=50, default="CheckedIn")
 
 
 class ItemStateLog(models.Model):
@@ -77,14 +78,19 @@ class CheckInListItems(models.Model):
 
 
 class Checkout(models.Model):
-    itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
     person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE)
     dateTimeOut = models.DateTimeField()
-    expectedDateTimeIn = models.DateTimeField()
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE)
     checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, default="open")
     signatureFormFile = models.CharField(max_length=400)  # use a file field?
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
+
+
+class CheckoutItem(models.Model):
+    dateTimeDue = models.DateTimeField()
+    checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 
 class CheckInListResults(models.Model):
