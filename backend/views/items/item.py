@@ -5,14 +5,14 @@ from backend.forms import ItemForm
 
 
 @login_required
-def listItems(request):
+def list_items(request):
     items = Item.objects.all()
 
-    return render(request, 'itemList.html', {'items': items})
+    return render(request, 'itemList.html', {'title': 'Items', 'items': items})
 
 
 @login_required
-def addItem(request):
+def add_item(request):
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
@@ -21,11 +21,17 @@ def addItem(request):
             return redirect('itemList')
     else:
         form = ItemForm()
-        return render(request, 'addItem.html', {'form': form})
+        return render(request, 'addItem.html', {'title': 'Add Item', 'form': form})
 
 
 @login_required
-def showItem(request, id):
+def show_item(request, id):
     item = get_object_or_404(Item, pk=id)
 
-    return render(request, 'itemDetailed.html', {'item': item})
+    return render(request, 'itemDetailed.html', {'title': item.name, 'item': item})
+
+@login_required
+def edit_item(request,id):
+    item = get_object_or_404(Item, pk=id)
+
+    return render(request, 'editItem.html', {'title': "Edit: " + item.name, 'item': item})
