@@ -1,5 +1,11 @@
 {% extends 'loggedinbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
-
+    <div>
+        <form action="/item/{{ item.id }}/edit" class="form-signin" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Edit Item</button>
+        </form>
+    </div>
 {% endblock %}
