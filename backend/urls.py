@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^item/(?P<item_id>\d*)$', item.show_item, name='items'),
     url(r'^item/(?P<item_id>\d*)/edit$', item.edit_item, name='items'),
     url(r'^item/(?P<item_id>\d*)/delete$', user.index, name='items'),
+    url(r'^item/(?P<item_id>\d*)/checkout$', user.index, name='items'),
     url(r'^category/$', user.index, name='items'),
     url(r'^category/add$', user.index, name='items'),
     url(r'^category/(?P<id>\d*)$', user.index, name='items'),
@@ -25,5 +26,8 @@ urlpatterns = [
     url(r'^user/(?P<id>\d*)$', user.index, name='items'),
     url(r'^user/(?P<id>\d*)/edit$', user.index, name='items'),
     url(r'^search$', user.index, name='items'),
-
+    url(r'^checkout$', user.index, name='items'),
+    url(r'^checkout/addItem$', user.index, name='items'),
+    url(r'^checkout/removeItem$', user.index, name='items'),
+    url(r'^checkout/finalize$', user.index, name='items'),
 ]
