@@ -1,0 +1,59 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('#itemTable').DataTable();
+
+        $('.viewButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id');
+        });
+    });
+
+
+</script>
+
+<div style="margin: 15px;">
+    <p>Checkout Id: {{ checkout.id }}</p>
+    <p>Checkout Id: {{ checkout.person }}</p>
+    <p>Checkout Status: {{ checkout.status }}</p>
+</div>
+
+
+<div style="margin: 15px;">
+    <table id="itemTable" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Serial</th>
+                <th>Tags</th>
+                <th>Cost</th>
+                <th>Location</th>
+                <th>Checkout Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in checkout.checkoutitem_set %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.manufacturer }}</td>
+                    <td>{{ item.model }}</td>
+                    <td>{{ item.serial }}</td>
+                    <td>{{ item.tag }}</td>
+                    <td>{{ item.cost }}</td>
+                    <td>{{ item.location }}</td>
+                    <td>{{ item.checkoutStatus }}</td>
+                    <td>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

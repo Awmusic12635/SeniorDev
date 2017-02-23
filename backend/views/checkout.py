@@ -4,15 +4,19 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from backend.models import Checkout
+from backend.models import CheckoutItem
+from django.core.exceptions import ObjectDoesNotExist
+
+CONST_STATUS_PENDING = "Pending"
 
 @login_required
-def checkoutItems(request):
+def get_pending_checkout(request):
+    #get pending checkout if there is one
     checkout = Checkout()
-    checkout.person = request.POST['student']
-    checkout.dateTimeOut = request.POST['dateTimeOut']
-    checkout.checkedOutBy = request.POST['checkedOutBy']
-    checkout.status = 'Open'
+    try:
+        checkout = Checkout.objects.get(status=CONST_STATUS_PENDING)
+    except ObjectDoesNotExist:
+        checkout.status = CONST_STATUS_PENDING
+        checkout.save()
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
-    #item state
-    checkout.save()
-    return HttpResponseRedirect(reverse('app/itemView.html', args=(checkout.id,)))

@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 
 from .views import admin
 from .views import user
+from .views import checkout
 from .views.items import item
 
 urlpatterns = [
@@ -26,7 +27,7 @@ urlpatterns = [
     url(r'^user/(?P<id>\d*)$', user.index, name='items'),
     url(r'^user/(?P<id>\d*)/edit$', user.index, name='items'),
     url(r'^search$', user.index, name='items'),
-    url(r'^checkout$', user.index, name='items'),
+    url(r'^checkout$', checkout.get_pending_checkout, name='items'),
     url(r'^checkout/addItem$', user.index, name='items'),
     url(r'^checkout/removeItem$', user.index, name='items'),
     url(r'^checkout/finalize$', user.index, name='items'),
