@@ -15,7 +15,7 @@ def get_pending_checkout(request):
     checkout = Checkout()
     try:
         checkout = Checkout.objects.get(status=CONST_STATUS_PENDING)
-    except ObjectDoesNotExist:
+    except:
         checkout.status = CONST_STATUS_PENDING
         checkout.save()
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
