@@ -9,7 +9,6 @@ from backend.models import CheckoutItem
 from django.core.exceptions import ObjectDoesNotExist
 
 CONST_STATUS_PENDING = "Pending"
-logger = logging.getLogger('ted')
 
 @login_required
 def get_pending_checkout(request):
