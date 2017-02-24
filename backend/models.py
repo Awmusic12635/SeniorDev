@@ -78,12 +78,12 @@ class CheckInListItems(models.Model):
 
 
 class Checkout(models.Model):
-    person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE)
-    dateTimeOut = models.DateTimeField()
-    checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE)
-    checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE)
+    person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE, null=True)
+    dateTimeOut = models.DateTimeField(null=True)
+    checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
+    checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=50, default="open")
-    signatureFormFile = models.CharField(max_length=400)  # use a file field?
+    signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 
 
