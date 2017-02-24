@@ -17,8 +17,6 @@
     <p>Checkout Id: {{ checkout.id }}</p>
     <p>Checkout Person: {{ checkout.person }}</p>
     <p>Checkout Status: {{ checkout.status }}</p>
-    <p>Checkout items: {{ checkout.checkoutitem_set }}</p>
-    <p>Checkout items all: {{ checkout.checkoutitem_set.all }}</p>
 </div>
 
 
@@ -39,17 +37,17 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in checkout.checkoutitem_set.all %}
+            {% for checkoutitem in checkout.checkoutitem_set.all %}
                 <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.manufacturer }}</td>
-                    <td>{{ item.model }}</td>
-                    <td>{{ item.serial }}</td>
-                    <td>{{ item.tag }}</td>
-                    <td>{{ item.cost }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.checkoutStatus }}</td>
+                    <td>{{ checkoutitem.item.name }}</td>
+                    <td>{{ checkoutitem.item.description }}</td>
+                    <td>{{ checkoutitem.item.manufacturer }}</td>
+                    <td>{{ checkoutitem.item.model }}</td>
+                    <td>{{ checkoutitem.item.serial }}</td>
+                    <td>{{ checkoutitem.item.tag }}</td>
+                    <td>{{ checkoutitem.item.cost }}</td>
+                    <td>{{ checkoutitem.item.location }}</td>
+                    <td>{{ checkoutitem.item.checkoutStatus }}</td>
                     <td>
                         <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
                     </td>
