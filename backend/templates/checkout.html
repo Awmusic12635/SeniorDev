@@ -37,7 +37,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in checkout.checkoutitem_set %}
+            {% for item in checkout.checkoutitem_set.all %}
                 <tr>
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
