@@ -88,7 +88,7 @@ class Checkout(models.Model):
 
 
 class CheckoutItem(models.Model):
-    dateTimeDue = models.DateTimeField()
+    dateTimeDue = models.DateTimeField(null=True)
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
