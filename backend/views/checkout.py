@@ -15,7 +15,7 @@ def get_pending_checkout(request):
 
 def add_item(request, item_id):
     checkout = create_pending_checkout()
-    item = get_object_or_404(Item, pk=item_id)
+    item = get_object_or_404(Item, pk=int(item_id))
     ci = CheckoutItem(checkout = checkout, item = item)
     ci.save()
 
