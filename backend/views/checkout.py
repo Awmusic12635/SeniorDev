@@ -11,7 +11,7 @@ CONST_STATUS_CHECKEDIN = "Checked in"
 
 @login_required
 def get_pending_checkout(request):
-    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': get_pending_checkout})
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': get_pending_checkout()})
 
 
 def add_item(request, item_id):
@@ -28,7 +28,7 @@ def add_item(request, item_id):
 
 def remove_item(request, item_id):
     item = get_object_or_404(Item, pk=int(item_id))
-    checkout = get_pending_checkout;
+    checkout = get_pending_checkout();
     ci = CheckoutItem.objects.filter(item=item, checkout=checkout)
     ci.delete()
 
