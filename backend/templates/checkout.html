@@ -12,15 +12,23 @@
         $('.removeButton').on('click',function(){
             window.location="/checkout/removeItem/"+$(this).attr('data-id');
         });
+
+        $('.clearButton').on('click',function(){
+            window.location="/checkout/clear";
+        });
+
+        $('.completeButton').on('click',function(){
+            window.location="/checkout/complete";
+        });
     });
 
 
 </script>
 
 <div style="margin: 15px;">
-    <p>Checkout Id: {{ checkout.id }}</p>
-    <p>Checkout Person: {{ checkout.person }}</p>
+    <p>Checkout To: {{ checkout.person }}</p>
     <p>Checkout Status: {{ checkout.status }}</p>
+
 </div>
 
 
@@ -59,5 +67,8 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs clearButton">Remove All Items</button>
+    <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs completeButton">Complete Checkout</button>
 </div>
 {% endblock %}

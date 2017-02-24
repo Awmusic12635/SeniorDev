@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
+CONST_STATUS_CHECKEDOUT = "Checked out"
 
 @login_required
 def get_pending_checkout(request):
@@ -36,6 +37,21 @@ def remove_item(request, item_id):
     item.save()
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
+
+
+def clear(request):
+    Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDIN)
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
+
+
+def complete(request):
+    checkout = create_pending_checkout()
+    checkout.status = CONST_STATUS_CHECKEDOUT
+    checkout.save()
+
+    Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)
+    #Checkout item due dates
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
 def create_pending_checkout():
