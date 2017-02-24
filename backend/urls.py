@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^search$', user.index, name='items'),
     url(r'^checkout$', checkout.get_pending_checkout, name='items'),
     url(r'^checkout/addItem/(?P<item_id>\d*)$', checkout.add_item, name='items'),
+    url(r'^checkout/removeItem/(?P<item_id>\d*)$', checkout.remove_item, name='items'),
     url(r'^checkout/removeItem$', user.index, name='items'),
     url(r'^checkout/finalize$', user.index, name='items'),
 ]

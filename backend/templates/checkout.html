@@ -8,6 +8,10 @@
         $('.viewButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id');
         });
+
+        $('.removeButton').on('click',function(){
+            window.location="/checkout/removeItem/"+$(this).attr('data-id');
+        });
     });
 
 
@@ -49,7 +53,7 @@
                     <td>{{ checkoutitem.item.location }}</td>
                     <td>{{ checkoutitem.item.checkoutStatus }}</td>
                     <td>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs removeItem">Remove</button>
                     </td>
                 </tr>
             {% endfor %}
