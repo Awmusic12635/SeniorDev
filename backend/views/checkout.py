@@ -3,8 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from backend.models import Checkout
-from backend.models import CheckoutItem
+from backend.models import Checkout, CheckoutItem, Item
 from django.core.exceptions import ObjectDoesNotExist
 
 CONST_STATUS_PENDING = "Pending"
@@ -16,8 +15,13 @@ def get_pending_checkout(request):
 
 def add_item(request, item_id):
     checkout = create_pending_checkout()
-    ci = CheckoutItem(checkout = checkout, item_id = item_id)
+    item = get_object_or_404(Item, pk=item_id)
+    ci = CheckoutItem(checkout = checkout, item = item)
     ci.save()
+
+    item.checkoutStatus = CONST_STATUS_PENDING
+    item.save()
+
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
 
