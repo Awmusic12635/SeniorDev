@@ -15,10 +15,9 @@ def get_pending_checkout(request):
     #get pending checkout if there is one
     checkout = Checkout.objects.filter(status=CONST_STATUS_PENDING)
     #logger.debug('old'+ checkout.first())
-    sys.stderr.write('old' + str(checkout.first().id))
     if checkout is None:
         checkout = Checkout(status = CONST_STATUS_PENDING)
         checkout.save()
-        sys.stderr.write('new' + str(checkout.first().id))
+        print >> sys.stderr, 'new'
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
