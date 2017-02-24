@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-import logging
+import sys
 
 from backend.models import Checkout
 from backend.models import CheckoutItem
@@ -16,10 +16,10 @@ def get_pending_checkout(request):
     #get pending checkout if there is one
     checkout = Checkout.objects.filter(status=CONST_STATUS_PENDING)
     #logger.debug('old'+ checkout.first())
-    logger.debug('old'+ str(checkout.first().id))
+    print >> sys.stderr, 'old'+ str(checkout.first().id)
     if checkout is None:
         checkout = Checkout(status = CONST_STATUS_PENDING)
         checkout.save()
-        logger.debug('new' +str(checkout.id))
+        print >> sys.stderr, 'new' + str(checkout.first().id)
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
