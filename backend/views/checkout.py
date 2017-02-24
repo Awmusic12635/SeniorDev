@@ -16,9 +16,7 @@ def get_pending_checkout(request):
 
 def add_item(request, item_id):
     checkout = create_pending_checkout()
-    ci = CheckoutItem()
-    ci.checkout = checkout
-    ci.item_id = item_id
+    ci = CheckoutItem(checkout = checkout, item_id = item_id)
     ci.save()
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
