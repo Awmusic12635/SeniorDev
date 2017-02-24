@@ -28,7 +28,7 @@ def add_item(request, item_id):
 
 def remove_item(request, item_id):
     item = get_object_or_404(Item, pk=int(item_id))
-    checkout = get_pending_checkout();
+    checkout = get_pending_checkout()
     ci = CheckoutItem.objects.filter(item=item, checkout=checkout)
     ci.delete()
 
