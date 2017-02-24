@@ -41,6 +41,7 @@ def remove_item(request, item_id):
 
 def clear(request):
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDIN)
+    CheckoutItem.objects.filter(checkout=create_pending_checkout()).delete()
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
