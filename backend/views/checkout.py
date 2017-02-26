@@ -18,11 +18,12 @@ def get_pending_checkout(request):
 def add_item(request, item_id):
     checkout = create_pending_checkout()
     item = get_object_or_404(Item, pk=int(item_id))
-    ci = CheckoutItem(checkout = checkout, item = item)
-    ci.save()
-
-    item.checkoutStatus = CONST_STATUS_PENDING
-    item.save()
+    #check for item already being checked out
+    if item.checkoutStatus != CONST_STATUS_CHECKEDIN:
+        ci = CheckoutItem(checkout = checkout, item = item)
+        ci.save()
+        item.checkoutStatus = CONST_STATUS_PENDING
+        item.save()
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
@@ -48,6 +49,7 @@ def clear(request):
 def complete(request):
     checkout = create_pending_checkout()
     checkout.status = CONST_STATUS_CHECKEDOUT
+    checkout.checkedOutBy = request.user
     checkout.save()
 
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)

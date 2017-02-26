@@ -37,6 +37,7 @@ class ItemSubCategory(models.Model):
     subCategoryName = models.CharField(max_length=100)
     subCategoryDescription = models.CharField(max_length=500)
     parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE)
+    defaultCheckoutLengthDays = models.IntegerField()
 
 
 class Item(models.Model):
@@ -52,6 +53,8 @@ class Item(models.Model):
     generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE, null=True)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
     checkoutStatus = models.CharField(max_length=50, default="CheckedIn")
+    defaultCheckoutLengthDays = models.IntegerField()
+
 
 
 class ItemStateLog(models.Model):
