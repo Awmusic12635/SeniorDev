@@ -24,14 +24,7 @@ def add_item(request, item_id):
     if item.checkoutStatus == CONST_STATUS_CHECKEDIN:
         ci = CheckoutItem(checkout = checkout, item = item)
 
-        checkoutlength = 1
-        if item.subCategoryID.defaultCheckoutLengthDays is not None:
-            checkoutlength = item.subCategoryID.defaultCheckoutLengthDays
-
-        if item.defaultCheckoutLengthDays is not None:
-            checkoutlength = item.defaultCheckoutLengthDays
-
-        ci.dateTimeDue = datetime.now() + timedelta(days=checkoutlength)
+        ci.dateTimeDue = datetime.now() + timedelta(days=getDefaultCheckoutLength(item))
         ci.save()
 
         item.checkoutStatus = CONST_STATUS_PENDING
@@ -62,6 +55,16 @@ def override_date(request, checkoutitem_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
 
+def reset_duedate(request, checkoutitem_id):
+    ci = CheckoutItem.objects.get(pk=checkoutitem_id)
+    if request.method == "POST":
+        ci.dateTimeDue = datetime.now() + timedelta(days=getDefaultCheckoutLength(ci.item))
+        ci.dueDateOverridden = False
+        ci.save()
+
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
+
+
 def clear(request):
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDIN)
     CheckoutItem.objects.filter(checkout=create_pending_checkout()).delete()
@@ -86,3 +89,15 @@ def create_pending_checkout():
         checkout = Checkout(status=CONST_STATUS_PENDING)
         checkout.save()
     return checkout
+
+
+def getDefaultCheckoutLength(item):
+    checkoutlength = 1
+
+    if item.subCategoryID.defaultCheckoutLengthDays is not None:
+        checkoutlength = item.subCategoryID.defaultCheckoutLengthDays
+
+    if item.defaultCheckoutLengthDays is not None:
+        checkoutlength = item.defaultCheckoutLengthDays
+
+    return checkoutlength

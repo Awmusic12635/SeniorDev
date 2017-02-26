@@ -20,6 +20,10 @@
         $('.completeButton').on('click',function(){
             window.location="/checkout/complete";
         });
+
+        $('.resetButton').on('click',function(){
+            window.location="/checkout/resetDueDate/"+$(this).attr('data-id');
+        });
     });
 
 
@@ -46,8 +50,7 @@
                 <th>Location</th>
                 <th>Checkout Status</th>
                 <th>Due Date</th>
-                <th>Override Due Date</th>
-                <th>Remove/th>
+                <th>Actions/th>
             </tr>
         </thead>
         <tbody>
@@ -66,11 +69,10 @@
                     <td>
                         <form action="/checkout/{{ checkoutitem.id }}/overrideDate" class="form-signin" method="post">
                             {% csrf_token %}
-                            <input type="datetime" name="overrideDate">
+                            <input type="datetime" name="overrideDate" placeholder="YYYY-MM-DD HH:MM">
                             <button type="submit" class="save btn btn-default">Save</button>
                         </form>
-                    </td>
-                    <td>
+                        <button type="button" data-id="{{ checkoutitem.item.id }}" class="btn btn-primary btn-xs resetButton">Reset Due Date</button>
                         <button type="button" data-id="{{ checkoutitem.item.id }}" class="btn btn-primary btn-xs removeButton">Remove</button>
                     </td>
                 </tr>
