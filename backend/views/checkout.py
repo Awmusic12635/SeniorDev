@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from datetime import datetime, timedelta
 
 from backend.models import Checkout, CheckoutItem, Item
 from django.core.exceptions import ObjectDoesNotExist
@@ -50,10 +51,23 @@ def complete(request):
     checkout = create_pending_checkout()
     checkout.status = CONST_STATUS_CHECKEDOUT
     checkout.checkedOutBy = request.user
+    checkout.dateTimeOut = datetime.now()
     checkout.save()
 
+    checkoutitems = CheckoutItem.objects.filter(checkout=checkout)
+    for ci in checkoutitems:
+        checkoutlength = 1
+        if ci.item.subCategoryID.defaultCheckoutLengthDays is not None:
+            checkoutlength = ci.item.subCategoryID.defaultCheckoutLengthDays
+
+        if ci.item.defaultCheckoutLengthDays is not None:
+            checkoutlength = ci.item.defaultCheckoutLengthDays
+
+        ci.dateTimeDue = datetime.now()+timedelta(days=checkoutlength)
+        ci.save()
+
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)
-    #Checkout item due dates
+
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
