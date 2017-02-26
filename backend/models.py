@@ -53,7 +53,7 @@ class Item(models.Model):
     generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE, null=True)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
     checkoutStatus = models.CharField(max_length=50, default="CheckedIn")
-    defaultCheckoutLengthDays = models.IntegerField()
+    defaultCheckoutLengthDays = models.IntegerField(null=True)
 
 
 
@@ -77,7 +77,7 @@ class CheckInOrOutList(models.Model):
 class CheckInListItems(models.Model):
     checkInOrOutList = models.ForeignKey(CheckInOrOutList, on_delete=models.CASCADE)
     checkInOrOutListItem = models.ForeignKey(CheckInOrOutListItem, on_delete=models.CASCADE)
-    order = models.IntegerField()
+    order = models.IntegerField(null=True)
 
 
 class Checkout(models.Model):
