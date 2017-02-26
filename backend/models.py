@@ -36,7 +36,7 @@ class ItemSubCategory(models.Model):
     itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     subCategoryName = models.CharField(max_length=100)
     subCategoryDescription = models.CharField(max_length=500)
-    parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE)
+    parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
     defaultCheckoutLengthDays = models.IntegerField(null=True)
 
 
