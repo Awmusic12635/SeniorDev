@@ -37,7 +37,7 @@ class ItemSubCategory(models.Model):
     subCategoryName = models.CharField(max_length=100)
     subCategoryDescription = models.CharField(max_length=500)
     parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE)
-    defaultCheckoutLengthDays = models.IntegerField()
+    defaultCheckoutLengthDays = models.IntegerField(null=True)
 
 
 class Item(models.Model):
@@ -77,7 +77,7 @@ class CheckInOrOutList(models.Model):
 class CheckInListItems(models.Model):
     checkInOrOutList = models.ForeignKey(CheckInOrOutList, on_delete=models.CASCADE)
     checkInOrOutListItem = models.ForeignKey(CheckInOrOutListItem, on_delete=models.CASCADE)
-    order = models.IntegerField(null=True)
+    order = models.IntegerField()
 
 
 class Checkout(models.Model):
