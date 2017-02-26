@@ -29,4 +29,4 @@ class CheckoutForm(forms.ModelForm):
 class OverrideItemDueDate(forms.ModelForm):
     class Meta:
         model = CheckoutItem
-        fields = ('dateTimeDue')
+        fields = ('dateTimeDue',)
