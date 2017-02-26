@@ -53,12 +53,11 @@ def remove_item(request, item_id):
 
 
 def override_date(request, checkoutitem_id):
-    ci = CheckoutItem.objects.filter(pk=checkoutitem_id)
+    ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     if request.method == "POST":
-        form = OverrideItemDueDate(request.POST)
-        if form.is_valid():
-            form.save()
-            ci.update(dueDateOverridden = True)
+        ci.dateTimeDue = request.POST['overrideDate']
+        ci.dueDateOverridden = True
+        ci.save()
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
