@@ -52,7 +52,7 @@ class Item(models.Model):
     location = models.CharField(max_length=200)
     generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE, null=True)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
-    checkoutStatus = models.CharField(max_length=50, default="CheckedIn")
+    checkoutStatus = models.CharField(max_length=50, default="Checked in")
     defaultCheckoutLengthDays = models.IntegerField(null=True)
 
 

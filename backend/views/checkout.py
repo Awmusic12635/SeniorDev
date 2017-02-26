@@ -57,10 +57,9 @@ def override_date(request, checkoutitem_id):
 
 def reset_duedate(request, checkoutitem_id):
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
-    if request.method == "POST":
-        ci.dateTimeDue = datetime.now() + timedelta(days=getDefaultCheckoutLength(ci.item))
-        ci.dueDateOverridden = False
-        ci.save()
+    ci.dateTimeDue = datetime.now() + timedelta(days=getDefaultCheckoutLength(ci.item))
+    ci.dueDateOverridden = False
+    ci.save()
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
