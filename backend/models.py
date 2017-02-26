@@ -94,6 +94,7 @@ class CheckoutItem(models.Model):
     dateTimeDue = models.DateTimeField(null=True)
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    dueDateOverridden = models.BooleanField(default=False)
 
 
 class CheckInListResults(models.Model):

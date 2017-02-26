@@ -1,10 +1,11 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 
 from backend.models import Checkout, CheckoutItem, Item
+from backend.forms import OverrideItemDueDate
 from django.core.exceptions import ObjectDoesNotExist
 
 CONST_STATUS_PENDING = "Pending"
@@ -22,7 +23,17 @@ def add_item(request, item_id):
     #check for item already being checked out
     if item.checkoutStatus == CONST_STATUS_CHECKEDIN:
         ci = CheckoutItem(checkout = checkout, item = item)
+
+        checkoutlength = 1
+        if item.subCategoryID.defaultCheckoutLengthDays is not None:
+            checkoutlength = item.subCategoryID.defaultCheckoutLengthDays
+
+        if item.defaultCheckoutLengthDays is not None:
+            checkoutlength = item.defaultCheckoutLengthDays
+
+        ci.dateTimeDue = datetime.now() + timedelta(days=checkoutlength)
         ci.save()
+
         item.checkoutStatus = CONST_STATUS_PENDING
         item.save()
 
@@ -41,6 +52,17 @@ def remove_item(request, item_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
 
+def override_date(request, checkoutitem_id):
+    ci = CheckoutItem.objects.filter(pk=checkoutitem_id)
+    if request.method == "POST":
+        form = OverrideItemDueDate(request.POST)
+        if form.is_valid():
+            form.save()
+            ci.update(dueDateOverridden = True)
+
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
+
+
 def clear(request):
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDIN)
     CheckoutItem.objects.filter(checkout=create_pending_checkout()).delete()
@@ -53,18 +75,6 @@ def complete(request):
     checkout.checkedOutBy = request.user
     checkout.dateTimeOut = datetime.now()
     checkout.save()
-
-    checkoutitems = CheckoutItem.objects.filter(checkout=checkout)
-    for ci in checkoutitems:
-        checkoutlength = 1
-        if ci.item.subCategoryID.defaultCheckoutLengthDays is not None:
-            checkoutlength = ci.item.subCategoryID.defaultCheckoutLengthDays
-
-        if ci.item.defaultCheckoutLengthDays is not None:
-            checkoutlength = ci.item.defaultCheckoutLengthDays
-
-        ci.dateTimeDue = datetime.now()+timedelta(days=checkoutlength)
-        ci.save()
 
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)
 

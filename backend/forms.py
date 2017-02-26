@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, ItemCategory, ItemSubCategory, Checkout
+from .models import Item, ItemCategory, ItemSubCategory, Checkout, CheckoutItem
 
 
 class ItemForm(forms.ModelForm):
@@ -24,3 +24,9 @@ class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Checkout
         fields = ('person', 'dateTimeOut', 'checkedOutBy', 'checkedInBy', 'status', 'signatureFormFile')
+
+
+class OverrideItemDueDate(forms.ModelForm):
+    class Meta:
+        model = CheckoutItem
+        fields = ('dateTimeDue')

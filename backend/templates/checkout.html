@@ -45,7 +45,9 @@
                 <th>Cost</th>
                 <th>Location</th>
                 <th>Checkout Status</th>
-                <th>Actions</th>
+                <th>Due Date</th>
+                <th>Override Due Date</th>
+                <th>Remove/th>
             </tr>
         </thead>
         <tbody>
@@ -60,6 +62,14 @@
                     <td>{{ checkoutitem.item.cost }}</td>
                     <td>{{ checkoutitem.item.location }}</td>
                     <td>{{ checkoutitem.item.checkoutStatus }}</td>
+                    <td>{{ checkoutitem.dateTimeDue }}</td>
+                    <td>
+                        <form action="/checkout/{{ checkoutitem.id }}/overrideDate" class="form-signin" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="save btn btn-default">Save</button>
+                        </form>
+                    </td>
                     <td>
                         <button type="button" data-id="{{ checkoutitem.item.id }}" class="btn btn-primary btn-xs removeButton">Remove</button>
                     </td>
