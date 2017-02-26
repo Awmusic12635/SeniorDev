@@ -19,7 +19,7 @@ def add_item(request, item_id):
     checkout = create_pending_checkout()
     item = get_object_or_404(Item, pk=int(item_id))
     #check for item already being checked out
-    if item.checkoutStatus != CONST_STATUS_CHECKEDIN:
+    if item.checkoutStatus == CONST_STATUS_CHECKEDIN:
         ci = CheckoutItem(checkout = checkout, item = item)
         ci.save()
         item.checkoutStatus = CONST_STATUS_PENDING
