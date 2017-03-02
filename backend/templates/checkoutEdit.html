@@ -51,7 +51,7 @@
                     <td>{{ checkoutitem.item.checkoutStatus }}</td>
                     <td>{{ checkoutitem.dateTimeDue }}</td>
                     <td>
-                        <button type="button" data-id="{{ checkoutitem.item.id }}" class="btn btn-primary btn-xs checkinButton">Check In</button>
+                        <button type="button" data-id="{{ checkoutitem.id }}" class="btn btn-primary btn-xs checkinButton">Check In</button>
                     </td>
                 </tr>
             {% endfor %}

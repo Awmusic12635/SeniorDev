@@ -16,23 +16,26 @@ CONST_STATUS_OPEN = "Open"
 @login_required
 def get_open_checkouts(request):
     checkouts = Checkout.objects.filter(status=CONST_STATUS_OPEN)
-    return render(request, 'checkin.html', {'title': 'Checkin', 'checkouts': checkouts})
+    return render(request, 'checkin.html', {'title': 'Check In', 'checkouts': checkouts})
 
 
 @login_required
 def view_checkout(request, checkout_id):
-    checkout = Checkout.objects.filter(pk=checkout_id)
-    return render(request, 'checkoutEdit.html', {'title': 'Checkin', 'checkout': checkout})
+    checkout = Checkout.objects.get(pk=checkout_id)
+    return render(request, 'checkoutEdit.html', {'title': 'Check In', 'checkout': checkout})
 
 
 @login_required
-def checkin_item(request, item_id):
-    #mark item as in
-    item = Item.objects.filter(pk=item_id)
-    item.checkoutStatus = CONST_STATUS_CHECKEDIN
-
+def checkin_item(request, checkoutitem_id):
     #fill checked in date for checkout item
-    ci = CheckoutItem.objects.filter(item=item_id)
+    ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     ci.dateTimeIn = datetime.now()
 
-    return render(request, 'checkoutEdit.html', {'title': 'Checkin', 'checkout': ci.checkout})
+    #mark item as in
+    item = Item.objects.get(pk=ci.item)
+    item.checkoutStatus = CONST_STATUS_CHECKEDIN
+
+    ci.save()
+    item.save()
+
+    return render(request, 'checkoutEdit.html', {'title': 'Check In', 'checkout': ci.checkout})

@@ -41,6 +41,6 @@ urlpatterns = [
    #checkin
     url(r'^checkin$', checkin.get_open_checkouts, name='items'),
     url(r'^checkin/(?P<checkout_id>\d*)', checkin.view_checkout, name='items'),
-    url(r'^checkin/checkin_item/(?P<item_id>\d*)', checkin.view_checkout, name='items'),
+    url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)', checkin.view_checkout, name='items'),
 
 ]
