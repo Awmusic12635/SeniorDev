@@ -22,7 +22,7 @@ def get_open_checkouts(request):
 @login_required
 def view_checkout(request, checkout_id):
     checkout = Checkout.objects.filter(pk=checkout_id)
-    return render(request, 'checkoutView.html', {'title': 'Checkin', 'checkout': checkout})
+    return render(request, 'checkoutEdit.html', {'title': 'Checkin', 'checkout': checkout})
 
 
 @login_required
@@ -35,4 +35,4 @@ def checkin_item(request, item_id):
     ci = CheckoutItem.objects.filter(item=item_id)
     ci.dateTimeIn = datetime.now()
 
-    return render(request, 'checkoutView.html', {'title': 'Checkin', 'checkout': ci.checkout})
+    return render(request, 'checkoutEdit.html', {'title': 'Checkin', 'checkout': ci.checkout})
