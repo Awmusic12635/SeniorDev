@@ -12,6 +12,7 @@ CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
 CONST_STATUS_CHECKEDOUT = "Checked out"
 CONST_STATUS_OPEN = "Open"
+CONST_STATUS_CLOSED = "Closed"
 
 @login_required
 def get_open_checkouts(request):
@@ -34,6 +35,14 @@ def checkin_item(request, checkoutitem_id):
     #mark item as in
     item = ci.item
     item.checkoutStatus = CONST_STATUS_CHECKEDIN
+
+
+    #is checkout complete
+    items = CheckoutItem.objects.filter(checkout= ci.checkout, item__checkoutStatus=CONST_STATUS_CHECKEDOUT)
+    if not items:
+        checkout = ci.checkout
+        checkout.status = CONST_STATUS_CLOSED
+        checkout.save()
 
     ci.save()
     item.save()
