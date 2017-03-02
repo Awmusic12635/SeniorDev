@@ -32,7 +32,7 @@ def checkin_item(request, checkoutitem_id):
     ci.dateTimeIn = datetime.now()
 
     #mark item as in
-    item = Item.objects.get(pk=ci.item)
+    item = ci.item
     item.checkoutStatus = CONST_STATUS_CHECKEDIN
 
     ci.save()
