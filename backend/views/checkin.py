@@ -33,5 +33,6 @@ def checkin_item(request, item_id):
 
     #fill checked in date for checkout item
     ci = CheckoutItem.objects.filter(item=item_id)
+    ci.dateTimeIn = datetime.now()
 
     return render(request, 'checkoutView.html', {'title': 'Checkin', 'checkout': ci.checkout})
