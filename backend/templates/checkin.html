@@ -32,7 +32,7 @@
                     <td>{{ checkout.dateTimeOut }}</td>
                     <td>{{ checkout.checkedOutBy }}</td>
                     <td>
-                        {% for checkoutitem in checkout.checkoutitem_set %}
+                        {% for checkoutitem in checkout.checkoutitem_set.all %}
                             {{ checkoutitem.item.name }},
                         {% endfor %}
                     </td>
