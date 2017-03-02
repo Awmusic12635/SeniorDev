@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^checkout/complete', checkout.complete, name='items'),
    #checkin
     url(r'^checkin$', checkin.get_open_checkouts, name='items'),
-    url(r'^checkin/(?P<checkout_id>\d*)', checkin.view_checkout, name='items'),
-    url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)', checkin.checkin_item, name='items'),
+    url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),
+    url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)$', checkin.checkin_item, name='items'),
 
 ]
