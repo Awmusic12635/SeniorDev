@@ -1,0 +1,48 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('#itemTable').DataTable();
+
+        $('.viewButton').on('click',function(){
+            window.location="/checkin/"+$(this).attr('data-id');
+        });
+    });
+
+
+</script>
+
+
+<div style="margin: 15px;">
+    <table id="itemTable" class="display">
+        <thead>
+            <tr>
+                <th>Checked Out to</th>
+                <th>Date Out</th>
+                <th>Checked Out By</th>
+                <th>Items</th>
+                <th>Actions/th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for checkout in checkouts %}
+                <tr>
+                    <td>{{ checkout.person }}</td>
+                    <td>{{ checkout.dateTimeOut }}</td>
+                    <td>{{ checkout.checkedOutBy }}</td>
+                    <td>
+                        {% for checkoutitem in checkout.checkoutitem_set %}
+                            {{ checkoutitem.item.name }},
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

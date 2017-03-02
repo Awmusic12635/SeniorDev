@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
 CONST_STATUS_CHECKEDOUT = "Checked out"
+CONST_STATUS_OPEN = "Open"
 
 @login_required
 def get_pending_checkout(request):
@@ -77,7 +78,7 @@ def complete(request):
     checkout.dateTimeOut = datetime.now()
     checkout.save()
 
-    Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)
+    Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_OPEN)
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
