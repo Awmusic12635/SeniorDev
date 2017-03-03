@@ -73,12 +73,12 @@ def clear(request):
 
 def complete(request):
     checkout = create_pending_checkout()
-    checkout.status = CONST_STATUS_CHECKEDOUT
+    checkout.status = CONST_STATUS_OPEN
     checkout.checkedOutBy = request.user
     checkout.dateTimeOut = datetime.now()
     checkout.save()
 
-    Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_OPEN)
+    Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
