@@ -84,7 +84,6 @@ class Checkout(models.Model):
     person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE, null=True)
     dateTimeOut = models.DateTimeField(null=True)
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
-    checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=50, default="Pending")
     signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
@@ -96,6 +95,7 @@ class CheckoutItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     dueDateOverridden = models.BooleanField(default=False)
     dateTimeIn = models.DateTimeField(null=True)
+    checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
 
 
 class CheckInListResults(models.Model):

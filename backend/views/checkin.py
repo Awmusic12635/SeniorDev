@@ -31,11 +31,14 @@ def checkin_item(request, checkoutitem_id):
     #fill checked in date for checkout item
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     ci.dateTimeIn = datetime.now()
+    ci.checkedInBy = request.user
 
     #mark item as in
     item = ci.item
     item.checkoutStatus = CONST_STATUS_CHECKEDIN
 
+    ci.save()
+    item.save()
 
     #is checkout complete
     items = CheckoutItem.objects.filter(checkout= ci.checkout, item__checkoutStatus=CONST_STATUS_CHECKEDOUT)
@@ -44,7 +47,5 @@ def checkin_item(request, checkoutitem_id):
         checkout.status = CONST_STATUS_CLOSED
         checkout.save()
 
-    ci.save()
-    item.save()
 
     return render(request, 'checkoutEdit.html', {'title': 'Check In', 'checkout': ci.checkout})
