@@ -23,7 +23,7 @@ class ItemSubCategoryForm(forms.ModelForm):
 class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Checkout
-        fields = ('person', 'dateTimeOut', 'checkedOutBy', 'checkedInBy', 'status', 'signatureFormFile')
+        fields = ('person', 'dateTimeOut', 'checkedOutBy', 'status', 'signatureFormFile')
 
 
 class OverrideItemDueDate(forms.ModelForm):
