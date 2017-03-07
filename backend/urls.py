@@ -1,5 +1,7 @@
 from django.conf.urls import url
+from django.conf import settings
 from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
 
 from .views import admin
 from .views import user, checkout, checkin
@@ -44,3 +46,6 @@ urlpatterns = [
     url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)$', checkin.checkin_item, name='items'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
