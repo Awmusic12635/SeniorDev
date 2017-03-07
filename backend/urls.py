@@ -45,7 +45,4 @@ urlpatterns = [
     url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),
     url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)$', checkin.checkin_item, name='items'),
 
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
