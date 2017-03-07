@@ -76,9 +76,13 @@ div.section > div > input {margin:0px;padding-left:5px;font-size:10px;padding-ri
 <button id='addItemButton' type="button" data-id="{{ item.id }}" class="btn btn-primary btn-lg">Edit Item</button>
 <div class="container">
 	<div class="row">
-   <div class="col-xs-4 item-photo">
+
+            {% if item.image != None %}
+                <div class="col-xs-4 item-photo">
                     <img style="max-width:100%;" src="{{ item.image.url }}" />
                 </div>
+            {% endif %}
+
                 <div class="col-xs-5" style="border:0px solid gray">
                     <!-- Datos del vendedor y titulo del producto -->
                     <h3>{{ item.name }}</h3>
