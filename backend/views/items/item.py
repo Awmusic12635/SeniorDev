@@ -14,7 +14,7 @@ def list_items(request):
 @login_required
 def add_item(request):
     if request.method == "POST":
-        form = ItemForm(request.POST)
+        form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             # for now redirect back to item listings. Until detailed page is done
@@ -35,7 +35,7 @@ def show_item(request, item_id):
 def edit_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     if request.method == "POST":
-        form = ItemForm(request.POST, instance=item)
+        form = ItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             form.save()
             # for now redirect back to item listings. Until detailed page is done

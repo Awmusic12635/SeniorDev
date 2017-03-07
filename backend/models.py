@@ -54,6 +54,7 @@ class Item(models.Model):
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
     checkoutStatus = models.CharField(max_length=50, default="Checked in")
     defaultCheckoutLengthDays = models.IntegerField(null=True)
+    image = models.FileField(upload_to='uploads/itemImages', null= True)
 
 
 
