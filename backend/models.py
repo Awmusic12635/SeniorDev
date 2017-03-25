@@ -40,22 +40,25 @@ class ItemSubCategory(models.Model):
     defaultCheckoutLengthDays = models.IntegerField(null=True)
 
 
-class Item(models.Model):
+class ItemType(models.Model):
     subCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    manufacturer = models.CharField(max_length=100)
-    model = models.CharField(max_length=200)
-    serial = models.CharField(max_length=200)
-    tag = models.CharField(max_length=200)
-    cost = models.DecimalField(decimal_places=2,max_digits=10)
-    location = models.CharField(max_length=200)
-    generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE, null=True)
-    itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
-    checkoutStatus = models.CharField(max_length=50, default="Checked in")
     defaultCheckoutLengthDays = models.IntegerField(null=True)
     image = models.FileField(upload_to='uploads/itemImages', null= True)
+    generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE, null=True)
+    manufacturer = models.CharField(max_length=100, null=True)
+    model = models.CharField(max_length=200, null=True)
+    cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
 
+
+class Item(models.Model):
+    ItemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
+    serial = models.CharField(max_length=200)
+    tag = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
+    checkoutStatus = models.CharField(max_length=50, default="Checked in")
 
 
 class ItemStateLog(models.Model):
@@ -110,7 +113,7 @@ class CheckInListResults(models.Model):
 class ReservationRequest(models.Model):
     itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
     itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
-    itemType = models.ForeignKey(Item, to_field="name", db_column="name", db_constraint=False, blank=True, null=True)
+    itemTypeID = models.ForeignKey(ItemType, db_constraint=False, blank=True, null=True)
     requester = models.ForeignKey(User, related_name='requested_by', on_delete=models.CASCADE)
     personRequestedFor = models.ForeignKey(User,related_name='requested_for', on_delete=models.CASCADE, blank=True, null=True)
     classRequestedFor = models.CharField(max_length=100)
@@ -123,7 +126,7 @@ class ReservationRequest(models.Model):
 
 
 class Reservation(models.Model):
-    itemType = models.ForeignKey(Item, to_field="name", db_column="name", db_constraint=False)
+    itemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
     userID = models.ForeignKey(User, on_delete=models.CASCADE)
     startDate = models.DateTimeField()
     endDate = models.DateTimeField()
