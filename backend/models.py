@@ -95,6 +95,7 @@ class CheckoutItem(models.Model):
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     dueDateOverridden = models.BooleanField(default=False)
+    checkoutPermissionOverridden = models.BooleanField(default=False)
     dateTimeIn = models.DateTimeField(null=True)
     checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
 
@@ -107,21 +108,25 @@ class CheckInListResults(models.Model):
 
 
 class Reservation(models.Model):
-    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
-    itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE)
-    itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=500)
-    requester = models.CharField(max_length=100)  # fk?
-    isApproved = models.BooleanField(max_length=200)
-    major = models.CharField(max_length=50)
-    lengthOfCheckout = models.DurationField()
+    itemType = models.ForeignKey(Item, to_field="name", db_column="name")
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    lengthOfCheckout = models.IntegerField()
     quantity = models.IntegerField()
+    reservationRequestID = models.ForeignKey(ReservationRequest, on_delete=models.CASCADE)
    
    
-class ReservationUser(models.Model):
-    reservationID = models.ForeignKey(Reservation, on_delete=models.CASCADE)
-    userID= models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('userID', 'reservationID')
+class ReservationRequest(models.Model):
+    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE,blank=True, null=True)
+    itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, blank=True, null=True)
+    itemType = models.ForeignKey(Item, to_field="name", db_column="name", blank=True, null=True)
+    requester= models.ForeignKey(User, on_delete=models.CASCADE)
+    personRequestedFor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    classRequestedFor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    lengthOfCheckout = models.IntegerField()
+    quantity = models.IntegerField()
+    approvedBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    approvedOn = models.DateTimeField()
