@@ -111,14 +111,14 @@ class ReservationRequest(models.Model):
     itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, blank=True, null=True)
     itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, blank=True, null=True)
     itemType = models.ForeignKey(Item, to_field="name", db_column="name", blank=True, null=True)
-    requester = models.ForeignKey(User, on_delete=models.CASCADE)
-    personRequestedFor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    classRequestedFor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    requester = models.ForeignKey(User, related_name='requested_by', on_delete=models.CASCADE)
+    personRequestedFor = models.ForeignKey(User,related_name='requested_for', on_delete=models.CASCADE, blank=True, null=True)
+    classRequestedFor = models.CharField(max_length=100)
     startDate = models.DateTimeField()
     endDate = models.DateTimeField()
     lengthOfCheckout = models.IntegerField()
     quantity = models.IntegerField()
-    approvedBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    approvedBy = models.ForeignKey(User, related_name='approved_by', on_delete=models.CASCADE)
     approvedOn = models.DateTimeField()
 
 
