@@ -108,9 +108,9 @@ class CheckInListResults(models.Model):
 
 
 class ReservationRequest(models.Model):
-    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, blank=True, null=True)
-    itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, blank=True, null=True)
-    itemType = models.ForeignKey(Item, to_field="name", db_column="name", blank=True, null=True)
+    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
+    itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
+    itemType = models.ForeignKey(Item, to_field="name", db_column="name", db_constraint=False, blank=True, null=True)
     requester = models.ForeignKey(User, related_name='requested_by', on_delete=models.CASCADE)
     personRequestedFor = models.ForeignKey(User,related_name='requested_for', on_delete=models.CASCADE, blank=True, null=True)
     classRequestedFor = models.CharField(max_length=100)
@@ -123,7 +123,7 @@ class ReservationRequest(models.Model):
 
 
 class Reservation(models.Model):
-    itemType = models.ForeignKey(Item, to_field="name", db_column="name")
+    itemType = models.ForeignKey(Item, to_field="name", db_column="name", db_constraint=False)
     userID = models.ForeignKey(User, on_delete=models.CASCADE)
     startDate = models.DateTimeField()
     endDate = models.DateTimeField()
