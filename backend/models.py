@@ -36,7 +36,8 @@ class ItemSubCategory(models.Model):
     itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     subCategoryName = models.CharField(max_length=100)
     subCategoryDescription = models.CharField(max_length=500)
-    parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE)
+    parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    defaultCheckoutLengthDays = models.IntegerField(null=True)
 
 
 class Item(models.Model):
@@ -51,7 +52,10 @@ class Item(models.Model):
     location = models.CharField(max_length=200)
     generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE, null=True)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
-    checkoutStatus = models.CharField(max_length=50, default="CheckedIn")
+    checkoutStatus = models.CharField(max_length=50, default="Checked in")
+    defaultCheckoutLengthDays = models.IntegerField(null=True)
+    image = models.FileField(upload_to='uploads/itemImages', null= True)
+
 
 
 class ItemStateLog(models.Model):
@@ -78,19 +82,22 @@ class CheckInListItems(models.Model):
 
 
 class Checkout(models.Model):
-    person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE)
-    dateTimeOut = models.DateTimeField()
-    checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE)
-    checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE)
-    status = models.CharField(max_length=50, default="open")
-    signatureFormFile = models.CharField(max_length=400)  # use a file field?
+    person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE, null=True)
+    dateTimeOut = models.DateTimeField(null=True)
+    checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
+    status = models.CharField(max_length=50, default="Pending")
+    signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 
 
 class CheckoutItem(models.Model):
-    dateTimeDue = models.DateTimeField()
+    dateTimeDue = models.DateTimeField(null=True)
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    dueDateOverridden = models.BooleanField(default=False)
+    checkoutPermissionOverridden = models.BooleanField(default=False)
+    dateTimeIn = models.DateTimeField(null=True)
+    checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
 
 
 class CheckInListResults(models.Model):
@@ -100,22 +107,26 @@ class CheckInListResults(models.Model):
     inOrOut = models.CharField(max_length=3)  # nullable boolean?
 
 
-class Reservation(models.Model):
-    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
-    itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE)
-    itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=500)
-    requester = models.CharField(max_length=100)  # fk?
-    isApproved = models.BooleanField(max_length=200)
-    major = models.CharField(max_length=50)
-    lengthOfCheckout = models.DurationField()
+class ReservationRequest(models.Model):
+    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
+    itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
+    itemType = models.ForeignKey(Item, to_field="name", db_column="name", db_constraint=False, blank=True, null=True)
+    requester = models.ForeignKey(User, related_name='requested_by', on_delete=models.CASCADE)
+    personRequestedFor = models.ForeignKey(User,related_name='requested_for', on_delete=models.CASCADE, blank=True, null=True)
+    classRequestedFor = models.CharField(max_length=100)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    lengthOfCheckout = models.IntegerField()
     quantity = models.IntegerField()
-   
-   
-class ReservationUser(models.Model):
-    reservationID = models.ForeignKey(Reservation, on_delete=models.CASCADE)
-    userID= models.ForeignKey(User, on_delete=models.CASCADE)
+    approvedBy = models.ForeignKey(User, related_name='approved_by', on_delete=models.CASCADE)
+    approvedOn = models.DateTimeField()
 
-    class Meta:
-        unique_together = ('userID', 'reservationID')
+
+class Reservation(models.Model):
+    itemType = models.ForeignKey(Item, to_field="name", db_column="name", db_constraint=False)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    lengthOfCheckout = models.IntegerField()
+    quantity = models.IntegerField()
+    reservationRequestID = models.ForeignKey(ReservationRequest, on_delete=models.CASCADE)

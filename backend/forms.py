@@ -1,11 +1,11 @@
 from django import forms
-from .models import Item, ItemCategory, ItemSubCategory
+from .models import Item, ItemCategory, ItemSubCategory, Checkout, CheckoutItem
 
 
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ('name', 'description', 'manufacturer', 'model', 'serial', 'tag', 'cost', 'location')
+        fields = ('name', 'description', 'manufacturer', 'model', 'serial', 'tag', 'cost', 'location', 'image')
 
 
 class ItemCategoryForm(forms.ModelForm):
@@ -18,3 +18,15 @@ class ItemSubCategoryForm(forms.ModelForm):
     class Meta:
         model = ItemSubCategory
         fields = ('subCategoryName', 'subCategoryDescription')
+
+
+class CheckoutForm(forms.ModelForm):
+    class Meta:
+        model = Checkout
+        fields = ('person', 'dateTimeOut', 'checkedOutBy', 'status', 'signatureFormFile')
+
+
+class OverrideItemDueDate(forms.ModelForm):
+    class Meta:
+        model = CheckoutItem
+        fields = ('dateTimeDue',)
