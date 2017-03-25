@@ -107,21 +107,11 @@ class CheckInListResults(models.Model):
     inOrOut = models.CharField(max_length=3)  # nullable boolean?
 
 
-class Reservation(models.Model):
-    itemType = models.ForeignKey(Item, to_field="name", db_column="name")
-    userID = models.ForeignKey(User, on_delete=models.CASCADE)
-    startDate = models.DateTimeField()
-    endDate = models.DateTimeField()
-    lengthOfCheckout = models.IntegerField()
-    quantity = models.IntegerField()
-    reservationRequestID = models.ForeignKey(ReservationRequest, on_delete=models.CASCADE)
-   
-   
 class ReservationRequest(models.Model):
-    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE,blank=True, null=True)
+    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, blank=True, null=True)
     itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, blank=True, null=True)
     itemType = models.ForeignKey(Item, to_field="name", db_column="name", blank=True, null=True)
-    requester= models.ForeignKey(User, on_delete=models.CASCADE)
+    requester = models.ForeignKey(User, on_delete=models.CASCADE)
     personRequestedFor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     classRequestedFor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     startDate = models.DateTimeField()
@@ -130,3 +120,13 @@ class ReservationRequest(models.Model):
     quantity = models.IntegerField()
     approvedBy = models.ForeignKey(User, on_delete=models.CASCADE)
     approvedOn = models.DateTimeField()
+
+
+class Reservation(models.Model):
+    itemType = models.ForeignKey(Item, to_field="name", db_column="name")
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    lengthOfCheckout = models.IntegerField()
+    quantity = models.IntegerField()
+    reservationRequestID = models.ForeignKey(ReservationRequest, on_delete=models.CASCADE)
