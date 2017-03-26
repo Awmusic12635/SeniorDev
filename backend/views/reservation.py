@@ -56,11 +56,11 @@ def edit_request(request, request_id):
                 obj.userID = rr.personRequestedFor
                 obj.save()
     else:
-        request = get_object_or_404(ReservationRequest, pk=int(request_id))
+        rr = get_object_or_404(ReservationRequest, pk=int(request_id))
         reservationInstance = Reservation
         reservationInstance.endDate = request.endDate
         reservationInstance.startDate = request.startDate
         reservationInstance.lengthOfCheckout = reservationInstance.lengthOfCheckout
         reservationInstance.quantity = request.quantity
         form = ReservationRequestApprovalForm(instance=reservationInstance)
-        return render(request, 'editReservation.html', {'title': 'Edit Reservation', 'request': request, 'form':form})
+        return render(request, 'editReservation.html', {'title': 'Edit Reservation', 'request': rr, 'form':form})
