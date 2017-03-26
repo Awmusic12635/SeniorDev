@@ -38,6 +38,7 @@ def edit_request(request, request_id):
                 for it in itemTypes:
                     # get an object
                     obj = form.save(commit=False)
+                    obj.pk = None
                     obj.reservationRequestID = rr
                     obj.itemTypeID = it
                     obj.userID = rr.personRequestedFor
