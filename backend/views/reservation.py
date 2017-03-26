@@ -55,7 +55,7 @@ def edit_request(request, request_id):
                 obj.itemTypeID = rr.itemTypeID
                 obj.userID = rr.personRequestedFor
                 obj.save()
-        view_requests(request)
+        return(view_requests(request))
     else:
         rr = get_object_or_404(ReservationRequest, pk=int(request_id))
         reservationInstance = Reservation
