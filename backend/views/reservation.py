@@ -38,9 +38,6 @@ def edit_request(request, request_id):
                 for it in itemTypes:
                     # get an object
                     obj = form.save(commit=False)
-                    # set approval info
-                    obj.approvedBy = request.user
-                    obj.approvedOn = datetime.now()
                     obj.reservationRequestID = rr
                     obj.itemTypeID = it
                     obj.userID = rr.personRequestedFor
@@ -48,13 +45,14 @@ def edit_request(request, request_id):
             else:
                 # get an object
                 obj = form.save(commit=False)
-                # set approval info
-                obj.approvedBy = request.user
-                obj.approvedOn = datetime.now()
                 obj.reservationRequestID = rr
                 obj.itemTypeID = rr.itemTypeID
                 obj.userID = rr.personRequestedFor
                 obj.save()
+            # set approval info
+            rr.approvedBy = request.user
+            rr.approvedOn = datetime.now()
+            rr.save()
         return(view_requests(request))
     else:
         rr = get_object_or_404(ReservationRequest, pk=int(request_id))
