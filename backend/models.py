@@ -122,8 +122,8 @@ class ReservationRequest(TimeStampedModel):
     endDate = models.DateTimeField()
     lengthOfCheckout = models.IntegerField()
     quantity = models.IntegerField()
-    approvedBy = models.ForeignKey(User, related_name='approved_by', on_delete=models.CASCADE)
-    approvedOn = models.DateTimeField()
+    approvedBy = models.ForeignKey(User, related_name='approved_by', nulll=True, on_delete=models.CASCADE)
+    approvedOn = models.DateTimeField(null=True)
 
 
 class Reservation(TimeStampedModel):
