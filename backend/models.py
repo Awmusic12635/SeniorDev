@@ -112,7 +112,6 @@ class CheckInListResults(TimeStampedModel):
 
 
 class ReservationRequest(TimeStampedModel):
-    itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
     itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
     itemTypeID = models.ForeignKey(ItemType, db_constraint=False, blank=True, null=True)
     requester = models.ForeignKey(User, related_name='requested_by', on_delete=models.CASCADE)

@@ -48,7 +48,9 @@ urlpatterns = [
     url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),
     url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)$', checkin.checkin_item, name='items'),
     #reservations
-    url(r'^reservationRequest$', reservation.request, name='items')
+    url(r'^reservationRequest$', reservation.request, name='items'),
+    url(r'^reservationRequest/pending$', reservation.view_requests, name='items'),
+    url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='items')
 
 ]
 if settings.DEBUG:

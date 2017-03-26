@@ -1,0 +1,35 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('.removeButton').on('click',function(){
+            window.location="/checkout/removeItem/"+$(this).attr('data-id');
+        });
+
+        $('.completeButton').on('click',function(){
+            window.location="/checkout/complete";
+        });
+    });
+
+
+</script>
+
+<div style="margin: 15px;">
+    <p>Requested By: {{ request.requester }}</p>
+    <p>Person Requested For: {{ request.personRequestedFor }}</p>
+    <p>Class Requested For: {{ request.classRequestedFor }}</p>
+    <p>Sub Category: {{ request.itemSubCategoryID }}</p>
+    <p>Item Type: {{ request.itemTypeID }}</p>
+
+</div>
+
+<div>
+    <form action="" class="form-signin" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+</div>
+
+{% endblock %}
