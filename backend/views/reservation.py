@@ -22,7 +22,7 @@ def request(request):
 @login_required
 def view_requests(request):
     requests = ReservationRequest.objects.filter(approvedOn = None, approvedBy = None)
-    return render(request, 'reservationRequests.html', {'title': 'Checkout', 'requests': requests})
+    return render(request, 'reservationRequests.html', {'title': 'Pending Reservations', 'requests': requests})
 
 
 @login_required()
@@ -41,7 +41,7 @@ def edit_request(request, request_id):
                     # set approval info
                     obj.approvedBy = request.user
                     obj.approvedOn = datetime.now()
-                    obj.reservationRequestID = request_id
+                    obj.reservationRequestID = rr
                     obj.itemTypeID = it
                     obj.userID = rr.personRequestedFor
                     obj.save()
@@ -51,10 +51,11 @@ def edit_request(request, request_id):
                 # set approval info
                 obj.approvedBy = request.user
                 obj.approvedOn = datetime.now()
-                obj.reservationRequestID = request_id
+                obj.reservationRequestID = rr
                 obj.itemTypeID = rr.itemTypeID
                 obj.userID = rr.personRequestedFor
                 obj.save()
+        view_requests(request)
     else:
         rr = get_object_or_404(ReservationRequest, pk=int(request_id))
         reservationInstance = Reservation
