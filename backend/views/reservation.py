@@ -34,7 +34,7 @@ def edit_request(request, request_id):
             #breakout item info if no specific type
             rr = ReservationRequest.objects.get(pk=request_id)
             if rr.itemTypeID is None:
-                itemTypes = ItemType.objects.filter(itemSubCategoryID=rr.itemSubCategoryID)
+                itemTypes = ItemType.objects.filter(subCategoryID=rr.itemSubCategoryID)
                 for it in itemTypes:
                     # get an object
                     obj = form.save(commit=False)
