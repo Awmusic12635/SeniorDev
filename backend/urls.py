@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
 from .views import admin
-from .views import user, checkout, checkin
+from .views import user, checkout, checkin,reservation
 from .views.items import item
 
 urlpatterns = [
@@ -47,6 +47,8 @@ urlpatterns = [
     url(r'^checkin$', checkin.get_open_checkouts, name='items'),
     url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),
     url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)$', checkin.checkin_item, name='items'),
+    #reservations
+    url(r'^reservationRequest$', reservation.request, name='items')
 
 ]
 if settings.DEBUG:

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, ItemCategory, ItemSubCategory, Checkout, CheckoutItem, ItemType
+from .models import Item, ItemCategory, ItemSubCategory, Checkout, CheckoutItem, ItemType, ReservationRequest
 
 
 class ItemForm(forms.ModelForm):
@@ -31,3 +31,8 @@ class CheckoutForm(forms.ModelForm):
         model = Checkout
         fields = ('person', 'dateTimeOut', 'checkedOutBy', 'status', 'signatureFormFile')
 
+
+class ReservationRequestForm(forms.ModelForm):
+    class Meta:
+        model = ReservationRequest
+        fields = ('itemCategoryID','itemSubCategoryID''itemTypeID','personRequestedFor','classRequestedFor','startDate','endDate','lengthOfCheckout','quantity')
