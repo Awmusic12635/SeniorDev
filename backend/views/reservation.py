@@ -1,7 +1,7 @@
 from backend.models import Reservation, ReservationRequest
 from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth.decorators import login_required
-from backend.forms import ReservationRequestForm, ItemTypeForm
+from backend.forms import ReservationRequestForm
 
 
 @login_required

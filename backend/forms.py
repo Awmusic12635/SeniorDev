@@ -35,4 +35,4 @@ class CheckoutForm(forms.ModelForm):
 class ReservationRequestForm(forms.ModelForm):
     class Meta:
         model = ReservationRequest
-        fields = ('itemCategoryID','itemSubCategoryID''itemTypeID','personRequestedFor','classRequestedFor','startDate','endDate','lengthOfCheckout','quantity')
+        fields = ('itemCategoryID','itemSubCategoryID','itemTypeID','personRequestedFor','classRequestedFor','startDate','endDate','lengthOfCheckout','quantity')
