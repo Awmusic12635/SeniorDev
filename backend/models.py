@@ -117,7 +117,7 @@ class ReservationRequest(TimeStampedModel):
     itemTypeID = models.ForeignKey(ItemType, db_constraint=False, blank=True, null=True)
     requester = models.ForeignKey(User, related_name='requested_by', on_delete=models.CASCADE)
     personRequestedFor = models.ForeignKey(User,related_name='requested_for', on_delete=models.CASCADE, blank=True, null=True)
-    classRequestedFor = models.CharField(max_length=100)
+    classRequestedFor = models.CharField(max_length=100,blank=True, null=True)
     startDate = models.DateTimeField()
     endDate = models.DateTimeField()
     lengthOfCheckout = models.IntegerField()
