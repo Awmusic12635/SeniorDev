@@ -63,3 +63,9 @@ def edit_request(request, request_id):
         reservationInstance.quantity = rr.quantity
         form = ReservationRequestApprovalForm(instance=reservationInstance)
         return render(request, 'editReservation.html', {'title': 'Edit Reservation', 'request': rr, 'form':form})
+
+
+@login_required
+def list_reservations(request):
+    reservations = Reservation.objects.all()
+    return render(request, 'viewReservations.html', {'title': 'View Reservations', 'reservations': reservations})

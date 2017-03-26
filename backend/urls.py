@@ -50,7 +50,8 @@ urlpatterns = [
     #reservations
     url(r'^reservationRequest$', reservation.request, name='items'),
     url(r'^reservationRequest/pending$', reservation.view_requests, name='items'),
-    url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='items')
+    url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='items'),
+    url(r'^reservation/$', reservation.list_reservations, name='items')
 
 ]
 if settings.DEBUG:
