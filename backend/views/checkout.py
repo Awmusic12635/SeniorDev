@@ -3,9 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
-
 from backend.models import Checkout, CheckoutItem, Item
-from backend.forms import OverrideItemDueDate
 from django.core.exceptions import ObjectDoesNotExist
 
 CONST_STATUS_PENDING = "Pending"

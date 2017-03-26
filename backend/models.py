@@ -1,25 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
+from model_utils.models import TimeStampedModel
 
 #classes with no FKs
 
 
-class AccessRule(models.Model):
+class AccessRule(TimeStampedModel):
     name = models.CharField(max_length=100)
     criteria = models.CharField(max_length=200)
 
 
-class ResponseType(models.Model):
+class ResponseType(TimeStampedModel):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
 
 
-class ItemState(models.Model):
+class ItemState(TimeStampedModel):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
 
 
-class ItemCategory(models.Model):
+class ItemCategory(TimeStampedModel):
     categoryDescription = models.CharField(max_length=500)
     categoryName = models.CharField(max_length=100)
 
@@ -27,12 +28,12 @@ class ItemCategory(models.Model):
 #classes with FKs
 
 
-class CheckInOrOutListItem(models.Model):
+class CheckInOrOutListItem(TimeStampedModel):
     prompt = models.CharField(max_length=100)
     responseTypeID = models.ForeignKey(ResponseType, on_delete=models.CASCADE)
 
 
-class ItemSubCategory(models.Model):
+class ItemSubCategory(TimeStampedModel):
     itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     subCategoryName = models.CharField(max_length=100)
     subCategoryDescription = models.CharField(max_length=500)
@@ -40,7 +41,7 @@ class ItemSubCategory(models.Model):
     defaultCheckoutLengthDays = models.IntegerField(null=True)
 
 
-class ItemType(models.Model):
+class ItemType(TimeStampedModel):
     subCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
@@ -52,7 +53,7 @@ class ItemType(models.Model):
     cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
 
 
-class Item(models.Model):
+class Item(TimeStampedModel):
     ItemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
     serial = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
@@ -61,14 +62,14 @@ class Item(models.Model):
     checkoutStatus = models.CharField(max_length=50, default="Checked in")
 
 
-class ItemStateLog(models.Model):
+class ItemStateLog(TimeStampedModel):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     itemState = models.ForeignKey(ItemState, on_delete=models.CASCADE)
     dateTimeChanged = models.DateTimeField()
     changedBy = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class CheckInOrOutList(models.Model):
+class CheckInOrOutList(TimeStampedModel):
     itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE)
     itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -78,13 +79,13 @@ class CheckInOrOutList(models.Model):
     checkInListItems = models.ManyToManyField(CheckInOrOutListItem, through='CheckInListItems')
 
 
-class CheckInListItems(models.Model):
+class CheckInListItems(TimeStampedModel):
     checkInOrOutList = models.ForeignKey(CheckInOrOutList, on_delete=models.CASCADE)
     checkInOrOutListItem = models.ForeignKey(CheckInOrOutListItem, on_delete=models.CASCADE)
     order = models.IntegerField()
 
 
-class Checkout(models.Model):
+class Checkout(TimeStampedModel):
     person = models.ForeignKey(User, related_name='checkedout_to_person', on_delete=models.CASCADE, null=True)
     dateTimeOut = models.DateTimeField(null=True)
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
@@ -93,7 +94,7 @@ class Checkout(models.Model):
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 
 
-class CheckoutItem(models.Model):
+class CheckoutItem(TimeStampedModel):
     dateTimeDue = models.DateTimeField(null=True)
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -103,14 +104,14 @@ class CheckoutItem(models.Model):
     checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
 
 
-class CheckInListResults(models.Model):
+class CheckInListResults(TimeStampedModel):
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
     checkInOrOutListItem = models.ForeignKey(CheckInOrOutListItem)
     response = models.CharField(max_length=100)
     inOrOut = models.CharField(max_length=3)  # nullable boolean?
 
 
-class ReservationRequest(models.Model):
+class ReservationRequest(TimeStampedModel):
     itemCategoryID = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
     itemSubCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, db_constraint=False, blank=True, null=True)
     itemTypeID = models.ForeignKey(ItemType, db_constraint=False, blank=True, null=True)
@@ -125,7 +126,7 @@ class ReservationRequest(models.Model):
     approvedOn = models.DateTimeField()
 
 
-class Reservation(models.Model):
+class Reservation(TimeStampedModel):
     itemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
     userID = models.ForeignKey(User, on_delete=models.CASCADE)
     startDate = models.DateTimeField()
