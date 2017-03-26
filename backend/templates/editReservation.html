@@ -20,7 +20,7 @@
     <p>Person Requested For: {{ request.personRequestedFor }}</p>
     <p>Class Requested For: {{ request.classRequestedFor }}</p>
     <p>Sub Category: {{ request.itemSubCategoryID.subCategoryName }}</p>
-    <p>Item Type: {{ request.itemTypeID.name }}</p>
+    <p>Item Type: {{ request.itemTypeID }}</p>
 
 </div>
 
@@ -28,6 +28,7 @@
     <form action="" class="form-signin" method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
     </form>
 </div>
 
