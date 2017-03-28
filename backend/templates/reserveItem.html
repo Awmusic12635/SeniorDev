@@ -1,6 +1,12 @@
 {% extends 'loggedinbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
+    {% if submitted %}
+    <div>
+      Reservation Submitted Successfully
+    </div>
+    {% endif %}	
+
     <div>
         <form action="" class="form-signin" method="post">
             {% csrf_token %}
