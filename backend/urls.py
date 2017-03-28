@@ -24,10 +24,10 @@ urlpatterns = [
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/edit$', item.edit_item, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/checkout$', checkout.add_item, name='items'),
     #category
-    url(r'^category/$', category.list_categories, name='items'),
-    url(r'^category/add$', category.add_category, name='items'),
-    url(r'^category/(?P<category_id>\d*)$', category.view_category, name='items'),
-    url(r'^category/(?P<category_id>\d*)/edit$', category.edit_category, name='items'),
+    url(r'^category/$', category.list_categories, name='categoryList'),
+    url(r'^category/add$', category.add_category, name='categoryAdd'),
+    url(r'^category/(?P<category_id>\d*)$', category.view_category, name='categoryView'),
+    url(r'^category/(?P<category_id>\d*)/edit$', category.edit_category, name='categoryEdit'),
     #user
     url(r'^user/$', user.index, name='items'),
     url(r'^user/add$', user.index, name='items'),
@@ -48,10 +48,10 @@ urlpatterns = [
     url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),
     url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)$', checkin.checkin_item, name='items'),
     #reservations
-    url(r'^reservationRequest$', reservation.request, name='items'),
-    url(r'^reservationRequest/pending$', reservation.view_requests, name='items'),
-    url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='items'),
-    url(r'^reservation/$', reservation.list_reservations, name='items')
+    url(r'^reservationRequest$', reservation.request, name='reservationRequest'),
+    url(r'^reservationRequest/pending$', reservation.view_requests, name='reservationRequestPending'),
+    url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
+    url(r'^reservation/$', reservation.list_reservations, name='reservationList')
 
 ]
 if settings.DEBUG:
