@@ -80,18 +80,18 @@ div.section > div > input {margin:0px;padding-left:5px;font-size:10px;padding-ri
 
                 <div class="col-xs-4 item-photo">
                     {% if item.image != None %}
-                        <img style="max-width:100%;" src="{{ item.image.url }}" />
+                        <img style="max-width:100%;" src="{{ itemType.image.url }}" />
                     {% endif %}
                 </div>
 
                 <div class="col-xs-5" style="border:0px solid gray">
                     <!-- Datos del vendedor y titulo del producto -->
                     <h3>{{ item.name }}</h3>
-                    <h5 style="color:#337ab7">Manufacturer: {{ item.manufacturer }} Model: {{ item.model }}</h5>
+                    <h5 style="color:#337ab7">Manufacturer: {{ itemType.manufacturer }} Model: {{ itemType.model }}</h5>
 
                     <!-- Precios -->
                     <h6 class="title-price"><small>Item Cost</small></h6>
-                    <h3 style="margin-top:0px;">${{ item.cost }}</h3>
+                    <h3 style="margin-top:0px;">${{ itemType.cost }}</h3>
 
                     <!-- Detalles especificos del producto -->
                     <div class="section">
@@ -132,7 +132,7 @@ div.section > div > input {margin:0px;padding-left:5px;font-size:10px;padding-ri
                     <div style="width:100%;border-top:1px solid silver">
                         <p style="padding:15px;">
                             <small>
-                            {{ item.description }}
+                            {{ itemType.description }}
                             </small>
                         </p>
                     </div>

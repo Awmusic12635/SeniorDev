@@ -14,6 +14,7 @@ CONST_STATUS_CHECKEDOUT = "Checked out"
 CONST_STATUS_OPEN = "Open"
 CONST_STATUS_CLOSED = "Closed"
 
+
 @login_required
 def get_open_checkouts(request):
     checkouts = Checkout.objects.filter(status=CONST_STATUS_OPEN)
@@ -28,24 +29,24 @@ def view_checkout(request, checkout_id):
 
 @login_required
 def checkin_item(request, checkoutitem_id):
-    #fill checked in date for checkout item
+    # fill checked in date for checkout item
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     ci.dateTimeIn = datetime.now()
     ci.checkedInBy = request.user
 
-    #mark item as in
+    # mark item as in
     item = ci.item
     item.checkoutStatus = CONST_STATUS_CHECKEDIN
 
     ci.save()
     item.save()
 
-    #is checkout complete
+    # is checkout complete
     items = CheckoutItem.objects.filter(checkout= ci.checkout, item__checkoutStatus=CONST_STATUS_CHECKEDOUT)
     if not items:
         checkout = ci.checkout
         checkout.status = CONST_STATUS_CLOSED
         checkout.save()
 
-
     return render(request, 'checkoutEdit.html', {'title': 'Check In', 'checkout': ci.checkout})
+

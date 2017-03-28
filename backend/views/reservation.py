@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from backend.forms import ReservationRequestForm, ReservationRequestApprovalForm
 from datetime import datetime
 
+
 @login_required
 def request(request):
     if request.method == "POST":
@@ -28,10 +29,10 @@ def view_requests(request):
 @login_required()
 def edit_request(request, request_id):
     if request.method == "POST":
-        #get form data that may have been changed
+        # get form data that may have been changed
         form = ReservationRequestApprovalForm(request.POST)
         if form.is_valid():
-            #breakout item info if no specific type
+            # breakout item info if no specific type
             rr = ReservationRequest.objects.get(pk=request_id)
             if rr.itemTypeID is None:
                 itemTypes = ItemType.objects.filter(subCategoryID=rr.itemSubCategoryID)

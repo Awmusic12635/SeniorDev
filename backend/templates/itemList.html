@@ -27,11 +27,7 @@
                 <th>Description</th>
                 <th>Manufacturer</th>
                 <th>Model</th>
-                <th>Serial</th>
-                <th>Tags</th>
                 <th>Cost</th>
-                <th>Location</th>
-                <th>Checkout Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -41,12 +37,8 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
                     <td>{{ item.manufacturer }}</td>
-                    <td>{{ item.model }}</td>
-                    <td>{{ item.serial }}</td>
-                    <td>{{ item.tag }}</td>
+                    <td>{{ item.model }}</td>>
                     <td>{{ item.cost }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.checkoutStatus }}</td>
                     <td>
                         <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
                         <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>

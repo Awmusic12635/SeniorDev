@@ -11,6 +11,7 @@ CONST_STATUS_CHECKEDIN = "Checked in"
 CONST_STATUS_CHECKEDOUT = "Checked out"
 CONST_STATUS_OPEN = "Open"
 
+
 @login_required
 def get_pending_checkout(request):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
@@ -19,7 +20,7 @@ def get_pending_checkout(request):
 def add_item(request, item_id):
     checkout = create_pending_checkout()
     item = get_object_or_404(Item, pk=int(item_id))
-    #check for item already being checked out
+    # check for item already being checked out
     if item.checkoutStatus == CONST_STATUS_CHECKEDIN:
         ci = CheckoutItem(checkout = checkout, item = item)
 

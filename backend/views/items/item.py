@@ -33,7 +33,7 @@ def show_item_type(request, item_type_id):
 
 
 @login_required
-def edit_item_types(request, item_type_id):
+def edit_item_type(request, item_type_id):
     item_type = get_object_or_404(ItemType, pk=item_type_id)
     if request.method == "POST":
         form = ItemTypeForm(request.POST, request.FILES, instance=item_type)
@@ -45,21 +45,31 @@ def edit_item_types(request, item_type_id):
         form = ItemTypeForm(instance=item_type)
         return render(request, 'editItem.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type})
 
+
 @login_required
-def add_item(request,item_type_id,item_id):
+def delete_item_type(request,item_type_id):
+    print("deleting item type")
+
+
+@login_required
+def add_item(request, item_type_id, item_id):
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
-            form.save()
-            # this should redirect back to the specific item_type_id listing
+            obj = form.save(commit = False)
+            obj.ItemTypeID = item_type_id
+            obj.save()
+            # for now redirect back to the same page
             return redirect('itemList')
     else:
         form = ItemForm()
         return render(request, 'addItem.html', {'title': 'Add Item', 'form': form})
 
+
 @login_required
 def edit_item(request,item_type_id,item_id):
     item = get_object_or_404(Item, pk=item_id)
+    itemType = get_object_or_404(ItemType, pk=item_type_id)
     if request.method == "POST":
         form = ItemForm(request.POST, instance=item)
         if form.is_valid():
@@ -68,7 +78,9 @@ def edit_item(request,item_type_id,item_id):
             return redirect('itemList')
     else:
         form = ItemForm(instance=item)
-        return render(request, 'editItem.html', {'title': "Edit: " + item.name, 'form': form, 'item': item})
+        return render(request, 'editItem.html', {'title': "Edit: " + item.name, 'form': form, 'item': item, 'itemType':
+                itemType})
+
 
 @login_required
 def list_items(request,item_type_id):
@@ -76,10 +88,12 @@ def list_items(request,item_type_id):
 
     return render(request, 'itemList.html', {'title': 'Items', 'items': items})
 
+
 @login_required
 def show_item(request,item_type_id,item_id):
     item = get_object_or_404(ItemType, pk=item_id, ItemTypeID=item_type_id)
+    itemType = get_object_or_404(Item, pk=item_type_id)
 
-    return render(request, 'itemDetailed.html', {'title': item.name, 'item': item})
+    return render(request, 'itemDetailed.html', {'title': item.name, 'itemType': itemType, 'item':item})
 
 
