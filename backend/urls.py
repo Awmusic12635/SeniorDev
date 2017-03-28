@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
 from .views import admin
-from .views import user, checkout, checkin,reservation
+from .views import user, checkout, checkin,reservation, category
 from .views.items import item
 
 urlpatterns = [
@@ -23,11 +23,10 @@ urlpatterns = [
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/edit$', item.edit_item, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/checkout$', checkout.add_item, name='items'),
     #category
-    url(r'^category/$', user.index, name='items'),
-    url(r'^category/add$', user.index, name='items'),
-    url(r'^category/(?P<id>\d*)$', user.index, name='items'),
-    url(r'^category/(?P<id>\d*)/edit$', user.index, name='items'),
-    url(r'^category/(?P<id>\d*)/delete$', user.index, name='items'),
+    url(r'^category/$', category.list_categories, name='items'),
+    url(r'^category/add$', category.add_category, name='items'),
+    url(r'^category/(?P<category_id>\d*)$', category.view_category, name='items'),
+    url(r'^category/(?P<category_id>\d*)/edit$', category.edit_category, name='items'),
     #user
     url(r'^user/$', user.index, name='items'),
     url(r'^user/add$', user.index, name='items'),

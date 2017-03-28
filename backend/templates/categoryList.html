@@ -1,0 +1,44 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('#itemTable').DataTable();
+
+        $('.viewButton').on('click',function(){
+            window.location="/category/"+$(this).attr('data-id');
+        });
+        $('.editButton').on('click',function(){
+            window.location="/category/"+$(this).attr('data-id')+"/edit";
+        });
+        $('#addItemButton').on('click',function(){
+            window.location="/category/add";
+        });
+    });
+
+
+</script>
+<button id='addItemButton' type="button" class="btn btn-primary btn-lg">Add Category</button>
+<div style="margin: 15px;">
+    <table id="itemTable" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cat in categories %}
+                <tr>
+                    <td>{{ cat.categoryName }}</td>
+                    <td>{{ cat.categoryDescription }}</td>
+                    <td>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

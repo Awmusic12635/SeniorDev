@@ -1,42 +1,45 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404,render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from backend.forms import ItemCategoryForm
 from backend.models import ItemCategory
 
 
 @login_required
-def listCategories(request):
-    context = {'category_list': ItemCategory.objects.all()}
-    return render(request, 'app/categoryList.html', context)
+def list_categories(request):
+    cats =  ItemCategory.objects.all()
+    return render(request, 'categoryList.html', {'categories': cats})
 
 
 @login_required
-def getCategoryByID(request, category_id):
-    context = {'category': ItemCategory.objects.get(pk=category_id)}
-    return render(request, 'app/categoryView.html', context)
-
-
-@login_required
-def deleteCategory(request, category_id):
-    context = {'deleted': ItemCategory.objects.filter(pk=category_id).delete()}
-    return render(request, 'app/categoryDelete.html', context)
-
-
-@login_required
-def createCategory(request):
-    category = ItemCategory()
-    category.categoryName = request.POST['categoryName']
-    category.categoryDescription = request.POST['categoryDescription']
-    category.save()
-    return HttpResponseRedirect(reverse('app/categoryView.html', args=(category.id,)))
-
-
-@login_required
-def updateCategory(request, category_id):
+def view_category(request, category_id):
     category = get_object_or_404(ItemCategory, pk=category_id)
-    category.categoryName = request.POST['categoryName']
-    category.categoryDescription = request.POST['categoryDescription']
-    category.save()
-    return HttpResponseRedirect(reverse('app/categoryView.html', args=(category.id,)))
+    return render(request, 'categoryDetailed.html', {'category': category})
+
+
+@login_required
+def add_category(request):
+    if request.method == "POST":
+        form = ItemCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # for now redirect back to the same page
+            return redirect('categoryList')
+    else:
+        form = ItemCategoryForm()
+        return render(request, 'addCategory.html', {'title': 'Add Category', 'form': form})
+
+
+@login_required
+def edit_category(request,category_id):
+    cat = get_object_or_404(ItemCategory, pk=category_id)
+    if request.method == "POST":
+        form = ItemCategoryForm(request.POST, instance=cat)
+        if form.is_valid():
+            form.save()
+            # for now redirect back to item listings. Until detailed page is done
+            return redirect('categoryList')
+    else:
+        form = ItemCategoryForm(instance=cat)
+        return render(request, 'editCategory.html', {'title': "Edit: " + cat.categoryName, 'form': form, 'category': cat, })

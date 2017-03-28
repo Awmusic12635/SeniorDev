@@ -1,0 +1,43 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('#itemTable').DataTable();
+
+        $('.viewButton').on('click',function(){
+            window.location="/subcategory/"+$(this).attr('data-id');
+        });
+    });
+
+
+</script>
+
+    <div>
+    Name: {{ category.name }}
+    Description: {{ category.description }}
+
+    </div>
+
+<div style="margin: 15px;">
+    Sub Categories
+    <table id="itemTable" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Default Checkout Length</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sub in category.ItemSubCategory_set.all %}
+                <tr>
+                    <td>{{ sub.subCategoryName }}</td>
+                    <td>{{ sub.subCategoryDescription }}</td>
+                    <td>{{ sub.defaultCheckoutLengthDays }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
