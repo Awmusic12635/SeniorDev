@@ -13,13 +13,14 @@ urlpatterns = [
     url(r'^logout', auth_views.logout, name='logout'),
     url(r'^dashboard/$', user.dashboard, name='dashboard'),
     #items
-    url(r'^item/$', item.list_items, name='itemList'),
-    url(r'^item/add$', item.add_item, name='items'),
+    url(r'^item/$', item.list_item_types, name='itemList'),
+    url(r'^item/add$', item.add_item_type, name='items'),
     url(r'^item/(?P<item_type_id>\d*)$', item.show_item_type, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/edit$', item.edit_item_type, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/delete$', item.delete_item_type, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/add$', item.add_item, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)$', item.show_item, name='items'),
+    url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/items$', item.list_items, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/edit$', item.edit_item, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/checkout$', checkout.add_item, name='items'),
     #category

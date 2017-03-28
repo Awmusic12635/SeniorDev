@@ -27,9 +27,9 @@ def add_item_type(request):
 
 @login_required
 def show_item_type(request, item_type_id):
-    item = get_object_or_404(ItemType, pk=item_type_id)
+    itemType = get_object_or_404(ItemType, pk=item_type_id)
 
-    return render(request, 'itemDetailed.html', {'title': item.name, 'item': item})
+    return render(request, 'itemDetailed.html', {'title': itemType.name, 'itemType': itemType})
 
 
 @login_required
@@ -43,7 +43,7 @@ def edit_item_type(request, item_type_id):
             return redirect('itemList')
     else:
         form = ItemTypeForm(instance=item_type)
-        return render(request, 'editItem.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type})
+        return render(request, 'editItemType.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type})
 
 
 @login_required

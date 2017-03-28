@@ -14,7 +14,7 @@ def request(request):
             obj.requester = request.user
             obj.save()
             # for now redirect back to the same page
-            return redirect('request')
+            return redirect('viewReservations')
     else:
         form = ReservationRequestForm()
         return render(request, 'reserveItem.html', {'title': 'Reserve Item', 'form': form})
