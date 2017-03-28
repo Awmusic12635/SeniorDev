@@ -7,6 +7,7 @@ from datetime import datetime
 
 @login_required
 def request(request):
+    submitted = None
     if request.method == "POST":
         form = ReservationRequestForm(request.POST)
         if form.is_valid():
@@ -16,8 +17,9 @@ def request(request):
             # for now redirect back to the same page
             return redirect('reservationRequest')
     else:
-        form = ReservationRequestForm()
-        return render(request, 'reserveItem.html', {'title': 'Reserve Item', 'form': form})
+            submitted = True 
+            form = ReservationRequestForm()
+    return render(request, 'reserveItem.html', {'title': 'Reserve Item', 'form': form, 'submitted': submitted})
 
 
 @login_required
