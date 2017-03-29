@@ -24,6 +24,9 @@ class ItemCategory(TimeStampedModel):
     categoryDescription = models.CharField(max_length=500)
     categoryName = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.categoryName
+
 #classes with FKs
 
 
@@ -39,6 +42,8 @@ class ItemSubCategory(TimeStampedModel):
     parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
     defaultCheckoutLengthDays = models.IntegerField(null=True)
 
+    def __str__(self):
+        return self.subCategoryName
 
 class ItemType(TimeStampedModel):
     subCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, null=True)
@@ -50,6 +55,9 @@ class ItemType(TimeStampedModel):
     manufacturer = models.CharField(max_length=100, null=True)
     model = models.CharField(max_length=200, null=True)
     cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Item(TimeStampedModel):

@@ -23,7 +23,7 @@
     <table id="itemTable" class="display">
         <thead>
             <tr>
-                <th>Catrgory</th>
+                <th>Category</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Default Checkout Length</th>
@@ -31,9 +31,9 @@
             </tr>
         </thead>
         <tbody>
-            {% for cat in subcategory %}
+            {% for cat in subcategories %}
                 <tr>
-                    <td>{{ cat.itemCategortID.categoryName }}</td>
+                    <td>{{ cat.itemCategoryID.categoryName }}</td>
                     <td>{{ cat.subCategoryName }}</td>
                     <td>{{ cat.subCategoryDescription }}</td>
                     <td>{{ cat.defaultCheckoutLengthDays }}</td>
