@@ -57,6 +57,7 @@ class ItemType(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
 class Item(TimeStampedModel):
     ItemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
     serial = models.CharField(max_length=200)
