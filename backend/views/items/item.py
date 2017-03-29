@@ -1,4 +1,4 @@
-from backend.models import ItemType, Item
+from backend.models import ItemType, Item, ItemCategory, ItemSubCategory
 from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth.decorators import login_required
 from backend.forms import ItemForm, ItemTypeForm
@@ -22,7 +22,9 @@ def add_item_type(request):
     else:
         form = ItemTypeForm()
         form2 = ItemForm()
-        return render(request, 'addItemType.html', {'title': 'Add Item', 'form': form, 'form2': form2})
+        categories = ItemCategory.objects.all()
+        subcategories = ItemSubCategory.objects.all()
+        return render(request, 'addItemType.html', {'title': 'Add Item', 'form': form, 'form2': form2, 'categories': categories, 'subcategories': subcategories})
 
 
 @login_required
