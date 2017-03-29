@@ -23,7 +23,7 @@ class ItemCategoryForm(forms.ModelForm):
 class ItemSubCategoryForm(forms.ModelForm):
     class Meta:
         model = ItemSubCategory
-        fields = ('itemCategoryID', 'subCategoryName', 'subCategoryDescription', 'defaultCheckoutLengthDays')
+        fields = ('subCategoryName', 'subCategoryDescription', 'defaultCheckoutLengthDays')
 
 
 class CheckoutForm(forms.ModelForm):
