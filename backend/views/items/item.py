@@ -47,7 +47,9 @@ def edit_item_type(request, item_type_id):
             return redirect('itemList')
     else:
         form = ItemTypeForm(instance=item_type)
-        return render(request, 'editItemType.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type})
+        categories = ItemCategory.objects.all()
+        subcategories = ItemSubCategory.objects.all()
+        return render(request, 'editItemType.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type, 'categories': categories, 'subcategories': subcategories})
 
 
 @login_required
