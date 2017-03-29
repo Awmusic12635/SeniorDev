@@ -1,11 +1,14 @@
 {% extends 'loggedinbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
-    <sript>
-    $('#categorSelect').on('change',function(){
-
+    <script>
+        $(document).ready(function(){
+            $('#categorySelect').on('change',function(){
+                    console.log('{{ selectedCategory }}');
+                    console.log(this);
+                });
         });
-    </sript>
+    </script>
 
     <div>
         <form id="additemtypeform" action="" class="form-signin" method="post" enctype="multipart/form-data">
@@ -14,7 +17,7 @@
                     <option value="{{ c }}">{{ c.categoryName }}</option>
                 {% endfor %}
             </select>
-
+{{ selectedCategory }}
              <select name="subcategorySelect" id="subcategorySelect">
                 {% for s in subcategories %}
                     {% if s.itemCategoryID == selectedCategory %}
