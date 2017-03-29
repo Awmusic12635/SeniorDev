@@ -2,7 +2,7 @@
 {% block content %}
 {% load widget_tweaks %}
     <div>
-        <form action="category/{{ subcategory.itemCategoryID.id }}/subcategory/{{ subcategory.id }}/edit" class="form-signin" method="post">
+        <form action="/category/{{ subcategory.itemCategoryID.id }}/subcategory/{{ subcategory.id }}/edit" class="form-signin" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="save btn btn-default">Edit Sub Category</button>
