@@ -8,7 +8,7 @@
                     var selectedCategory = e.options[e.selectedIndex].value;
                     console.log(selectedCategory);
 
-                    var subSelect = "<select name='subCategory' id='subCategory' required> <option>-- Select a Sub Category --</option>";
+                    var subSelect = "<select name='subCategory' id='subCategory' required> <option  value=''>-- Select a Sub Category --</option>";
                                 {% for s in subcategories %}
                                     if( "{{ s.itemCategoryID.id }}" == selectedCategory){
                                         subSelect += "<option value='{{ s.id }}''>{{ s.subCategoryName }}</option>";
@@ -24,7 +24,7 @@
     <div>
         <form id="additemtypeform" action="" class="form-signin" method="post" enctype="multipart/form-data">
             <select name="categorySelect" id="categorySelect" required>
-                <option value="-1">-- Select a Category --</option>
+                <option value="">-- Select a Category --</option>
                 {% for c in categories %}
                     <option value="{{ c.id }}">{{ c.categoryName }}</option>
                 {% endfor %}
