@@ -6,15 +6,15 @@
         $('#itemTable').DataTable();
 
         $('.viewButton').on('click',function(){
-            window.location="/subcategory/"+$(this).attr('data-id');
+            window.location="/category/{{ category.id }}/subcategory/"+$(this).attr('data-id');
         });
 
         $('.editButton').on('click',function(){
-            window.location="/subcategory/{{ category.id }}/"+$(this).attr('data-id') + "/edit";
+            window.location="/category/{{ category.id }}/subcategory/"+$(this).attr('data-id') + "/edit";
         });
 
         $('#addItemButton').on('click',function(){
-            window.location="/subcategory/add/{{ category.id }}";
+            window.location="/category/{{ category.id }}/subcategory";
         });
     });
 
