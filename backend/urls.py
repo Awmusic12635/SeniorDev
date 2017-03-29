@@ -31,8 +31,10 @@ urlpatterns = [
     #subcategory
     url(r'^subcategory/$', subcategory.list_subcategories, name='subcategoryList'),
     url(r'^subcategory/add$', subcategory.add_subcategory, name='subcategoryAdd'),
+    url(r'^subcategory/add/(?P<category_id>\d*)$', subcategory.add_subcategory, name='subcategoryAddFromCategory'),
     url(r'^subcategory/(?P<subcategory_id>\d*)$', subcategory.view_subcategory, name='subcategoryView'),
     url(r'^subcategory/(?P<subcategory_id>\d*)/edit$', subcategory.edit_subcategory, name='subcategoryEdit'),
+    url(r'^subcategory/(?P<category_id>\d*)/(?P<subcategory_id>\d*)/edit$', subcategory.edit_subcategory, name='subcategoryEditFromCategory'),
     #user
     url(r'^user/$', user.index, name='items'),
     url(r'^user/add$', user.index, name='items'),
@@ -41,7 +43,7 @@ urlpatterns = [
     #search
     url(r'^search$', user.index, name='items'),
     #checkout
-    url(r'^checkout$', checkout.get_pending_checkout, name='items'),
+    url(r'^checkout/$', checkout.get_pending_checkout, name='items'),
     url(r'^checkout/addItem/(?P<item_id>\d*)$', checkout.add_item, name='items'),
     url(r'^checkout/removeItem/(?P<item_id>\d*)$', checkout.remove_item, name='items'),
     url(r'^checkout/resetDueDate/(?P<checkoutitem_id>\d*)$', checkout.reset_duedate, name='items'),
@@ -49,11 +51,11 @@ urlpatterns = [
     url(r'^checkout/clear', checkout.clear, name='items'),
     url(r'^checkout/complete', checkout.complete, name='items'),
    #checkin
-    url(r'^checkin$', checkin.get_open_checkouts, name='items'),
+    url(r'^checkin/$', checkin.get_open_checkouts, name='items'),
     url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),
     url(r'^checkin/checkin_item/(?P<checkoutitem_id>\d*)$', checkin.checkin_item, name='items'),
     #reservations
-    url(r'^reservationRequest$', reservation.request, name='reservationRequest'),
+    url(r'^reservationRequest/$', reservation.request, name='reservationRequest'),
     url(r'^reservationRequest/pending$', reservation.view_requests, name='reservationRequestPending'),
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservation/$', reservation.list_reservations, name='reservationList')

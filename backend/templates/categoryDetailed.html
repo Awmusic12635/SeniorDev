@@ -8,6 +8,14 @@
         $('.viewButton').on('click',function(){
             window.location="/subcategory/"+$(this).attr('data-id');
         });
+
+        $('.editButton').on('click',function(){
+            window.location="/subcategory/{{ category.id }}/"+$(this).attr('data-id') + "/edit";
+        });
+
+        $('#addItemButton').on('click',function(){
+            window.location="/subcategory/add/{{ category.id }}";
+        });
     });
 
 
@@ -27,6 +35,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Default Checkout Length</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -35,9 +44,15 @@
                     <td>{{ sub.subCategoryName }}</td>
                     <td>{{ sub.subCategoryDescription }}</td>
                     <td>{{ sub.defaultCheckoutLengthDays }}</td>
+                    <td>
+                        <button type="button" data-id="{{ sub.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                        <button type="button" data-id="{{ sub.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+    <button id='addItemButton' type="button" class="btn btn-primary btn-lg">Add Sub Category</button>
 {% endblock %}
