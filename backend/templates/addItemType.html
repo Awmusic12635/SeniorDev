@@ -10,14 +10,11 @@
 
                     var subSelect = "<select name='subCategorySelect' id='subCategorySelect'>";
                                 {% for s in subcategories %}
-                                    console.log("{{ s.itemCategoryID.id }}");
-                                    {% if s.itemCategoryID.id|add:"0" == selectedCategory|add:"0" %}
-                                       subSelect += "<option value='{{ s.id }}''>{{ s.subCategoryName }}</option>";
-                                       console.log(subSelect);
-                                    {% endif %}
+                                    if( "{{ s.itemCategoryID.id }}" == selectedCategory){
+                                        subSelect += "<option value='{{ s.id }}''>{{ s.subCategoryName }}</option>";
+                                    }
                                 {% endfor %}
                         subSelect += '</select>';
-                        console.log(subSelect);
                     $('#subcategoryDiv').html(subSelect);
 
                 });
@@ -27,6 +24,7 @@
     <div>
         <form id="additemtypeform" action="" class="form-signin" method="post" enctype="multipart/form-data">
             <select name="categorySelect" id="categorySelect">
+                <option value="-1">-- Select a Category --</option>
                 {% for c in categories %}
                     <option value="{{ c.id }}">{{ c.categoryName }}</option>
                 {% endfor %}
