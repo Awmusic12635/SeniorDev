@@ -8,7 +8,7 @@
                     var selectedCategory = e.options[e.selectedIndex].value;
                     console.log(selectedCategory);
 
-                    var subSelect = "<select name='subCategorySelect' id='subCategorySelect'>";
+                    var subSelect = "<select name='subCategorySelect' id='subCategorySelect'> <option value='-1'>-- Select a Sub Category --</option>";
                                 {% for s in subcategories %}
                                     if( "{{ s.itemCategoryID.id }}" == selectedCategory){
                                         subSelect += "<option value='{{ s.id }}''>{{ s.subCategoryName }}</option>";
