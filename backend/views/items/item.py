@@ -16,7 +16,9 @@ def add_item_type(request):
     if request.method == "POST":
         form = ItemTypeForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.itemSubCategory = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
+            obj.save()
             # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')
     else:
