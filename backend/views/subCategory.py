@@ -39,7 +39,7 @@ def add_subcategory(request, category_id=None):
 
 
 @login_required
-def edit_subcategory(request,subcategory_id, category_id):
+def edit_subcategory(request,subcategory_id, category_id=None):
     subcat = get_object_or_404(ItemSubCategory, pk=subcategory_id)
     if request.method == "POST":
         form = ItemSubCategoryForm(request.POST, instance=subcat)
