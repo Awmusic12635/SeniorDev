@@ -14,13 +14,13 @@
         <form id="additemtypeform" action="" class="form-signin" method="post" enctype="multipart/form-data">
             <select name="categorySelect" id="categorySelect" value="{{ selectedCategory }}">
                 {% for c in categories %}
-                    <option value="{{ c }}">{{ c.categoryName }}</option>
+                    <option value="{{ c.id }}">{{ c.categoryName }}</option>
                 {% endfor %}
             </select>
 {{ selectedCategory }}
              <select name="subcategorySelect" id="subcategorySelect">
                 {% for s in subcategories %}
-                    {% if s.itemCategoryID == selectedCategory %}
+                    {% if s.itemCategoryID.id == selectedCategory %}
                         <option value="{{ s.id }}">{{ c.subCategoryName }}</option>
                     {%  endif %}
                 {% endfor %}
