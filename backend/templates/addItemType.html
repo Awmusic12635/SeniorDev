@@ -10,6 +10,7 @@
 
                     var subSelect = "<select name='subCategorySelect' id='subCategorySelect'>";
                                 {% for s in subcategories %}
+                                    console.log("{{ s.id }}");
                                     {% if s.id == selectedCategory %}
                                        subSelect += '<option value="{{ s.id }}">{{ s.subCategoryName }}</option>';
                                     {% endif %}
@@ -30,7 +31,7 @@
                 {% endfor %}
             </select>
 
-             <div id="subcategoryDiv"/>
+            <div id="subcategoryDiv"></div>
 
             {% csrf_token %}
             {{ form.as_p }}
