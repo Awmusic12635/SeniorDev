@@ -1,0 +1,11 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+    <div>
+        <form action="" class="form-signin" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+    </div>
+{% endblock %}

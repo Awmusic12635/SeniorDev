@@ -1,0 +1,59 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('#itemTable').DataTable();
+
+        $('.viewButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id');
+        });
+
+
+        $('.editButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id')+"/edit";
+        });
+    });
+
+
+</script>
+
+    <div>
+        <p>Category: {{ subcategory.itemCategoryID.categoryName }}</p>
+        <p>Name: {{ subcategory.subCategoryName }}</p>
+        <p>Description: {{ subcategory.subcategoryDescription }}</p>
+        <p>Default Checkout Length: {{ subcategory.defaultCheckoutLengthDays }}</p>
+
+    </div>
+
+<div style="margin: 15px;">
+    Sub Categories
+    <table id="itemTable" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Cost</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in subcategory.itemtype_set.all %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.manufacturer }}</td>
+                    <td>{{ item.model }}</td>>
+                    <td>{{ item.cost }}</td>
+                    <td>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
