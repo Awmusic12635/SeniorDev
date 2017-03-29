@@ -29,7 +29,7 @@
                     <option value="{{ c.id }}" {% if c.id == item_type.subCategoryID.itemCategoryID %} selected='selected'{% endif %} >{{ c.categoryName }}</option>
                 {% endfor %}
             </select>
-
+{{ item_type.subCategoryID.itemCategoryID }}
             <div id="subcategoryDiv">
                 <select name="subCategory" id="subCategory" required>
                     <option value="">-- Select a Sub Category --</option>
