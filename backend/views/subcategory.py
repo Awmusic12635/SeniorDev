@@ -19,7 +19,8 @@ def add_subcategory(request, category_id):
         form = ItemSubCategoryForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.itemCategoryID.id = category_id
+            obj.itemCategoryID = get_object_or_404(ItemCategory, pk=category_id)
+            obj.save()
             # for now redirect back to the same page
             return redirect('categoryView', category_id = category_id)
     else:
