@@ -33,8 +33,8 @@ urlpatterns = [
     url(r'^subcategory/add$', subcategory.add_subcategory, name='subcategoryAdd'),
     url(r'^subcategory/add/(?P<category_id>\d*)$', subcategory.add_subcategory, name='subcategoryAddFromCategory'),
     url(r'^subcategory/(?P<subcategory_id>\d*)$', subcategory.view_subcategory, name='subcategoryView'),
-    url(r'^subcategory/?(?P<category_id>\d*)?/(?P<subcategory_id>\d*)/edit$', subcategory.edit_subcategory, name='subcategoryEditFromCategory'),
     url(r'^subcategory/(?P<subcategory_id>\d*)/edit$', subcategory.edit_subcategory, name='subcategoryEdit'),
+    url(r'^subcategory/?(?P<category_id>\d*)?/(?P<subcategory_id>\d*)/edit$', subcategory.edit_subcategory, name='subcategoryEditFromCategory'),
     #user
     url(r'^user/$', user.index, name='items'),
     url(r'^user/add$', user.index, name='items'),
