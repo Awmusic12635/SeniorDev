@@ -11,7 +11,7 @@
                     var subSelect = "<select name='subCategorySelect' id='subCategorySelect'>";
                                 {% for s in subcategories %}
                                     console.log("{{ s.id }}");
-                                    {% if s.id == selectedCategory %}
+                                    {% if s.itemCategoryID.id == selectedCategory %}
                                        subSelect += '<option value="{{ s.id }}">{{ s.subCategoryName }}</option>';
                                     {% endif %}
                                 {% endfor %}
