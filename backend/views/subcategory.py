@@ -8,7 +8,7 @@ from backend.views import category
 
 
 @login_required
-def view_subcategory(request, subcategory_id):
+def view_subcategory(request, category_id, subcategory_id):
     subcategory = get_object_or_404(ItemSubCategory, pk=subcategory_id)
     return render(request, 'subCategoryDetailed.html', {'subcategory': subcategory})
 
