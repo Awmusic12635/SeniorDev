@@ -26,11 +26,9 @@
             <select name="categorySelect" id="categorySelect" required>
                 <option value="">-- Select a Category --</option>
                 {% for c in categories %}
-                    <option value="{{ c.id }}" {% if c == item_type.subCategoryID.itemCategoryID %} selected='selected'{% endif %} >{{ c.categoryName }}</option>
+                    <option value="{{ c.id }}" {% if c.id == categoryid %} selected='selected'{% endif %} >{{ c.categoryName }}</option>
                 {% endfor %}
             </select>
-        {{ item_type.subCategoryID.itemCategoryID }}
-        {{ item_type.subCategoryID.itemCategoryID.id }}
             <div id="subcategoryDiv">
                 <select name="subCategory" id="subCategory" required>
                     <option value="">-- Select a Sub Category --</option>
