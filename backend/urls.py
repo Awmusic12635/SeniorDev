@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
 from .views import admin
-from .views import user, checkout, checkin,reservation, category
+from .views import user, checkout, checkin,reservation, category, subcategory
 from .views.items import item
 
 urlpatterns = [
@@ -28,6 +28,11 @@ urlpatterns = [
     url(r'^category/add$', category.add_category, name='categoryAdd'),
     url(r'^category/(?P<category_id>\d*)$', category.view_category, name='categoryView'),
     url(r'^category/(?P<category_id>\d*)/edit$', category.edit_category, name='categoryEdit'),
+    #subcategory
+    url(r'^subcategory/$', subcategory.list_subcategories, name='subcategoryList'),
+    url(r'^subcategory/add$', subcategory.add_subcategory, name='subcategoryAdd'),
+    url(r'^subcategory/(?P<category_id>\d*)$', subcategory.view_subcategory, name='subcategoryView'),
+    url(r'^subcategory/(?P<category_id>\d*)/edit$', subcategory.edit_subcategory, name='subcategoryEdit'),
     #user
     url(r'^user/$', user.index, name='items'),
     url(r'^user/add$', user.index, name='items'),

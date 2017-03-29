@@ -1,59 +1,45 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404,render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
-from backend.models import ItemCategory
+from backend.forms import ItemSubCategoryForm
 from backend.models import ItemSubCategory
 
 
 @login_required
-def lisSubtCategories(request):
-    context = {'subCategory_list': ItemSubCategory.objects.all()}
-    return render(request, 'app/subCategoryList.html', context)
+def list_subcategories(request):
+    subcats = ItemSubCategory.objects.all()
+    return render(request, 'subCategoryList.html', {'subcategories': subcats})
 
 
 @login_required
-def getSubCategoryByID(request, subCategory_id):
-    context = {'subCategory': ItemSubCategory.objects.get(pk=subCategory_id)}
-    return render(request, 'app/subCategoryView.html', context)
+def view_subcategory(request, subcategory_id):
+    subcategory = get_object_or_404(ItemSubCategory, pk=subcategory_id)
+    return render(request, 'subCategoryDetailed.html', {'subcategory': subcategory})
 
 
 @login_required
-def getSubCategoryByParentSubID(request, subCategory_id):
-    context = {'subCategories': ItemSubCategory.objects.filter(parentSubCategoryID=subCategory_id)}
-    return render(request, 'app/subCategoryView.html', context)
+def add_subcategory(request):
+    if request.method == "POST":
+        form = ItemSubCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # for now redirect back to the same page
+            return redirect('subcategoryList')
+    else:
+        form = ItemSubCategoryForm()
+        return render(request, 'addSubCategory.html', {'title': 'Add Sub Category', 'form': form})
 
 
 @login_required
-def getSubCategoryByCategoryID(request, category_id):
-    context = {'subCategories': ItemSubCategory.objects.filter(itemCategoryID=category_id)}
-    return render(request, 'app/subCategoryView.html', context)
-
-
-@login_required
-def deleteSubCategory(request, subCategory_id):
-    context = {'deleted': ItemSubCategory.objects.filter(pk=subCategory_id).delete()}
-    return render(request, 'app/subCategoryDelete.html', context)
-
-
-@login_required
-def createSubCategory(request):
-    subCategory = ItemSubCategory()
-    subCategory.itemCategoryID = request.POST['itemCategoryID']
-    subCategory.subCategoryName = request.POST['subCategoryName']
-    subCategory.subCategoryDescription = request.POST['subCategoryDescription']
-    subCategory.parentSubCategoryID = request.POST['parentSubcategoryID']
-    subCategory.save()
-    return HttpResponseRedirect(reverse('app/subCategoryView.html', args=(subCategory.id,)))
-
-
-@login_required
-def updateCategory(request, category_id):
-    subCategory = get_object_or_404(ItemSubCategory, pk=category_id)
-    subCategory.itemCategoryID = request.POST['itemCategoryID']
-    subCategory.subCategoryName = request.POST['subCategoryName']
-    subCategory.subCategoryDescription = request.POST['subCategoryDescription']
-    subCategory.parentSubCategoryID = request.POST['parentSubcategoryID']
-    subCategory.save()
-    return HttpResponseRedirect(reverse('app/subCategoryView.html', args=(subCategory.id,)))
+def edit_subcategory(request,subcategory_id):
+    subcat = get_object_or_404(ItemSubCategory, pk=subcategory_id)
+    if request.method == "POST":
+        form = ItemSubCategoryForm(request.POST, instance=subcat)
+        if form.is_valid():
+            form.save()
+            # for now redirect back to item listings. Until detailed page is done
+            return redirect('subcategoryList')
+    else:
+        form = ItemSubCategoryForm(instance=subcat)
+        return render(request, 'editSubCategory.html', {'title': "Edit: " + subcat.subCategoryName, 'form': form, 'subcategory': subcat, })

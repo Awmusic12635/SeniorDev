@@ -24,6 +24,8 @@ class ItemCategory(TimeStampedModel):
     categoryDescription = models.CharField(max_length=500)
     categoryName = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.categoryName
 
 #classes with FKs
 
@@ -52,6 +54,8 @@ class ItemType(TimeStampedModel):
     model = models.CharField(max_length=200, null=True)
     cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
 
+    def __str__(self):
+        return self.name
 
 class Item(TimeStampedModel):
     ItemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
