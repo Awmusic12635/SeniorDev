@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^reservationRequest/$', reservation.request, name='reservationRequest'),
     url(r'^reservationRequest/pending$', reservation.view_requests, name='reservationRequestPending'),
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
+    url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservation/$', reservation.list_reservations, name='reservationList')
 
 ]

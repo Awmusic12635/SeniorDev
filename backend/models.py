@@ -130,6 +130,10 @@ class ReservationRequest(TimeStampedModel):
     quantity = models.IntegerField()
     approvedBy = models.ForeignKey(User, related_name='approved_by', null=True, on_delete=models.CASCADE)
     approvedOn = models.DateTimeField(null=True)
+    declined = models.BooleanField(null=True)
+    declinedBy = models.ForeignKey(User, related_name='declined_by', null=True, on_delete=models.CASCADE)
+    declinedOn = models.DateTimeField(null=True)
+    declinedReason = models.CharField(max_length=250,blank=True, null=True)
 
 
 class Reservation(TimeStampedModel):

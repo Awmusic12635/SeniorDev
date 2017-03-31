@@ -24,12 +24,24 @@
 
 </div>
 
+    <h3>Appprove</h3>
+
 <div>
     <form action="" class="form-signin" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
+        <button type="submit" class="save btn btn-default">Approve</button>
     </form>
 </div>
 
+
+    <h3>Decline</h3>
+    <div>
+    <form action="/reservationRequest/decline/{{ request.id }}" class="form-signin" method="post">
+        {% csrf_token %}
+        <label for="reason">Reason for declining this request</label>
+        <input type="text" required size="250">
+        <button type="submit" class="save btn btn-default">Decline</button>
+    </form>
+</div>
 {% endblock %}
