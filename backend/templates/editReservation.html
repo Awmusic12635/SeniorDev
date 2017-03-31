@@ -40,7 +40,7 @@
     <form action="/reservationRequest/decline/{{ request.id }}" class="form-signin" method="post">
         {% csrf_token %}
         <label for="reason">Reason for declining this request</label>
-        <input name="reason" id = "reason" type="text" required size="250">
+        <input name="reason" id ="reason" type="text" required size="150">
         <button type="submit" class="save btn btn-default">Decline</button>
     </form>
 </div>
