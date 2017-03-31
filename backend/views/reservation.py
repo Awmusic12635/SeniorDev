@@ -24,7 +24,7 @@ def request(request):
 
 @login_required
 def view_requests(request):
-    requests = ReservationRequest.objects.filter(approvedOn = None, approvedBy = None)
+    requests = ReservationRequest.objects.filter(approvedOn = None, approvedBy = None).filter(declinedOn = None, declinedBy = None)
     return render(request, 'reservationRequests.html', {'title': 'Pending Reservations', 'requests': requests})
 
 
@@ -75,7 +75,7 @@ def decline_request(request, request_id):
         # get form data that may have been changed
         reason = request.POST['reason']
         rr = ReservationRequest.objects.get(pk=request_id)
-        rr.declinedReason  = reason
+        rr.declinedReason = reason
         rr.declinedBy = request.user
         rr.declinedOn = datetime.now()
         rr.save()
