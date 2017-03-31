@@ -24,7 +24,7 @@ def request(request):
 
 @login_required
 def view_requests(request):
-    requests = ReservationRequest.objects.filter(approvedOn = None, approvedBy = None).filter(declinedOn = None, declinedBy = None)
+    requests = ReservationRequest.objects.filter(approvedOn = None, approvedBy = None).filter(declinedOn = None, declinedBy = None).order_by('startDate')
     return render(request, 'reservationRequests.html', {'title': 'Pending Reservations', 'requests': requests})
 
 
@@ -84,5 +84,5 @@ def decline_request(request, request_id):
 
 @login_required
 def list_reservations(request):
-    reservations = Reservation.objects.all()
+    reservations = Reservation.objects.all().order_by('startDate')
     return render(request, 'viewReservations.html', {'title': 'View Reservations', 'reservations': reservations})
