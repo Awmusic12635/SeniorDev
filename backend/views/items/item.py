@@ -16,7 +16,9 @@ def add_item_type(request):
     if request.method == "POST":
         form = ItemTypeForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
+            obj.save()
             # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')
     else:
@@ -40,12 +42,17 @@ def edit_item_type(request, item_type_id):
     if request.method == "POST":
         form = ItemTypeForm(request.POST, request.FILES, instance=item_type)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
+            obj.save()
             # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')
     else:
         form = ItemTypeForm(instance=item_type)
-        return render(request, 'editItemType.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type})
+        categories = ItemCategory.objects.all()
+        subcategories = ItemSubCategory.objects.all()
+        catID = item_type.subCategoryID.itemCategoryID.id
+        return render(request, 'editItemType.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type, 'categories': categories, 'subcategories': subcategories, 'categoryid': catID})
 
 
 @login_required

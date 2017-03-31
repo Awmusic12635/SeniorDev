@@ -18,9 +18,11 @@ def add_subcategory(request, category_id):
     if request.method == "POST":
         form = ItemSubCategoryForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.itemCategoryID = get_object_or_404(ItemCategory, pk=category_id)
+            obj.save()
             # for now redirect back to the same page
-            return redirect('categoryView', category_id=category_id)
+            return redirect('categoryView', category_id = category_id)
     else:
         form = ItemSubCategoryForm()
         return render(request, 'addSubCategory.html', {'title': 'Add Sub Category', 'form': form})
@@ -33,7 +35,7 @@ def edit_subcategory(request,subcategory_id, category_id):
         form = ItemSubCategoryForm(request.POST, instance=subcat)
         if form.is_valid():
             form.save()
-            return redirect('categoryView', kwargs={'category_id': int(category_id)})
+            return redirect('categoryView', category_id = category_id)
     else:
         form = ItemSubCategoryForm(instance=subcat)
         return render(request, 'editSubCategory.html', {'title': "Edit: " + subcat.subCategoryName, 'form': form, 'subcategory': subcat })
