@@ -8,7 +8,7 @@ from backend.forms import ItemForm, ItemTypeForm
 def list_item_types(request):
     items = ItemType.objects.all()
 
-    return render(request, 'itemList.html', {'title': 'Items', 'items': items})
+    return render(request, 'itemTypeList.html', {'title': 'Items', 'items': items})
 
 
 @login_required
@@ -54,12 +54,12 @@ def delete_item_type(request,item_type_id):
 
 
 @login_required
-def add_item(request, item_type_id, item_id):
+def add_item(request, item_type_id):
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
             obj = form.save(commit = False)
-            obj.ItemTypeID = item_type_id
+            obj.ItemTypeID = get_object_or_404(ItemType, pk=item_type_id)
             obj.save()
             # for now redirect back to the same page
             return redirect('itemList')
@@ -88,7 +88,7 @@ def edit_item(request,item_type_id,item_id):
 def list_items(request,item_type_id):
     items = Item.objects.filter(ItemTypeID=item_type_id)
 
-    return render(request, 'itemList.html', {'title': 'Items', 'items': items})
+    return render(request, 'itemList.html', {'title': 'Items', 'items': items, 'item_type_id':item_type_id})
 
 
 @login_required

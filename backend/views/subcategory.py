@@ -20,13 +20,10 @@ def add_subcategory(request, category_id):
         if form.is_valid():
             form.save()
             # for now redirect back to the same page
-            return redirect('categoryView', kwargs={'category_id': category_id})
+            return redirect('categoryView', category_id=category_id)
     else:
-        cat = get_object_or_404(ItemCategory, pk= int(category_id))
-        sub = ItemSubCategory
-        sub.itemCategoryID = cat
-        form = ItemSubCategoryForm(instance=sub)
-        return render(request, 'addSubCategory.html', {'title': 'Add Sub Category', 'form': form, 'categoryID':category_id})
+        form = ItemSubCategoryForm()
+        return render(request, 'addSubCategory.html', {'title': 'Add Sub Category', 'form': form})
 
 
 @login_required
