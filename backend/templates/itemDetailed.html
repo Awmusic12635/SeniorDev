@@ -21,47 +21,79 @@
                 $(".section > div > input").val("1");
             }
         });
-        //-- Click on edit
+        $('.checkoutButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id')+"/items";
+        });
         $('#addItemButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id')+"/edit";
         });
     });
 </script>
-<button id='addItemButton' type="button" data-id="{{ item.id }}" class="btn btn-primary btn-lg">Edit Item</button>
+<button id='addItemButton' type="button" data-id="{{ itemType.id }}" class="btn btn-primary btn-lg">Edit Item</button>
 <div class="container">
-    <div class="row">
-       <div class="col-xs-4">
-            <img style="max-width:100%;" src="https://ak1.ostkcdn.com/images/products/8818677/Samsung-Galaxy-S4-I337-16GB-AT-T-Unlocked-GSM-Android-Cell-Phone-85e3430e-6981-4252-a984-245862302c78_600.jpg" />
-        </div>
-        <div class="col-xs-5">
-            
-            <h3>{{ item.name }}</h3>
-            
-            <h5>Manufacturer: {{ item.manufacturer }} </h5>
-            <h5>Model: {{ item.model }}</h5>
+	<div class="row">
 
-            <h6 class="title-price"><small>Item Cost</small></h6>
-            
-            <h3>${{ item.cost }}</h3>
 
-            <div class="section" style="padding-bottom:20px;">
-                <h6 class="title-attr"><small>Quantity</small></h6>
-                <div>
-                    <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                    <input value="1" />
-                    <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                <div class="col-xs-4 item-photo">
+                    {% if itemType.image != None %}
+                        <img style="max-width:100%;" src="{{ itemType.image.url }}" />
+                    {% endif %}
+                </div>
+
+                <div class="col-xs-5" style="border:0px solid gray">
+                    <!-- Datos del vendedor y titulo del producto -->
+                    <h3>{{ item.name }}</h3>
+                    <h5 style="color:#337ab7">Manufacturer: {{ itemType.manufacturer }} Model: {{ itemType.model }}</h5>
+
+                    <!-- Precios -->
+                    <h6 class="title-price"><small>Item Cost</small></h6>
+                    <h3 style="margin-top:0px;">${{ itemType.cost }}</h3>
+
+                    <!-- Detalles especificos del producto -->
+                    <div class="section">
+                        <h6 class="title-attr" style="margin-top:15px;" ><small>COLOR</small></h6>
+                        <div>
+                            <div class="attr" style="width:25px;background:#5a5a5a;"></div>
+                            <div class="attr" style="width:25px;background:white;"></div>
+                        </div>
+                    </div>
+                    <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr"><small>Capacity</small></h6>
+                        <div>
+                            <div class="attr2">16 GB</div>
+                            <div class="attr2">32 GB</div>
+                        </div>
+                    </div>
+                    <div class="section" style="padding-bottom:20px;">
+                        <h6 class="title-attr"><small>Quantity</small></h6>
+                        <div>
+                            <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
+                            <input value="1" />
+                            <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de compra -->
+                    <div class="section" style="padding-bottom:20px;">
+                        <button class="btn checkoutButton" data-id="{{ itemType.id }}"><span style="margin-right:20px"
+                          class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> View Available</button>
+                    </div>
                 </div>
             </div>
 
-            <button class="btn btn-success">
-                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Checkout
-            </button>
-
-            <p>
-                Description: {{ item.description }}
-            </p>
-
-    	</div>
-    </div>
+                <div class="col-xs-9">
+                    <ul class="menu-items">
+                        <li class="tabCase tabActive">Description</li>
+                        <li class="tabCase">Item History</li>
+                    </ul>
+                    <div style="width:100%;border-top:1px solid silver">
+                        <p style="padding:15px;">
+                            <small>
+                            {{ itemType.description }}
+                            </small>
+                        </p>
+                    </div>
+                </div>
+	</div>
 </div>
 {% endblock %}

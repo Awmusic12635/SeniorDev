@@ -6,13 +6,13 @@
         $('#itemTable').DataTable();
 
         $('.viewButton').on('click',function(){
-            window.location="/item/"+$(this).attr('data-id');
+            window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id');
         });
         $('.editButton').on('click',function(){
-            window.location="/item/"+$(this).attr('data-id')+"/edit";
+            window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id')+"/edit";
         });
         $('#addItemButton').on('click',function(){
-            window.location="/item/add";
+            window.location="/item/{{ item_type_id }}/add";
         });
     });
 </script>
@@ -37,22 +37,29 @@
     <tbody>
         {% for item in items %}
             <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.manufacturer }}</td>
-                <td>{{ item.model }}</td>
-                <td>{{ item.serial }}</td>
-                <td>{{ item.tag }}</td>
-                <td>{{ item.cost }}</td>
-                <td>{{ item.location }}</td>
-                <td>{{ item.checkoutStatus }}</td>
-                <td>
-                    <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                    <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                </td>
+                <th>ID</th>
+                <th>Serial</th>
+                <th>Tag</th>
+                <th>Location</th>
+                <th>Checkout Status</th>
+                <th>Actions</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.serial }}</td>
+                    <td>{{ item.tag }}</td>
+                    <td>{{ item.location }}</td>
+                    <td>{{ item.checkoutStatus }}</td>
+                    <td>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

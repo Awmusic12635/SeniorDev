@@ -1,0 +1,40 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+    <script>
+        $(document).ready(function(){
+            $('#categorySelect').on('change',function(){
+                    var e = document.getElementById("categorySelect");
+                    var selectedCategory = e.options[e.selectedIndex].value;
+                    console.log(selectedCategory);
+
+                    var subSelect = "<select name='subCategory' id='subCategory' required> <option  value=''>-- Select a Sub Category --</option>";
+                                {% for s in subcategories %}
+                                    if( "{{ s.itemCategoryID.id }}" == selectedCategory){
+                                        subSelect += "<option value='{{ s.id }}'>{{ s.subCategoryName }}</option>";
+                                    }
+                                {% endfor %}
+                        subSelect += '</select>';
+                    $('#subcategoryDiv').html(subSelect);
+
+                });
+        });
+    </script>
+
+    <div>
+        <form id="additemtypeform" action="" class="form-signin" method="post" enctype="multipart/form-data">
+            <select name="categorySelect" id="categorySelect" required>
+                <option value="">-- Select a Category --</option>
+                {% for c in categories %}
+                    <option value="{{ c.id }}">{{ c.categoryName }}</option>
+                {% endfor %}
+            </select>
+
+            <div id="subcategoryDiv"></div>
+
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button id="additemtypebutton" type="submit" class="save btn btn-default">Save</button>
+        </form>
+    </div>
+{% endblock %}

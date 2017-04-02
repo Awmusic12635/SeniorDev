@@ -1,0 +1,47 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('.removeButton').on('click',function(){
+            window.location="/checkout/removeItem/"+$(this).attr('data-id');
+        });
+
+        $('.completeButton').on('click',function(){
+            window.location="/checkout/complete";
+        });
+    });
+
+
+</script>
+
+<div style="margin: 15px;">
+    <p>Requested By: {{ request.requester }}</p>
+    <p>Person Requested For: {{ request.personRequestedFor }}</p>
+    <p>Class Requested For: {{ request.classRequestedFor }}</p>
+    <p>Sub Category: {{ request.itemSubCategoryID.subCategoryName }}</p>
+    <p>Item Type: {{ request.itemTypeID }}</p>
+
+</div>
+
+    <h3>Appprove</h3>
+
+<div>
+    <form action="" class="form-signin" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Approve</button>
+    </form>
+</div>
+
+
+    <h3>Decline</h3>
+    <div>
+    <form action="/reservationRequest/decline/{{ request.id }}" class="form-signin" method="post">
+        {% csrf_token %}
+        <label for="reason">Reason for declining this request</label>
+        <input name="reason" id ="reason" type="text" required size="150">
+        <button type="submit" class="save btn btn-default">Decline</button>
+    </form>
+</div>
+{% endblock %}
