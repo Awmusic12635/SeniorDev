@@ -59,15 +59,15 @@ def edit_request(request, request_id):
             rr.approvedOn = datetime.now()
             rr.save()
 
-            # send email to notify of approval
-            send_mail(
+            # send email to notify of approval,nSent will be 1 if successful, 0 if failed
+            nSent = send_mail(
                 'Reservation Approved',
                 'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime(
                     '%m/%d/%Y') + ' to ' + rr.endDate.strftime(
                     '%m/%d/%Y') + 'has been approved.',
                 'ISTECAGE@rit.edu',
                 [rr.requester.email],
-                fail_silently=False,
+                fail_silently=True,
             )
 
         return(view_requests(request))
@@ -93,13 +93,13 @@ def decline_request(request, request_id):
         rr.declinedOn = datetime.now()
         rr.save()
 
-        #send email to notify of decline
-        send_mail(
+        #send email to notify of decline, nSent will be 1 if successful, 0 if failed
+        nSent = send_mail(
             'Reservation Declined',
             'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime('%m/%d/%Y') + ' to ' + rr.endDate.strftime('%m/%d/%Y') + 'has been declined for the following reason: ' + rr.declinedReason,
             'ISTECAGE@rit.edu',
             [rr.requester.email],
-            fail_silently=False,
+            fail_silently=True,
         )
         return redirect('reservationRequestPending')
 
