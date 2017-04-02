@@ -84,7 +84,7 @@ def decline_request(request, request_id):
         #send email to notify of decline
         send_mail(
             'Reservation Declined',
-            'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate + ' to ' + rr.endDate + 'has been declined for the following reason: ' + rr.declinedReason,
+            'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime('%m/%d/%Y') + ' to ' + rr.endDate.strftime('%m/%d/%Y') + 'has been declined for the following reason: ' + rr.declinedReason,
             'ISTECAGE@rit.edu',
             [rr.requester.email],
             fail_silently=False,
