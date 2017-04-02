@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth.decorators import login_required
 from backend.forms import ReservationRequestForm, ReservationRequestApprovalForm
 from datetime import datetime
+from django.core.mail import send_mail
 
 
 @login_required
@@ -79,6 +80,15 @@ def decline_request(request, request_id):
         rr.declinedBy = request.user
         rr.declinedOn = datetime.now()
         rr.save()
+
+        #send email to notify of decline
+        send_mail(
+            'Reservation Declined',
+            'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate + ' to ' + rr.endDate + 'has been declined for the following reason: ' + rr.declinedReason,
+            'ISTECAGE@rit.edu',
+            [rr.requester.email],
+            fail_silently=False,
+        )
         return redirect('reservationRequestPending')
 
 
