@@ -130,8 +130,4 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(REPOSITORY_ROOT, 'media/')
 
-EMAIL_HOST='smtp.sendgrid.net'
-EMAIL_PORT=587
-EMAIL_HOST_USER='AWacker'
-EMAIL_HOST_PASSWORD='mtThspLRKomAc@rpVKPReoW9'
 

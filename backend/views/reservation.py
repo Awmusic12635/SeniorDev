@@ -58,6 +58,18 @@ def edit_request(request, request_id):
             rr.approvedBy = request.user
             rr.approvedOn = datetime.now()
             rr.save()
+
+            # send email to notify of approval
+            send_mail(
+                'Reservation Approved',
+                'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime(
+                    '%m/%d/%Y') + ' to ' + rr.endDate.strftime(
+                    '%m/%d/%Y') + 'has been approved.',
+                'ISTECAGE@rit.edu',
+                [rr.requester.email],
+                fail_silently=False,
+            )
+
         return(view_requests(request))
     else:
         rr = get_object_or_404(ReservationRequest, pk=int(request_id))
