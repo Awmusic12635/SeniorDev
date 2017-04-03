@@ -15,13 +15,27 @@
             window.location="/item/{{ item_type_id }}/add";
         });
     });
-
-
 </script>
+
 <button id='addItemButton' type="button" class="btn btn-primary btn-lg">Add Item</button>
-<div style="margin: 15px;">
-    <table id="itemTable" class="display">
-        <thead>
+
+<table id="itemTable" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Serial</th>
+            <th>Tags</th>
+            <th>Cost</th>
+            <th>Location</th>
+            <th>Checkout Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
             <tr>
                 <th>ID</th>
                 <th>Serial</th>
