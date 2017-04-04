@@ -18,6 +18,9 @@
 	background:#da631d !important;
 	color: #FFFFFF;
 }
+.dropdown-toggle,.navbar-nav>li {
+	cursor: pointer;
+}
 .navbar-nav>li:hover, .navbar-inverse .navbar-nav>.open>a {
 	background: #da631d !important;
 }
