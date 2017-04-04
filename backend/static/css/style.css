@@ -20,3 +20,10 @@
 .tableHeader {
 	margin-bottom: 20px;
 }
+.dataTables_filter label {
+	width: 500px;
+	margin-bottom: 20px;
+}
+ .dataTables_filter .input-sm {
+ 	width: 80%;
+ }

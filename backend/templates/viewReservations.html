@@ -9,38 +9,49 @@
             window.location="/reservationRequest/edit/"+$(this).attr('data-id');
         });
     });
-
-
 </script>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Reserved Items</h1>
+        </div>
+        <div class="col-sm-6">
 
-<div style="margin: 15px;">
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Person</th>
-                <th>Item</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Quantity</th>
-                <th>Checkout Length</th>
-                <th>Approved By</th>
-                <th>Approved On</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for r in reservations %}
-                <tr>
-                    <td>{{ r.userID }}</td>
-                    <td>{{ r.itemTypeID.name }}</td>
-                    <td>{{ r.startDate }}</td>
-                    <td>{{ r.endDate }}</td>
-                    <td>{{ r.quantity }}</td>
-                    <td>{{ r.lengthOfCheckout }}</td>
-                    <td>{{ r.reservationRequestID.approvedBy }}</td>
-                    <td>{{ r.reservationRequestID.approvedOn }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="col-sm-2 text-right">Item</th>
+                        <th class="col-sm-1">Reserved To</th>
+                        <th class="col-sm-2">Start Date</th>
+                        <th class="col-sm-2">End Date</th>
+                        <th class="col-sm-1">Quantity</th>
+                        <th class="col-sm-1">Checkout Length</th>
+                        <th class="col-sm-1">Approved By</th>
+                        <th class="col-sm-2">Approved On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in reservations %}
+                        <tr>
+                            <td class="text-right"><b>{{ r.itemTypeID.name }}</b></td>
+                            <td>{{ r.userID }}</td>
+                            <td>{{ r.startDate }}</td>
+                            <td>{{ r.endDate }}</td>
+                            <td>{{ r.quantity }}</td>
+                            <td>{{ r.lengthOfCheckout }}</td>
+                            <td>{{ r.reservationRequestID.approvedBy }}</td>
+                            <td>{{ r.reservationRequestID.approvedOn }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
