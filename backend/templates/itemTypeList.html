@@ -18,34 +18,47 @@
 
 
 </script>
-<button id='addItemButton' type="button" class="btn btn-primary btn-lg">Add Item</button>
-<div style="margin: 15px;">
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Manufacturer</th>
-                <th>Model</th>
-                <th>Cost</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.manufacturer }}</td>
-                    <td>{{ item.model }}</td>>
-                    <td>{{ item.cost }}</td>
-                    <td>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Items in Inventory</h1>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Add New Item</button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right">Item</th>
+                        <th>Description</th>
+                        <th>Manufacturer</th>
+                        <th>Model</th>
+                        <th>Cost</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td class="text-right"><b>{{ item.name }}</b></td>
+                            <td>{{ item.description }}</td>
+                            <td>{{ item.manufacturer }}</td>
+                            <td>{{ item.model }}</td>>
+                            <td>{{ item.cost }}</td>
+                            <td>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>  
 </div>
 {% endblock %}

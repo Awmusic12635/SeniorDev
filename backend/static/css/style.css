@@ -14,3 +14,9 @@
 .navbar-brand img {
 	max-width: 125px;
 }
+#addItemButton{
+  margin-top: 20px;
+}
+.tableHeader {
+	margin-bottom: 20px;
+}

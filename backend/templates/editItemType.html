@@ -22,7 +22,7 @@
     </script>
 
     <div>
-        <form action="/item/{{ item.id }}/edit" class="form-signin" method="post" enctype="multipart/form-data">
+        <form action="/item/{{ item.id }}/edit" method="post" enctype="multipart/form-data">
             <select name="categorySelect" id="categorySelect" required>
                 <option value="">-- Select a Category --</option>
                 {% for c in categories %}
