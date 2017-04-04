@@ -15,8 +15,14 @@
 	max-width: 125px;
 }
 .dropdown-menu>li>a:hover {
-	background:#000000 !important;
+	background:#da631d !important;
 	color: #FFFFFF;
+}
+.navbar-nav>li:hover, .navbar-inverse .navbar-nav>.open>a {
+	background: #da631d !important;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover  {
+	background-color: #c2581a !important;
 }
 #addItemButton, #reservedItemButton, #additemtypebutton, #categoryButton {
   margin-top: 20px;
