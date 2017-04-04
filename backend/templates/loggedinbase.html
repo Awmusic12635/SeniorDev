@@ -4,51 +4,66 @@
     <head>
         <meta charset="UTF-8">
         <title>{{ title }}</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-              crossorigin="anonymous">
-        <script
-			  src="https://code.jquery.com/jquery-3.1.1.min.js"
-			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-			  crossorigin="anonymous">
-        </script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-                crossorigin="anonymous">
-        </script>
-        <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <!-- BOOTSTRAP JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <!-- FONTAWESOME JS -->
+        <script src="https://use.fontawesome.com/ee95631fed.js"></script>
+        <!-- DATATABLES JS -->
         <script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-        <style>
-            #addItemButton{
-                float:right;margin:15px;
-            }
-        </style>
+        <script type="text/javascript" src="//cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+        <!-- LOCAL SCRIPTS JS -->
+        <script type="text/javascript" src="/static/js/scripts.js"></script>
+        
+        <!-- BOOTSTRAP STYLE SHEET -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- DATATABLES jQuery STYLE SHEET -->
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+        <!-- LOCAL STYLE SHEETS -->
+        <link rel="stylesheet" href="/static/css/style.css">
+
     </head>
     <body>
         <nav class="navbar navbar-inverse">
-              <div class="container">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                          aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="#">Inventory Management</a>
-                </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                  <ul class="nav navbar-nav">
-                    <li class="active"><a href="/dashboard">Home</a></li>
-                    <li><a href="/item">Items</a></li>
-                    <li><a href="/category">Categories</a></li>
-                    <li><a href="/checkout">Checkout</a></li>
-                    <li><a href="/checkin">Checkin</a></li>
-                    <li><a href="/reservationRequest/pending">Reservation Requests</a></li>
-                    <li><a href="/reservation">Reservations</a></li>
-                  </ul>
-                </div><!--/.nav-collapse -->
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/dashboard"><img src="/static/img/rit_logo_white.png"/></a>
               </div>
+              <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                  <!-- <li id="dashboard-li"><a href="/dashboard">Home</a></li> -->
+                  <li id="items-li" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Inventory</a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/item">Items</a></li>
+                      <li><a href="/category">Categories</a></li>
+                    </ul>
+                  </li>
+                  <li id="checkout-li"><a href="/checkout">Check Out</a></li>
+                  <li id="checkin-li"><a href="/checkin">Check In</a></li>
+                  <li id="reservations-li" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Reservations</a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/reservationRequest">Reserve an Item</a></li>
+                      <li><a href="/reservationRequest/pending">Pending Requests</a></li>
+                      <li><a href="/reservation">Reserved Items</a></li>
+                    </ul>
+                  </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/logout">Logout <i class="fa fa-sign-out"></i></a></li>
+                </ul>
+              </div><!--/.nav-collapse -->
+            </div>
         </nav>
         {% block content %}
         {% endblock %}

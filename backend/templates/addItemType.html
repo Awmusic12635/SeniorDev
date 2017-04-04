@@ -20,21 +20,37 @@
                 });
         });
     </script>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Add New Item</h1>
+        </div>
+        <div class="col-sm-6 text-right">
 
-    <div>
-        <form id="additemtypeform" action="" class="form-signin" method="post" enctype="multipart/form-data">
-            <select name="categorySelect" id="categorySelect" required>
-                <option value="">-- Select a Category --</option>
-                {% for c in categories %}
-                    <option value="{{ c.id }}">{{ c.categoryName }}</option>
-                {% endfor %}
-            </select>
-
-            <div id="subcategoryDiv"></div>
-
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button id="additemtypebutton" type="submit" class="save btn btn-default">Save</button>
-        </form>
+        </div>
     </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <form id="additemtypeform" action="" class="form-group" method="post" enctype="multipart/form-data">
+                <label>Select a Category</label><br/>
+                <select name="categorySelect" id="categorySelect" required>
+                    <option value="">-- Select a Category --</option>
+                    {% for c in categories %}
+                        <option value="{{ c.id }}">{{ c.categoryName }}</option>
+                    {% endfor %}
+                </select>
+
+                <div id="subcategoryDiv"></div>
+
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="text-right">
+                    <button id="additemtypebutton" type="submit" class="save btn btn-lg btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
