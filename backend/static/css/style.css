@@ -27,12 +27,18 @@
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover  {
 	background-color: #c2581a !important;
 }
+
+
 #addItemButton, #reservedItemButton, #additemtypebutton, #categoryButton {
   margin-top: 20px;
 }
+
+
 .tableHeader {
 	margin-bottom: 40px;
 }
+
+
 .dataTables_filter label {
 	width: 500px;
 	margin-bottom: 20px;
@@ -40,6 +46,8 @@
  .dataTables_filter .input-sm {
  	width: 80%;
  }
+
+
 #additemtypeform p label {
 	width: 100px;
 	text-align: right;
@@ -47,19 +55,16 @@
 #additemtypeform p input[type="text"] {
 	width: 85%;
 }
-.form-category p label, #additemtypeform p label {
-	width: 25%;
-	text-align: right;
-}
-.form-category p input[type="text"], #additemtypeform p input[type="text"] {
-	width: 65%;
-}
+
+
 .form-category button[type="submit"] {
 	margin-top: 20px;
 }
 .form-decline {
-	margin-top: 100px;
+	margin-top: 85px;
 }
+
+
 #subcategoryDiv {
 	margin-bottom: 20px;
 	margin-top: 20px;
