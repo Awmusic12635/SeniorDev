@@ -2,10 +2,10 @@
 {% block content %}
 {% load widget_tweaks %}
     <div>
-        <form action="" class="form-signin" method="post" enctype="multipart/form-data">
+        <form action="/category/{{ category.id }}/edit" class="form-signin" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Save</button>
+            <button type="submit" class="save btn btn-default">Edit Category</button>
         </form>
     </div>
 {% endblock %}

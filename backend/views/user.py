@@ -11,6 +11,7 @@ def index(request):
 def login(request):
     return render(request, 'login.html', {})
 
+
 @login_required
 def dashboard(request):
     return render(request, 'dashboard.html', {'title': 'Dashboard'})

@@ -2,7 +2,7 @@
 {% block content %}
 {% load widget_tweaks %}
     <div>
-        <form action="/item/{{ item.id }}/edit" class="form-signin" method="post">
+        <form action="/item/{{ itemType.id }}/{{ item.id }}/edit" class="form-signin" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="save btn btn-default">Edit Item</button>

@@ -3,16 +3,15 @@
 {% load widget_tweaks %}
     <div class="container">
         <div class="card card-container">
-            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
-            <p id="profile-name" class="profile-name-card"></p>
+            <p id="profile-name" class="profile-name-card">User</p>
             <form class="form-signin" method="post">
                 {% csrf_token %}
                 <span id="reauth-email" class="reauth-email"></span>
-                {% render_field form.username class="form-control" placeholder=form.username.label %}
-                {% render_field form.password class="form-control" placeholder=form.password.label %}
+                {% render_field form.username class="form-control" placeholder=form.username.label %} <br/>
+                {% render_field form.password class="form-control" placeholder=form.password.label %} <br/>
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
             </form><!-- /form -->
-        </div><!-- /card-container -->
+        </div>
     </div><!-- /container -->
 {% endblock %}
