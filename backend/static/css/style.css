@@ -14,11 +14,11 @@
 .navbar-brand img {
 	max-width: 125px;
 }
-#addItemButton{
+#addItemButton, #reservedItemButton, #additemtypebutton {
   margin-top: 20px;
 }
 .tableHeader {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 .dataTables_filter label {
 	width: 500px;
@@ -27,3 +27,34 @@
  .dataTables_filter .input-sm {
  	width: 80%;
  }
+#additemtypeform p label {
+	width: 100px;
+	text-align: right;
+}
+#additemtypeform p input[type="text"] {
+	width: 85%;
+}
+.form-category p label, #additemtypeform p label {
+	width: 25%;
+	text-align: right;
+}
+.form-category p input[type="text"], #additemtypeform p input[type="text"] {
+	width: 65%;
+}
+.form-category button[type="submit"] {
+	margin-top: 20px;
+}
+#subcategoryDiv {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.subCategoryDescription p {
+	margin-bottom: 40px;
+}
+input[type=file] {
+	display: initial;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	background: none !important;
+	border-color: transparent;
+}

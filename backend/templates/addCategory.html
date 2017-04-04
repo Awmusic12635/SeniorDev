@@ -1,11 +1,27 @@
 {% extends 'loggedinbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
-    <div>
-        <form action="" class="form-signin" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Save</button>
-        </form>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Add New Category</h1>
+        </div>
+        <div class="col-sm-6 text-right">
+
+        </div>
     </div>
+</div>
+<div class="container">
+	<div class="row">
+	    <div class="col-sm-12">
+	        <form action="" class="form-category" method="post" enctype="multipart/form-data">
+	            {% csrf_token %}
+	            {{ form.as_p }}
+	            <div class="text-right">
+	            	<button type="submit" class="save btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Category</button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+</div>
 {% endblock %}

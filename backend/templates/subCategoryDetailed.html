@@ -8,8 +8,9 @@
         $('.viewButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id');
         });
-
-
+        $('#addItemButton').on('click',function(){
+            window.location="/item/add";
+        });
         $('.editButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id')+"/edit";
         });
@@ -17,43 +18,55 @@
 
 
 </script>
-
-    <div>
-        <p>Category: {{ subcategory.itemCategoryID.categoryName }}</p>
-        <p>Name: {{ subcategory.subCategoryName }}</p>
-        <p>Description: {{ subcategory.subcategoryDescription }}</p>
-        <p>Default Checkout Length: {{ subcategory.defaultCheckoutLengthDays }}</p>
-
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1><a href="../../">Categories</a> in <a href="../../{{subcategory.itemCategoryID.id}}">{{ subcategory.itemCategoryID.categoryName }}</a>: {{ subcategory.subCategoryName }}</h1>
+        </div>
+        <div class="col-sm-4 text-right">
+            <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i>  Add Item</button>
+        </div>
     </div>
-
-<div style="margin: 15px;">
-    Items in this Sub Category
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Manufacturer</th>
-                <th>Model</th>
-                <th>Cost</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in subcategory.itemtype_set.all %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.manufacturer }}</td>
-                    <td>{{ item.model }}</td>>
-                    <td>{{ item.cost }}</td>
-                    <td>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+                Description: {{ subcategory.subcategoryDescription }} <br/>
+                Default Checkout Length: {{ subcategory.defaultCheckoutLengthDays }} days
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right col-sm-2">Name</th>
+                        <th class="col-sm-3">Description</th>
+                        <th class="col-sm-2">Manufacturer</th>
+                        <th class="col-sm-2">Model</th>
+                        <th class="col-sm-1">Cost</th>
+                        <th class="col-sm-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in subcategory.itemtype_set.all %}
+                        <tr>
+                            <td class="text-right"><b>{{ item.name }}</b></td>
+                            <td>{{ item.description }}</td>
+                            <td>{{ item.manufacturer }}</td>
+                            <td>{{ item.model }}</td>>
+                            <td>$ {{ item.cost }}</td>
+                            <td>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i>  View</button>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

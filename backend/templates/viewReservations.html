@@ -8,6 +8,10 @@
         $('.viewButton').on('click',function(){
             window.location="/reservationRequest/edit/"+$(this).attr('data-id');
         });
+
+        $('#addItemButton').on('click',function(){
+            window.location="/reservationRequest/";
+        });
     });
 </script>
 <div class="container tableHeader">
@@ -15,8 +19,8 @@
         <div class="col-sm-6">
             <h1>Reserved Items</h1>
         </div>
-        <div class="col-sm-6">
-
+        <div class="col-sm-6 text-right">
+        <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Request an Item</button>
         </div>
     </div>
 </div>
@@ -44,7 +48,7 @@
                             <td>{{ r.startDate }}</td>
                             <td>{{ r.endDate }}</td>
                             <td>{{ r.quantity }}</td>
-                            <td>{{ r.lengthOfCheckout }}</td>
+                            <td>{{ r.lengthOfCheckout }} days</td>
                             <td>{{ r.reservationRequestID.approvedBy }}</td>
                             <td>{{ r.reservationRequestID.approvedOn }}</td>
                         </tr>

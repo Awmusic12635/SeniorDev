@@ -20,9 +20,21 @@
                 });
         });
     </script>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Edit Item: <a href="../{{item.id}}">{{item}}</a></h1>
+        </div>
+        <div class="col-sm-4 text-right">
 
-    <div>
-        <form action="/item/{{ item.id }}/edit" method="post" enctype="multipart/form-data">
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+    <div class="col-sm-12">
+        <form action="/item/{{ item.id }}/edit" class="form-category" method="post" enctype="multipart/form-data">
+             <label>Select a Category</label><br/>
             <select name="categorySelect" id="categorySelect" required>
                 <option value="">-- Select a Category --</option>
                 {% for c in categories %}
@@ -41,7 +53,11 @@
 
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Edit Item</button>
+            <div class="text-right">
+                <button type="submit" class="save btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes</button>
+            </div>
         </form>
     </div>
+    </div>
+</div>
 {% endblock %}
