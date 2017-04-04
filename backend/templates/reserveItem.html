@@ -6,8 +6,11 @@
     <script>
 
         $(document).ready(function(){
-                $('#alertSubmitted').delay(5000).fadeOut(5000);
+            $('#alertSubmitted').delay(5000).fadeOut(4000);
         });
+        setTimeout(function() {
+            window.location="/reservationRequest/pending"; // Do something after 5 seconds
+        }, 5000);
     </script>
     <table class="table" id="alertSubmitted" style="margin-top:-20px;">
         <tr class="success text-center"><td>Reservation Submitted Successfully</td></tr>
