@@ -1,17 +1,39 @@
 {% extends 'loggedinbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
-    {% if submitted %}
-    <div>
-      Reservation Submitted Successfully
-    </div>
-    {% endif %}	
 
-    <div>
-        <form action="" class="form-signin" method="post">
+    {% if submitted %}
+    <script>
+
+        $(document).ready(function(){
+                $('#alertSubmitted').delay(5000).fadeOut(5000);
+        });
+    </script>
+    <table class="table" id="alertSubmitted" style="margin-top:-20px;">
+        <tr class="success text-center"><td>Reservation Submitted Successfully</td></tr>
+    </table>
+    {% endif %}	
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Reserve an Item</h1>
+        </div>
+        <div class="col-sm-4">
+            
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+    <div class="col-sm-12">
+        <form action="" class="form-category" id="reservationForm" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Save</button>
+            <div class="text-right">
+                <button type="submit" class="save btn btn-lg btn-success"><i class="fa fa-check" aria-hidden="true"></i> Submit Request</button>
+            </div>
         </form>
     </div>
+    </div>
+</div>
 {% endblock %}

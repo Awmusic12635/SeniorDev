@@ -14,7 +14,7 @@
 .navbar-brand img {
 	max-width: 125px;
 }
-#addItemButton, #reservedItemButton, #additemtypebutton {
+#addItemButton, #reservedItemButton, #additemtypebutton, #categoryButton {
   margin-top: 20px;
 }
 .tableHeader {
@@ -43,6 +43,9 @@
 }
 .form-category button[type="submit"] {
 	margin-top: 20px;
+}
+.form-decline {
+	margin-top: 100px;
 }
 #subcategoryDiv {
 	margin-bottom: 20px;

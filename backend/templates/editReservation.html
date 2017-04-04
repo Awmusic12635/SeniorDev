@@ -10,38 +10,81 @@
         $('.completeButton').on('click',function(){
             window.location="/checkout/complete";
         });
+        $('#cancelButton').on('click',function(){
+            window.location="../../reservation";
+        });
     });
 
 
 </script>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Request to Reserve Item: <a href="../../item/{{request.id}}">{{request.itemTypeID}}</a></h1>
+        </div>
+        <div class="col-sm-4">
 
-<div style="margin: 15px;">
-    <p>Requested By: {{ request.requester }}</p>
-    <p>Person Requested For: {{ request.personRequestedFor }}</p>
-    <p>Class Requested For: {{ request.classRequestedFor }}</p>
-    <p>Sub Category: {{ request.itemSubCategoryID.subCategoryName }}</p>
-    <p>Item Type: {{ request.itemTypeID }}</p>
-
+        </div>
+    </div>
 </div>
-
-    <h3>Appprove</h3>
-
-<div>
-    <form action="" class="form-signin" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Approve</button>
-    </form>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Subcategory</th>
+                        <th>Requested By</th>
+                        <th>Requested For</th>
+                        <th>Required Class</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>{{ request.itemTypeID }}</b></td>
+                        <td>{{ request.itemSubCategoryID.subCategoryName }}</td>
+                        <td>{{ request.requester }}</td>
+                        <td>{{ request.personRequestedFor }}</td>
+                        <td>{{ request.classRequestedFor }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-6">
 
+            <div>
+                <form action="" class="form-category" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="text-right">
+                        <button type="submit" class="save btn btn-lg btn-success"><i class="fa fa-check" aria-hidden="true"></i> Approve</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-6">
 
-    <h3>Decline</h3>
-    <div>
-    <form action="/reservationRequest/decline/{{ request.id }}" class="form-signin" method="post">
-        {% csrf_token %}
-        <label for="reason">Reason for declining this request</label>
-        <input name="reason" id ="reason" type="text" required size="150">
-        <button type="submit" class="save btn btn-default">Decline</button>
-    </form>
+            <div>
+                <form action="/reservationRequest/decline/{{ request.id }}" class="form-category form-decline" method="post">
+                    {% csrf_token %}
+                    <label for="reason">Reason for Declining</label>
+                    <input name="reason" id ="reason" type="text" required style="width: 100%">
+                    <button type="submit" class="save btn btn-lg btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Decline</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <button class="save btn btn-lg" id="cancelButton"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
+        </div>
+    </div>
 </div>
 {% endblock %}

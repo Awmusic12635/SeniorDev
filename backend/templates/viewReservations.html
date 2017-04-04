@@ -12,6 +12,9 @@
         $('#addItemButton').on('click',function(){
             window.location="/reservationRequest/";
         });
+        $('#reservedItemButton').on('click',function(){
+            window.location="/reservationRequest/pending";
+        });
     });
 </script>
 <div class="container tableHeader">
@@ -20,7 +23,8 @@
             <h1>Reserved Items</h1>
         </div>
         <div class="col-sm-6 text-right">
-        <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Request an Item</button>
+            <button id='reservedItemButton' type="button" class="btn btn-warning btn-lg"><i class="fa fa-gavel" aria-hidden="true"></i> Pending Items</button>
+            <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Request an Item</button>
         </div>
     </div>
 </div>
