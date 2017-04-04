@@ -1,0 +1,16 @@
+.navbar {
+	background: #F36E21;
+	border-radius: 0;
+	border: none;
+}
+.navbar-inverse .navbar-nav>li>a {
+	color: #FFFFFF;
+}
+.navbar-brand {
+	color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+}
+.navbar-brand img {
+	max-width: 125px;
+}
