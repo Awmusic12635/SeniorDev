@@ -14,7 +14,7 @@
         $('#addItemButton').on('click',function(){
             window.location="/item/{{ item_type_id }}/add";
         });
-        $('#checkoutButton').on('click',function(){
+        $('.checkoutButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id')+"/checkout";
         });
     });
