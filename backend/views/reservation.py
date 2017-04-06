@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from backend.forms import ReservationRequestForm, ReservationRequestApprovalForm
 from datetime import datetime
 from templated_email import send_templated_mail
+from pinax.eventlog.models import log
 import os
 
 @login_required
@@ -16,6 +17,14 @@ def request(request):
             obj.requester = request.user
             obj.save()
             # for now redirect back to the same page
+
+            log(
+                user=request.user,
+                action="RESERVATION_REQUEST_SUBMITTED",
+                obj=obj,
+                extra={
+                }
+            )
             return redirect('reservationRequest')
     else:
             submitted = True 
@@ -59,6 +68,13 @@ def edit_request(request, request_id):
             rr.approvedOn = datetime.now()
             rr.save()
 
+            log(
+                user=request.user,
+                action="RESERVATION_REQUEST_APPROVED",
+                obj=obj,
+                extra={
+                }
+            )
             # send email to notify of approval,nSent will be 1 if successful, 0 if failed
             # send email to notify of decline, nSent will be 1 if successful, 0 if failed
             nSent = send_templated_mail(
@@ -71,6 +87,26 @@ def edit_request(request, request_id):
                     'approvedInfo': form.save(commit=False)
                 }
             )
+            if nSent == 0:
+                log(
+                    user=request.user,
+                    action="EMAIL_SENDING_FAILED",
+                    obj=None,
+                    extra={
+                        'email' : 'reservationApproved',
+                        'recipient_list' : [rr.requester.email]
+                    }
+                )
+            else:
+                log(
+                    user=request.user,
+                    action="EMAIL_SENT",
+                    obj=None,
+                    extra={
+                        'email': 'reservationApproved',
+                        'recipient_list' : [rr.requester.email]
+                    }
+                )
 
         return(view_requests(request))
     else:
@@ -93,6 +129,15 @@ def decline_request(request, request_id):
         rr.declinedReason = reason
         rr.declinedBy = request.user
         rr.declinedOn = datetime.now()
+
+        log(
+            user=request.user,
+            action="RESERVATION_REQUEST_DECLINED",
+            obj=rr,
+            extra={
+            }
+        )
+
         rr.save()
 
         #send email to notify of decline, nSent will be 1 if successful, 0 if failed
@@ -105,6 +150,26 @@ def decline_request(request, request_id):
                 'request': rr
             }
         )
+        if nSent == 0:
+            log(
+                user=request.user,
+                action="EMAIL_SENDING_FAILED",
+                obj=None,
+                extra={
+                    'email' : 'reservationDecline',
+                    'recipient_list' : [rr.requester.email]
+                }
+            )
+        else:
+            log(
+                user=request.user,
+                action="EMAIL_SENT",
+                obj=None,
+                extra={
+                    'email': 'reservationDecline',
+                    'recipient_list' : [rr.requester.email]
+                }
+            )
         return redirect('reservationRequestPending')
 
 

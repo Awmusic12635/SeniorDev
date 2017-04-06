@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from backend.forms import ItemCategoryForm
 from backend.models import ItemCategory
+from pinax.eventlog.models import log
 
 
 @login_required
@@ -23,7 +24,15 @@ def add_category(request):
     if request.method == "POST":
         form = ItemCategoryForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            log(
+                user=request.user,
+                action="CATEGORY_CREATED",
+                obj=obj,
+                extra={
+                }
+            )
+
             # for now redirect back to the same page
             return redirect('categoryList')
     else:
@@ -37,7 +46,15 @@ def edit_category(request,category_id):
     if request.method == "POST":
         form = ItemCategoryForm(request.POST, instance=cat)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            log(
+                user=request.user,
+                action="CATEGORY_MODIFIED",
+                obj=obj,
+                extra={
+                }
+            )
+
             # for now redirect back to item listings. Until detailed page is done
             return redirect('categoryList')
     else:

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from backend.forms import ItemSubCategoryForm
 from backend.models import ItemSubCategory, ItemCategory
 from backend.views import category
+from pinax.eventlog.models import log
 
 
 @login_required
@@ -21,6 +22,14 @@ def add_subcategory(request, category_id):
             obj = form.save(commit=False)
             obj.itemCategoryID = get_object_or_404(ItemCategory, pk=category_id)
             obj.save()
+
+            log(
+                user=request.user,
+                action="SUBCATEGORY_CREATED",
+                obj=obj,
+                extra={
+                }
+            )
             # for now redirect back to the same page
             return redirect('categoryView', category_id = category_id)
     else:
@@ -34,7 +43,14 @@ def edit_subcategory(request,subcategory_id, category_id):
     if request.method == "POST":
         form = ItemSubCategoryForm(request.POST, instance=subcat)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            log(
+                user=request.user,
+                action="SUBCATEGORY_MODIFIED",
+                obj=obj,
+                extra={
+                }
+            )
             return redirect('categoryView', category_id = category_id)
     else:
         form = ItemSubCategoryForm(instance=subcat)

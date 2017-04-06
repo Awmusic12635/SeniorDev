@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from backend.models import Checkout, CheckoutItem, Item
 from django.core.exceptions import ObjectDoesNotExist
+from pinax.eventlog.models import log
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
@@ -30,6 +31,13 @@ def add_item(request, item_id):
         item.checkoutStatus = CONST_STATUS_PENDING
         item.save()
 
+        log(
+            user=request.user,
+            action="ITEM_ADDED_TO_CART",
+            obj=item,
+            extra={
+            }
+        )
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
 
@@ -42,6 +50,13 @@ def remove_item(request, item_id):
     item.checkoutStatus = CONST_STATUS_CHECKEDIN
     item.save()
 
+    log(
+        user=request.user,
+        action="ITEM_REMOVED_FROM_CART",
+        obj=item,
+        extra={
+        }
+    )
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
 
@@ -52,6 +67,13 @@ def override_date(request, checkoutitem_id):
         ci.dueDateOverridden = True
         ci.save()
 
+        log(
+            user=request.user,
+            action="CHECKOUT_DUE_DATE_OVERRIDE",
+            obj=ci,
+            extra={
+            }
+        )
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
 
@@ -61,6 +83,13 @@ def reset_duedate(request, checkoutitem_id):
     ci.dueDateOverridden = False
     ci.save()
 
+    log(
+        user=request.user,
+        action="CHECKOUT_DUE_DATE_RESET",
+        obj=ci,
+        extra={
+        }
+    )
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
 
@@ -77,6 +106,14 @@ def complete(request):
     checkout.dateTimeOut = datetime.now()
     checkout.save()
 
+
+    log(
+        user=request.user,
+        action="CHECKOUT_CREATED",
+        obj=checkout,
+        extra={
+        }
+    )
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})

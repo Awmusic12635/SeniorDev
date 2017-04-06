@@ -2,6 +2,7 @@ from backend.models import ItemType, Item, ItemCategory, ItemSubCategory
 from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth.decorators import login_required
 from backend.forms import ItemForm, ItemTypeForm
+from pinax.eventlog.models import log
 
 
 @login_required
@@ -20,6 +21,14 @@ def add_item_type(request):
             obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
             obj.save()
             # for now redirect back to item listings. Until detailed page is done
+
+            log(
+                user=request.user,
+                action="ITEM_TYPE_CREATED",
+                obj=obj,
+                extra={
+                }
+            )
             return redirect('itemList')
     else:
         form = ItemTypeForm()
@@ -46,6 +55,13 @@ def edit_item_type(request, item_type_id):
             obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
             obj.save()
             # for now redirect back to item listings. Until detailed page is done
+            log(
+                user=request.user,
+                action="ITEM_TYPE_MODIFIED",
+                obj=obj,
+                extra={
+                }
+            )
             return redirect('itemList')
     else:
         form = ItemTypeForm(instance=item_type)
@@ -57,6 +73,13 @@ def edit_item_type(request, item_type_id):
 
 @login_required
 def delete_item_type(request,item_type_id):
+    log(
+        user=request.user,
+        action="ITEM_TYPE_DELETED",
+        obj=item_type_id,
+        extra={
+        }
+    )
     print("deleting item type")
 
 
@@ -68,6 +91,14 @@ def add_item(request, item_type_id):
             obj = form.save(commit = False)
             obj.ItemTypeID = get_object_or_404(ItemType, pk=item_type_id)
             obj.save()
+
+            log(
+                user=request.user,
+                action="ITEM_CREATED",
+                obj=obj,
+                extra={
+                }
+            )
             # for now redirect back to the same page
             return redirect('itemList')
     else:
@@ -84,6 +115,13 @@ def edit_item(request,item_type_id,item_id):
         if form.is_valid():
             form.save()
             # for now redirect back to item listings. Until detailed page is done
+            log(
+                user=request.user,
+                action="ITEM_MODIFIED",
+                obj=item,
+                extra={
+                }
+            )
             return redirect('itemList')
     else:
         form = ItemForm(instance=item)
