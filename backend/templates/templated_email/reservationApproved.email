@@ -1,12 +1,13 @@
-{% block subject %}Reservation Approved{% endblock %}
+{% block subject %}Reservation Approved {% endblock %}
 
 {% block plain %}
-  Hello {{request.requester.first_name}} {{request.requester.last_name}},
+  Hello {{request.requester.firstName}} {{request.requester.lastName}},
 
-  Your request to reserve {{ request.quantity }} {{ request.itemid.name }} from {{ request.startDate }} to {{ request.endDate }} has been approved for the following dates and quantities:
+  Your request to reserve {{ request.quantity }} {{ request.itemTypeID.name }} from {{ request.startDate }} to {{ request.endDate }} has been approved for the following dates and quantities:
       Start Date: {{ approvedInfo.startDate }}
       End Date: {{ approvedInfo.endDate }}
       Quantity: {{ approvedInfo.quantity }}
+      Checkout Length: {{ approvedInfo.lengthOfCheckout }}
 
   If you have any questions or concerns please contact John Simonson at 585-475-xxxx.
 {% endblock %}
