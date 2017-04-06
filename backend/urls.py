@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^item/(?P<item_type_id>\d*)/items$', item.list_items, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)$', item.show_item, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/edit$', item.edit_item, name='items'),
-    url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/checkout$', checkout.add_item, name='items'),
+    url(r'^item/(?P<item_id>\d*)/checkout$', checkout.add_item, name='items'),
     #category
     url(r'^category/$', category.list_categories, name='categoryList'),
     url(r'^category/add$', category.add_category, name='categoryAdd'),

@@ -141,6 +141,6 @@ def show_item(request,item_type_id,item_id):
     itemType = get_object_or_404(ItemType, pk= item_type_id)
     item = get_object_or_404(Item, pk=item_id)
 
-    return render(request, 'itemDetailed.html', {'title': item.name, 'itemType': itemType, 'item':item})
+    return render(request, 'itemDetailed.html', {'title': itemType.name, 'itemType': itemType, 'item':item})
 
 
