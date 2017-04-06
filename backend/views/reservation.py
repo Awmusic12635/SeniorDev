@@ -64,6 +64,7 @@ def edit_request(request, request_id):
             nSent = send_templated_mail(
                 template_name='reservationApproved',
                 recipient_list=[rr.requester.email],
+                from_email=None,
                 fail_silently=True,
                 context={
                     'request': rr,
@@ -98,6 +99,7 @@ def decline_request(request, request_id):
         nSent = send_templated_mail(
             template_name='reservationDecline',
             recipient_list=[rr.requester.email],
+            from_email=None,
             fail_silently=True,
             context={
                 'request': rr
