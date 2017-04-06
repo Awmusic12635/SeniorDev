@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth.decorators import login_required
 from backend.forms import ReservationRequestForm, ReservationRequestApprovalForm
 from datetime import datetime
-from django.core.mail import send_mail
-
+from templated_email import send_templated_mail
+import os
 
 @login_required
 def request(request):
@@ -60,14 +60,15 @@ def edit_request(request, request_id):
             rr.save()
 
             # send email to notify of approval,nSent will be 1 if successful, 0 if failed
-            nSent = send_mail(
-                'Reservation Approved',
-                'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime(
-                    '%m/%d/%Y') + ' to ' + rr.endDate.strftime(
-                    '%m/%d/%Y') + 'has been approved.',
-                'ISTECAGE@rit.edu',
-                [rr.requester.email],
+            # send email to notify of decline, nSent will be 1 if successful, 0 if failed
+            nSent = send_templated_mail(
+                template_name='reservationApproved',
+                recipient_list=[rr.requester.email],
                 fail_silently=True,
+                context={
+                    'request': rr,
+                    'approvedInfo': form.save(commit=False)
+                }
             )
 
         return(view_requests(request))
@@ -94,12 +95,13 @@ def decline_request(request, request_id):
         rr.save()
 
         #send email to notify of decline, nSent will be 1 if successful, 0 if failed
-        nSent = send_mail(
-            'Reservation Declined',
-            'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime('%m/%d/%Y') + ' to ' + rr.endDate.strftime('%m/%d/%Y') + 'has been declined for the following reason: ' + rr.declinedReason,
-            'ISTECAGE@rit.edu',
-            [rr.requester.email],
+        nSent = send_templated_mail(
+            template_name='reservationDecline',
+            recipient_list=[rr.requester.email],
             fail_silently=True,
+            context={
+                'request': rr
+            }
         )
         return redirect('reservationRequestPending')
 
