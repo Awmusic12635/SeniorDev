@@ -34,16 +34,16 @@
                 <th>Location</th>
                 <th>Checkout Status</th>
                 <th>Due Date</th>
-                <th>Actions/th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for checkoutitem in checkout.checkoutitem_set.all %}
                 <tr>
-                    <td>{{ checkoutitem.item.name }}</td>
-                    <td>{{ checkoutitem.item.description }}</td>
-                    <td>{{ checkoutitem.item.manufacturer }}</td>
-                    <td>{{ checkoutitem.item.model }}</td>
+                    <td>{{ checkoutitem.item.itemTypeID.name }}</td>
+                    <td>{{ checkoutitem.item.itemTypeID.description }}</td>
+                    <td>{{ checkoutitem.item.itemTypeID.manufacturer }}</td>
+                    <td>{{ checkoutitem.item.itemTypeID.model }}</td>
                     <td>{{ checkoutitem.item.serial }}</td>
                     <td>{{ checkoutitem.item.tag }}</td>
                     <td>{{ checkoutitem.item.cost }}</td>

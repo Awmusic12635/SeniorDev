@@ -46,7 +46,6 @@ def checkin_item(request, checkoutitem_id):
         action="ITEM_CHECKED_IN",
         obj=ci,
         extra={
-            'checkout-person': ci.checkout.person.username
         }
     )
 
