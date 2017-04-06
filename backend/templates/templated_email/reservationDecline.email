@@ -1,8 +1,6 @@
 {% block subject %}Reservation Declined{% endblock %}
 
 {% block plain %}
-  Hello {{request.requester.firstName}} {{request.requester.lastName}},
-
   Your request to reserve {{ request.itemTypeID.name }} from {{ request.startDate }} to {{ request.endDate }} has been declined for the following reason:
       {{ request.declinedReason }}.
 

@@ -1,8 +1,6 @@
 {% block subject %}Reservation Approved {% endblock %}
 
 {% block plain %}
-  Hello {{request.requester.firstName}} {{request.requester.lastName}},
-
   Your request to reserve {{ request.quantity }} {{ request.itemTypeID.name }} from {{ request.startDate }} to {{ request.endDate }} has been approved for the following dates and quantities:
       Start Date: {{ approvedInfo.startDate }}
       End Date: {{ approvedInfo.endDate }}
