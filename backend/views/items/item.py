@@ -125,7 +125,7 @@ def edit_item(request,item_type_id,item_id):
             return redirect('itemList')
     else:
         form = ItemForm(instance=item)
-        return render(request, 'editItem.html', {'title': "Edit: " + item.name, 'form': form, 'item': item, 'itemType':
+        return render(request, 'editItem.html', {'title': "Edit: " + itemType.name, 'form': form, 'item': item, 'itemType':
                 itemType})
 
 
@@ -138,8 +138,8 @@ def list_items(request,item_type_id):
 
 @login_required
 def show_item(request,item_type_id,item_id):
-    item = get_object_or_404(ItemType, pk=item_id, ItemTypeID=item_type_id)
-    itemType = get_object_or_404(Item, pk=item_type_id)
+    itemType = get_object_or_404(ItemType, pk= item_type_id)
+    item = get_object_or_404(Item, pk=item_id)
 
     return render(request, 'itemDetailed.html', {'title': item.name, 'itemType': itemType, 'item':item})
 

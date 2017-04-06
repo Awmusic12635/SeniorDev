@@ -14,6 +14,9 @@
         $('#addItemButton').on('click',function(){
             window.location="/item/{{ item_type_id }}/add";
         });
+        $('#checkoutButton').on('click',function(){
+            window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id')+"/checkout";
+        });
     });
 </script>
 
@@ -41,6 +44,7 @@
                     <td>
                         <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
                         <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs checkoutButton">Checkout</button>
                     </td>
                 </tr>
             {% endfor %}
