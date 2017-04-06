@@ -136,7 +136,4 @@ def getDefaultCheckoutLength(item):
     if item.ItemTypeID.defaultCheckoutLengthDays is not None:
         checkoutlength = item.ItemTypeID.defaultCheckoutLengthDays
 
-    if item.defaultCheckoutLengthDays is not None:
-        checkoutlength = item.defaultCheckoutLengthDays
-
     return checkoutlength
