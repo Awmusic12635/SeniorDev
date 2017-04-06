@@ -131,10 +131,10 @@ def getDefaultCheckoutLength(item):
     checkoutlength = 1
 
     if item.ItemTypeID.subCategoryID.defaultCheckoutLengthDays is not None:
-        checkoutlength = item.subCategoryID.defaultCheckoutLengthDays
+        checkoutlength = item.ItemTypeID.subCategoryID.defaultCheckoutLengthDays
 
     if item.ItemTypeID.defaultCheckoutLengthDays is not None:
-        checkoutlength = item.subCategoryID.defaultCheckoutLengthDays
+        checkoutlength = item.ItemTypeID.defaultCheckoutLengthDays
 
     if item.defaultCheckoutLengthDays is not None:
         checkoutlength = item.defaultCheckoutLengthDays
