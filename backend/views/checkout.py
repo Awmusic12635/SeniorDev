@@ -130,7 +130,10 @@ def create_pending_checkout():
 def getDefaultCheckoutLength(item):
     checkoutlength = 1
 
-    if item.subCategoryID.defaultCheckoutLengthDays is not None:
+    if item.ItemTypeID.subCategoryID.defaultCheckoutLengthDays is not None:
+        checkoutlength = item.subCategoryID.defaultCheckoutLengthDays
+
+    if item.ItemTypeID.defaultCheckoutLengthDays is not None:
         checkoutlength = item.subCategoryID.defaultCheckoutLengthDays
 
     if item.defaultCheckoutLengthDays is not None:
