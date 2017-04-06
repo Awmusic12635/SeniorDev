@@ -40,10 +40,10 @@
         <tbody>
             {% for checkoutitem in checkout.checkoutitem_set.all %}
                 <tr>
-                    <td>{{ checkoutitem.item.itemTypeID.name }}</td>
-                    <td>{{ checkoutitem.item.itemTypeID.description }}</td>
-                    <td>{{ checkoutitem.item.itemTypeID.manufacturer }}</td>
-                    <td>{{ checkoutitem.item.itemTypeID.model }}</td>
+                    <td>{{ checkoutitem.item.ItemTypeID.name }}</td>
+                    <td>{{ checkoutitem.item.ItemTypeID.description }}</td>
+                    <td>{{ checkoutitem.item.ItemTypeID.manufacturer }}</td>
+                    <td>{{ checkoutitem.item.ItemTypeID.model }}</td>
                     <td>{{ checkoutitem.item.serial }}</td>
                     <td>{{ checkoutitem.item.tag }}</td>
                     <td>{{ checkoutitem.item.cost }}</td>
