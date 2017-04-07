@@ -2,12 +2,12 @@
 
 {% block plain %}
     This notice is to let you know that the following item is overdue:
-        Item: {{ ci.item.ItemTypeID.name }}
-        Description: {{ ci.item.ItemTypeID.description }}
-        Manufacturer: {{ ci.item.ItemTypeID.manufacturer }}
-        Model: {{ ci.item.ItemTypeID.model }}
-        Seial: {{ ci.item.serial }}
-        Due: {{ ci.dateTimeIn }}
+        Item: {{ checkoutItem.item.ItemTypeID.name }}
+        Description: {{ checkoutItem.item.ItemTypeID.description }}
+        Manufacturer: {{ checkoutItem.item.ItemTypeID.manufacturer }}
+        Model: {{ checkoutItem.item.ItemTypeID.model }}
+        Seial: {{ checkoutItem.item.serial }}
+        Due: {{ checkoutItem.dateTimeIn }}
 
 
     Please return this item to the cage immediately.
