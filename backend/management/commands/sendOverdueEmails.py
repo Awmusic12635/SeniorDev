@@ -8,7 +8,6 @@ class Command(BaseCommand):
     help = 'Process to be called on a schedule for sending emails to students with overdue items'
 
     def handle(self, *args, **options):
-        print('in send email command')
-        overdue = CheckoutItem.objects.filter(dateTimeDue < datetime.now(), dateTimeIn is None)
+        overdue = CheckoutItem.objects.all()
         for ci in overdue:
             print(ci)
