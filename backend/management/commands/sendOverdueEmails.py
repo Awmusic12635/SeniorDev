@@ -10,4 +10,32 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         overdue = CheckoutItem.objects.filter(dateTimeDue__lt=datetime.now(), dateTimeIn=None)
         for ci in overdue:
-            print(ci)
+            nSent = send_templated_mail(
+                template_name='itemOverdue',
+                recipient_list=[ci.checkout.person.email],
+                from_email=None,
+                fail_silently=True,
+                context={
+                    'checkoutItem': ci
+                }
+            )
+            if nSent == 0:
+                log(
+                    user='ScheduleTask',
+                    action="EMAIL_SENDING_FAILED",
+                    obj=None,
+                    extra={
+                        'email': 'itemOverdue',
+                        'recipient_list': [ci.checkout.person.email]
+                    }
+                )
+            else:
+                log(
+                    user='ScheduleTask',
+                    action="EMAIL_SENT",
+                    obj=None,
+                    extra={
+                        'email': 'itemOverdue',
+                        'recipient_list': [ci.checkout.person.email]
+                    }
+                )
