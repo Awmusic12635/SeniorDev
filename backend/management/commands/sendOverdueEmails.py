@@ -9,6 +9,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print('in send email command')
-        overdue = CheckoutItem.objects.filter('dateTimeDue' < datetime.now(), 'dateTimeIn' is None)
+        overdue = CheckoutItem.objects.filter(dateTimeDue < datetime.now(), dateTimeIn is None)
         for ci in overdue:
             print(ci)
