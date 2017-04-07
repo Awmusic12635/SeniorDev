@@ -58,9 +58,11 @@ def edit_item_type(request, item_type_id):
 
             #build the extras for the log
             extras = {}
-            for key,value in oldValues:
-                extras.update({'old'+key: value})
-                extras.update({'new'+key: obj.tracker.previous(key)})
+            print(oldValues)
+            for key in oldValues:
+                print(oldValues[key])
+                #extras.update({'old'+key: value})
+                #extras.update({'new'+key: obj.tracker.previous(key)})
 
             log(
                 user=request.user,
