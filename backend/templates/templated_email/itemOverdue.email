@@ -1,0 +1,16 @@
+{% block subject %}Item Overdue{% endblock %}
+
+{% block plain %}
+    This notice is to let you know that the following item is overdue:
+        Item: {{ ci.item.ItemTypeID.name }}
+        Description: {{ ci.item.ItemTypeID.description }}
+        Manufacturer: {{ ci.item.ItemTypeID.manufacturer }}
+        Model: {{ ci.item.ItemTypeID.model }}
+        Seial: {{ ci.item.serial }}
+        Due: {{ ci.dateTimeIn }}
+
+
+    Please return this item to the cage immediately.
+
+    If you have any questions or concerns please contact John Simonson at 585-475-xxxx.
+{% endblock %}
