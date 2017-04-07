@@ -46,13 +46,21 @@ def edit_category(request,category_id):
     if request.method == "POST":
         form = ItemCategoryForm(request.POST, instance=cat)
         if form.is_valid():
-            obj = form.save()
+            obj = form.save(commit=False)
+            oldValues = obj.tracker.changed()
+            # build the extras for the log
+            obj.save()
+
+            extras = {}
+            for key in oldValues:
+                extras.update({'old-' + key: oldValues[key]})
+                extras.update({'new-' + key: obj.tracker.previous(key)})
+
             log(
                 user=request.user,
                 action="CATEGORY_MODIFIED",
                 obj=obj,
-                extra={
-                }
+                extra=extras
             )
 
             # for now redirect back to item listings. Until detailed page is done

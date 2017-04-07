@@ -43,13 +43,21 @@ def edit_subcategory(request,subcategory_id, category_id):
     if request.method == "POST":
         form = ItemSubCategoryForm(request.POST, instance=subcat)
         if form.is_valid():
-            obj = form.save()
+            obj = form.save(commit=False)
+            oldValues = obj.tracker.changed()
+            # build the extras for the log
+            obj.save()
+
+            extras = {}
+            for key in oldValues:
+                extras.update({'old-' + key: oldValues[key]})
+                extras.update({'new-' + key: obj.tracker.previous(key)})
+
             log(
                 user=request.user,
                 action="SUBCATEGORY_MODIFIED",
                 obj=obj,
-                extra={
-                }
+                extra=extras
             )
             return redirect('categoryView', category_id = category_id)
     else:

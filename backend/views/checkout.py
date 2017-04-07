@@ -66,14 +66,19 @@ def override_date(request, checkoutitem_id):
     if request.method == "POST":
         ci.dateTimeDue = request.POST['overrideDate']
         ci.dueDateOverridden = True
+        oldValues = ci.tracker.changed()
+        # build the extras for the log
         ci.save()
 
+        extras = {}
+        for key in oldValues:
+            extras.update({'old-' + key: oldValues[key]})
+            extras.update({'new-' + key: ci.tracker.previous(key)})
         log(
             user=request.user,
             action="CHECKOUT_DUE_DATE_OVERRIDE",
             obj=ci,
-            extra={
-            }
+            extra=extras
         )
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 

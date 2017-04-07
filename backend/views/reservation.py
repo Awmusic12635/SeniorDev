@@ -65,14 +65,20 @@ def edit_request(request, request_id):
             # set approval info
             rr.approvedBy = request.user
             rr.approvedOn = datetime.now()
+            oldValues = rr.tracker.changed()
+            # build the extras for the log
             rr.save()
+
+            extras = {}
+            for key in oldValues:
+                extras.update({'old-' + key: oldValues[key]})
+                extras.update({'new-' + key: rr.tracker.previous(key)})
 
             log(
                 user=request.user,
                 action="RESERVATION_REQUEST_APPROVED",
                 obj=obj,
-                extra={
-                }
+                extra=extras
             )
             # send email to notify of approval,nSent will be 1 if successful, 0 if failed
             # send email to notify of decline, nSent will be 1 if successful, 0 if failed

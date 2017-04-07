@@ -59,8 +59,8 @@ def edit_item_type(request, item_type_id):
             #build the extras for the log
             extras = {}
             for key in oldValues:
-                extras.update({'old'+key: oldValues[key]})
-                extras.update({'new'+key: obj.tracker.previous(key)})
+                extras.update({'old-'+key: oldValues[key]})
+                extras.update({'new-'+key: obj.tracker.previous(key)})
 
             log(
                 user=request.user,
@@ -120,8 +120,16 @@ def edit_item(request,item_type_id,item_id):
     if request.method == "POST":
         form = ItemForm(request.POST, instance=item)
         if form.is_valid():
-            form.save()
-            # for now redirect back to item listings. Until detailed page is done
+            obj  = form.save(commit=False)
+            oldValues = obj.tracker.changed()
+            # build the extras for the log
+            obj.save()
+
+            extras = {}
+            for key in oldValues:
+                extras.update({'old-' + key: oldValues[key]})
+                extras.update({'new-' + key: obj.tracker.previous(key)})
+
             log(
                 user=request.user,
                 action="ITEM_MODIFIED",
@@ -129,6 +137,7 @@ def edit_item(request,item_type_id,item_id):
                 extra={
                 }
             )
+            # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')
     else:
         form = ItemForm(instance=item)
