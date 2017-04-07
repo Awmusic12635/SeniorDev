@@ -120,7 +120,7 @@ def edit_item(request,item_type_id,item_id):
     if request.method == "POST":
         form = ItemForm(request.POST, instance=item)
         if form.is_valid():
-            obj  = form.save(commit=False)
+            obj = form.save(commit=False)
             oldValues = obj.tracker.changed()
             # build the extras for the log
             obj.save()
@@ -134,8 +134,7 @@ def edit_item(request,item_type_id,item_id):
                 user=request.user,
                 action="ITEM_MODIFIED",
                 obj=item,
-                extra={
-                }
+                extra=extras
             )
             # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')

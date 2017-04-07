@@ -87,14 +87,20 @@ def reset_duedate(request, checkoutitem_id):
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     ci.dateTimeDue = datetime.now() + timedelta(days=getDefaultCheckoutLength(ci.item))
     ci.dueDateOverridden = False
+    oldValues = ci.tracker.changed()
+    # build the extras for the log
     ci.save()
+
+    extras = {}
+    for key in oldValues:
+        extras.update({'old-' + key: oldValues[key]})
+        extras.update({'new-' + key: ci.tracker.previous(key)})
 
     log(
         user=request.user,
         action="CHECKOUT_DUE_DATE_RESET",
         obj=ci,
-        extra={
-        }
+        extra=extras
     )
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
