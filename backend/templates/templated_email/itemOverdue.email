@@ -7,7 +7,7 @@
         Manufacturer: {{ checkoutItem.item.ItemTypeID.manufacturer }}
         Model: {{ checkoutItem.item.ItemTypeID.model }}
         Seial: {{ checkoutItem.item.serial }}
-        Due: {{ checkoutItem.dateTimeIn }}
+        Due: {{ checkoutItem.dateTimeDue }}
 
 
     Please return this item to the cage immediately.
