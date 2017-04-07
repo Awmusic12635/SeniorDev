@@ -21,7 +21,7 @@ class Command(BaseCommand):
             )
             if nSent == 0:
                 log(
-                    user='ScheduleTask',
+                    user=None,
                     action="EMAIL_SENDING_FAILED",
                     obj=None,
                     extra={
@@ -31,7 +31,7 @@ class Command(BaseCommand):
                 )
             else:
                 log(
-                    user='ScheduleTask',
+                    user=None,
                     action="EMAIL_SENT",
                     obj=None,
                     extra={
