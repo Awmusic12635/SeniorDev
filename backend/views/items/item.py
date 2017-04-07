@@ -53,15 +53,22 @@ def edit_item_type(request, item_type_id):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
+            oldValues = obj.tracker.changed()
             obj.save()
-            # for now redirect back to item listings. Until detailed page is done
+
+            #build the extras for the log
+            extras = {}
+            for key,value in oldValues:
+                extras.update({'old'+key: value})
+                extras.update({'new'+key: obj.tracker.previous(key)})
+
             log(
                 user=request.user,
                 action="ITEM_TYPE_MODIFIED",
                 obj=obj,
-                extra={
-                }
+                extra=extras
             )
+            # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')
     else:
         form = ItemTypeForm(instance=item_type)

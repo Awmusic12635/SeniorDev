@@ -5,7 +5,6 @@ from backend.forms import ReservationRequestForm, ReservationRequestApprovalForm
 from datetime import datetime
 from templated_email import send_templated_mail
 from pinax.eventlog.models import log
-import os
 
 @login_required
 def request(request):

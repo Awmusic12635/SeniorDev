@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from backend.models import Checkout, CheckoutItem, Item
 from django.core.exceptions import ObjectDoesNotExist
 from pinax.eventlog.models import log
+from templated_email import send_templated_mail
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
@@ -114,6 +115,36 @@ def complete(request):
         extra={
         }
     )
+    if checkout.person is not None :
+        nSent = send_templated_mail(
+            template_name='checkoutReceipt',
+            recipient_list=[checkout.person.email],
+            from_email=None,
+            fail_silently=True,
+            context={
+                'checkout': checkout
+            }
+        )
+        if nSent == 0:
+            log(
+                user=request.user,
+                action="EMAIL_SENDING_FAILED",
+                obj=None,
+                extra={
+                    'email': 'checkoutReceipt',
+                    'recipient_list': [checkout.person.email]
+                }
+            )
+        else:
+            log(
+                user=request.user,
+                action="EMAIL_SENT",
+                obj=None,
+                extra={
+                    'email': 'checkoutReceipt',
+                    'recipient_list': [checkout.person.email]
+                }
+            )
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDOUT)
 
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})

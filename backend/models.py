@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from model_utils.models import TimeStampedModel
+from model_utils.models import FieldTracker
 
 #classes with no FKs
 
@@ -23,6 +24,7 @@ class ItemState(TimeStampedModel):
 class ItemCategory(TimeStampedModel):
     categoryDescription = models.CharField(max_length=500)
     categoryName = models.CharField(max_length=100)
+    tracker = FieldTracker()
 
     def __str__(self):
         return self.categoryName
@@ -41,6 +43,7 @@ class ItemSubCategory(TimeStampedModel):
     subCategoryDescription = models.CharField(max_length=500)
     parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
     defaultCheckoutLengthDays = models.IntegerField(null=True)
+    tracker = FieldTracker()
 
     def __str__(self):
         return self.subCategoryName
@@ -55,6 +58,7 @@ class ItemType(TimeStampedModel):
     manufacturer = models.CharField(max_length=100, null=True)
     model = models.CharField(max_length=200, null=True)
     cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
+    tracker = FieldTracker()
 
     def __str__(self):
         return self.name
@@ -67,6 +71,7 @@ class Item(TimeStampedModel):
     location = models.CharField(max_length=200)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
     checkoutStatus = models.CharField(max_length=50, default="Checked in")
+    tracker = FieldTracker()
 
 
 class ItemStateLog(TimeStampedModel):
@@ -98,6 +103,7 @@ class Checkout(TimeStampedModel):
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=50, default="Pending")
     signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
+    tracker = FieldTracker()
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 
 
@@ -109,6 +115,7 @@ class CheckoutItem(TimeStampedModel):
     checkoutPermissionOverridden = models.BooleanField(default=False)
     dateTimeIn = models.DateTimeField(null=True)
     checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
+    tracker = FieldTracker()
 
 
 class CheckInListResults(TimeStampedModel):
@@ -133,6 +140,7 @@ class ReservationRequest(TimeStampedModel):
     declinedBy = models.ForeignKey(User, related_name='declined_by', null=True, on_delete=models.CASCADE)
     declinedOn = models.DateTimeField(null=True)
     declinedReason = models.CharField(max_length=250,blank=True, null=True)
+    tracker = FieldTracker()
 
 
 class Reservation(TimeStampedModel):
@@ -143,3 +151,4 @@ class Reservation(TimeStampedModel):
     lengthOfCheckout = models.IntegerField()
     quantity = models.IntegerField()
     reservationRequestID = models.ForeignKey(ReservationRequest, on_delete=models.CASCADE)
+    tracker = FieldTracker()
