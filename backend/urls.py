@@ -4,14 +4,15 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
 from .views import admin
-from .views import user, checkout, checkin,reservation, category, subcategory
+from .views import user, checkout, checkin,reservation, category, subcategory, dashboard
 from .views.items import item
 
 urlpatterns = [
     url(r'^$', user.index, name='index'),
     url(r'^login', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout', auth_views.logout, name='logout'),
-    url(r'^dashboard/$', user.dashboard, name='dashboard'),
+    #dashboard
+    url(r'^dashboard/$', dashboard.show, name='dashboard'),
     #items
     url(r'^item/$', item.list_item_types, name='itemList'),
     url(r'^item/add$', item.add_item_type, name='items'),

@@ -65,7 +65,7 @@ class Item(TimeStampedModel):
     serial = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
-    itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
+    itemState = models.ManyToManyField(ItemState, through='ItemStateLog', blank=False)
     checkoutStatus = models.CharField(max_length=50, default="Checked in")
 
 

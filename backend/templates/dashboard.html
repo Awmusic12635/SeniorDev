@@ -2,9 +2,57 @@
 {% block content %}
 {% load widget_tweaks %}
 <div class="container">
-    <div class="starter-template">
-        <h1>Basic Dashboard</h1>
-        <p class="lead">Some stuff will eventually go here</p>
+    <div style="" class="starter-template">
+        <div style="margin: 40px;" class="col-md-2 btn btn-info">Total products: {{ numberOfItems }}</div>
+        <div style="margin: 40px;" class="col-md-2 btn btn-info">Items in inventory: {{ numberOfItemsInInventory }}</div>
+        <div style="margin: 40px;" class="col-md-2 btn btn-info">Items checkout: {{numberOfItemsCheckedOut }}</div>
+        <div style="margin: 40px;" class="col-md-2 btn btn-info">Items due today: {{numberOfItemsDueToday}}</div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#itemTable').DataTable();
+
+            $('.viewButton').on('click',function(){
+                window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id');
+            });
+            $('.editButton').on('click',function(){
+                window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id')+"/edit";
+            });
+            $('#addItemButton').on('click',function(){
+                window.location="/item/{{ item_type_id }}/add";
+            });
+        });
+    </script>
+
+    <div>
+    <table id="itemTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Model</th>
+                    <th>Cost</th>
+                    <th>Available Quantitiy</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for itemType, quantity in itemTypes %}
+                <tr>
+                    <td>{{ itemType.id }}</td>
+                    <td>{{ itemType.name }}</td>
+                    <td>{{ itemType.model }}</td>
+                    <td>{{ itemType.cost }}</td>
+                    <td>{{ quantity }}</td>
+                    <td>
+                        <button type="button" data-id="{{ itemType.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                        <button type="button" data-id="{{ itemType.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}
