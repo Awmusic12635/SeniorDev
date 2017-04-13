@@ -25,13 +25,14 @@
             window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
         });
 
-        $('#userSearchButton').on('click', function () {
+        $('#userSearchForm').on('submit', function (event) {
             console.log('searching');
+            event.preventDefault();
             $.ajax({
                 type: "POST",
                 url: "/checkout/findUser",
                 data: {
-                    'username': $('#username')
+                    'username': $('#username').val()
                 },
                 success: function (data) {
                     console.log(data);
@@ -47,11 +48,11 @@
 </script>
 
 <div style="margin: 15px;">
-    <form>
+    <form id="userSearchForm">
         <p>Search for user</p>
         <label for="username">Username:</label>
         <input type="text" size="15" required name="username" id="username">
-        <button id="userSearchButton" type="button" class="btn btn-primary btn-xs">Search</button>
+        <input type="submit" value="Search">
     </form>
 
 
