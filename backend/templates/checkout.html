@@ -32,6 +32,7 @@
                 type: "GET",
                 url: "/checkout/findUser/"+$('#username').val(),
                 success: function (data) {
+                    console.log('success');
                     console.log(data);
 
                     var userSelect = "<span>" + data + "</span>";
@@ -74,7 +75,6 @@
     </form>
 
     <div id="userSelect">
-
     </div>
 
     <p>Checkout To: {{ checkout.person }}</p>
