@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from pinax.eventlog.models import log
 from templated_email import send_templated_mail
 from .ldap import ldap
+import json
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
@@ -185,3 +186,4 @@ def getDefaultCheckoutLength(item):
 def find_user(request):
     username = request.POST['username']
     ldap_user = ldap.get_user_by_username(username)
+    return HttpResponse(json.dumps(ldap_user), content_type="application/json")
