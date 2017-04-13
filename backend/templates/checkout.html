@@ -33,9 +33,12 @@
                 url: "/checkout/findUser/"+$('#username').val(),
                 success: function (data) {
                     console.log(data);
+                    var userSelect = "<span>" + data + "</span>";
+                    $('#userSelect').html(userSelect);
                 },
                 error: function () {
                     console.log('error');
+                    $('#userSelect').html("<p>No matching users</p>");
                 }
             });
         });
@@ -52,6 +55,10 @@
         <input type="text" size="15" required name="username" id="username">
         <input type="submit" value="Search">
     </form>
+
+    <div id="userSelect">
+
+    </div>
 
     <p>Checkout To: {{ checkout.person }}</p>
     <p>Checkout Status: {{ checkout.status }}</p>
