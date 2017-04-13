@@ -26,6 +26,7 @@
         });
 
         $('#userSearchButton').on('click', function () {
+            console.log('searching');
             $.ajax({
                 type: "POST",
                 url: "/checkout/findUser",
