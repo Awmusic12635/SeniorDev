@@ -2,8 +2,9 @@ from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import UserManager
 from datetime import datetime, timedelta
-from backend.models import Checkout, CheckoutItem, Item
+from backend.models import Checkout, CheckoutItem, Item, User
 from django.core.exceptions import ObjectDoesNotExist
 from pinax.eventlog.models import log
 from templated_email import send_templated_mail
@@ -187,4 +188,23 @@ def find_user(request, username):
     print(username)
     ldap_user = ldap.get_user_by_username(username)
     print(ldap_user)
-    return HttpResponse(json.dumps(ldap_user), content_type="application/json")
+    return HttpResponse(ldap_user.uid)
+
+
+def add_user(request, checkout_id, username):
+    checkout = Checkout.objects.get(pk=checkout_id)
+
+    #is this user in our table already
+    user = User.objects.filter(username = username)
+    if user is None:
+        print('user not found');
+        #get them from ldap again
+        ldap_user = ldap.get_user_by_username(username)
+        name_parts = ldap_user.cn.split()
+        #add them
+        user = UserManager.create_user(username, email = username+'@rit.edu', first_name=name_parts[0], last_name=name_parts[1])
+
+    print(user)
+    checkout.person = user;
+    checkout.save
+    return get_pending_checkout()
