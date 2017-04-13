@@ -41,13 +41,13 @@ urlpatterns = [
     url(r'^search$', user.index, name='items'),
     #checkout
     url(r'^checkout/$', checkout.get_pending_checkout, name='items'),
+    url(r'^checkout/findUser/(?P<username>\d*)$', checkout.find_user, name='items'),
     url(r'^checkout/addItem/(?P<item_id>\d*)$', checkout.add_item, name='items'),
     url(r'^checkout/removeItem/(?P<item_id>\d*)$', checkout.remove_item, name='items'),
     url(r'^checkout/resetDueDate/(?P<checkoutitem_id>\d*)$', checkout.reset_duedate, name='items'),
     url(r'^checkout/(?P<checkoutitem_id>\d*)/overrideDate$', checkout.override_date, name='items'),
     url(r'^checkout/clear', checkout.clear, name='items'),
     url(r'^checkout/complete', checkout.complete, name='items'),
-    url(r'^checkout/findUser/(?P<username>\d*)$', checkout.find_user, name='items'),
    #checkin
     url(r'^checkin/$', checkin.get_open_checkouts, name='items'),
     url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),
