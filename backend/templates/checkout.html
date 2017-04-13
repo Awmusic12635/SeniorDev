@@ -2,27 +2,43 @@
 {% block content %}
 {% load widget_tweaks %}
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('#itemTable').DataTable();
 
-        $('.viewButton').on('click',function(){
-            window.location="/item/"+$(this).attr('data-id');
+        $('.viewButton').on('click', function () {
+            window.location = "/item/" + $(this).attr('data-id');
         });
 
-        $('.removeButton').on('click',function(){
-            window.location="/checkout/removeItem/"+$(this).attr('data-id');
+        $('.removeButton').on('click', function () {
+            window.location = "/checkout/removeItem/" + $(this).attr('data-id');
         });
 
-        $('.clearButton').on('click',function(){
-            window.location="/checkout/clear";
+        $('.clearButton').on('click', function () {
+            window.location = "/checkout/clear";
         });
 
-        $('.completeButton').on('click',function(){
-            window.location="/checkout/complete";
+        $('.completeButton').on('click', function () {
+            window.location = "/checkout/complete";
         });
 
-        $('.resetButton').on('click',function(){
-            window.location="/checkout/resetDueDate/"+$(this).attr('data-id');
+        $('.resetButton').on('click', function () {
+            window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
+        });
+
+        $('#userSearchButton').on('click', function () {
+            $.ajax({
+                type: "POST",
+                url: "/checkout/findUser",
+                data: {
+                    'username': $('#username')
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
         });
     });
 
@@ -30,9 +46,15 @@
 </script>
 
 <div style="margin: 15px;">
+    <form>
+        <p>Search for user</p>
+        <label for="username">Username:</label>
+        <button id="userSearchButton" type="button" class="btn btn-primary btn-xs">Search</button>
+    </form>
+
+
     <p>Checkout To: {{ checkout.person }}</p>
     <p>Checkout Status: {{ checkout.status }}</p>
-
 </div>
 
 

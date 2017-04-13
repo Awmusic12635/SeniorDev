@@ -7,6 +7,7 @@ from backend.models import Checkout, CheckoutItem, Item
 from django.core.exceptions import ObjectDoesNotExist
 from pinax.eventlog.models import log
 from templated_email import send_templated_mail
+from .ldap import ldap
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
@@ -179,3 +180,8 @@ def getDefaultCheckoutLength(item):
         checkoutlength = item.ItemTypeID.defaultCheckoutLengthDays
 
     return checkoutlength
+
+
+def find_user(request):
+    username = request.POST['username']
+    ldap-user = ldap.get_user_by_username(username)
