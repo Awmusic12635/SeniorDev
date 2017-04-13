@@ -10,11 +10,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         overdue = CheckoutItem.objects.filter(dateTimeDue__lt=datetime.now(), dateTimeIn=None)
         admins = User.objects.filter(is_superuser=1)
-        print(admins)
         emails = []
         for a in admins:
             emails.append(a.email)
-        print(emails)
         nSent = send_templated_mail(
             template_name='itemOverdueSummary',
             recipient_list=emails,
