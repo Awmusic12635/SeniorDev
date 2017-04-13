@@ -49,6 +49,7 @@
 
 <div style="margin: 15px;">
     <form id="userSearchForm">
+        {% csrf_token %}
         <p>Search for user</p>
         <label for="username">Username:</label>
         <input type="text" size="15" required name="username" id="username">
