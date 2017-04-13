@@ -47,7 +47,7 @@ urlpatterns = [
     url(r'^checkout/(?P<checkoutitem_id>\d*)/overrideDate$', checkout.override_date, name='items'),
     url(r'^checkout/clear', checkout.clear, name='items'),
     url(r'^checkout/complete', checkout.complete, name='items'),
-    url(r'^checkout/findUser', checkout.find_user, name='items'),
+    url(r'^checkout/findUser/(?P<username>\d*)$', checkout.find_user, name='items'),
    #checkin
     url(r'^checkin/$', checkin.get_open_checkouts, name='items'),
     url(r'^checkin/(?P<checkout_id>\d*)$', checkin.view_checkout, name='items'),

@@ -183,8 +183,7 @@ def getDefaultCheckoutLength(item):
     return checkoutlength
 
 
-def find_user(request):
-    username = request.POST['username']
+def find_user(request, username):
     print(username)
     ldap_user = ldap.get_user_by_username(username)
     print(ldap_user)

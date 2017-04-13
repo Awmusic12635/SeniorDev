@@ -29,11 +29,8 @@
             console.log('searching');
             event.preventDefault();
             $.ajax({
-                type: "POST",
-                url: "/checkout/findUser",
-                data: {
-                    'username': $('#username').val()
-                },
+                type: "GET",
+                url: "/checkout/findUser/"+$('#username').val(),
                 success: function (data) {
                     console.log(data);
                 },
