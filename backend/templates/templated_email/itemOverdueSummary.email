@@ -1,0 +1,18 @@
+{% block subject %}Item Overdue Summary{% endblock %}
+
+{% block plain %}
+    The following items are overdue:
+    {% for ci in checkoutItems %}
+        Person: {{ ci.checkout.person.name }}
+        Username: {{ ci.checkout.person.username }}
+            Item: {{ ci.item.ItemTypeID.name }}
+            Description: {{ ci.item.ItemTypeID.description }}
+            Manufacturer: {{ ci.item.ItemTypeID.manufacturer }}
+            Model: {{ ci.item.ItemTypeID.model }}
+            Seial: {{ ci.item.serial }}
+            Due: {{ ci.dateTimeDue }}
+        ---
+
+    {% endfor %}
+
+{% endblock %}
