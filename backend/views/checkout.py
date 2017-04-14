@@ -198,10 +198,11 @@ def add_user(request, checkout_id, username):
     if not users:
         #get them from ldap again
         ldap_user = ldap.get_user_by_username(username)
-        name_parts = str(ldap_user.cn).split()
-        email = username+'@rit.edu'
         #add them
-        user = UserManager.create_user(username=username, email = email, first_name=name_parts[0], last_name=name_parts[1])
+        user = User.objects.create_user(username=username, email = ldap.get_email(ldap_user))
+        user.first_name=ldap.get_first_name(ldap_user)
+        user.last_name=ldap.get_last_name(ldap_user)
+        user.save()
         print('made:', user)
     else:
         user = users[0]
