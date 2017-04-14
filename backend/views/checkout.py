@@ -194,12 +194,15 @@ def add_user(request, checkout_id, username):
 
     #is this user in our table already
     user = User.objects.filter(username = username)
+    print('fetched:' + user)
     if user is None:
+        print('need to make:' + user)
         #get them from ldap again
         ldap_user = ldap.get_user_by_username(username)
         name_parts = ldap_user.cn.split()
         #add them
         user = UserManager.create_user(username, email = username+'@rit.edu', first_name=name_parts[0], last_name=name_parts[1])
+        print('made:' + user)
 
     print(user)
     checkout.person = user;
