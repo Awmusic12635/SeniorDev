@@ -35,6 +35,7 @@
                 success: function (data) {
                     $('#userSelect').html('');
                     $('#assignedUser').html(data);
+                    $('.selectUserButton').hide();
                 },
                 error: function () {
                     $('#userSelect').html("<p>Failed to select user</p>");

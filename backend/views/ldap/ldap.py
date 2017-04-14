@@ -39,7 +39,8 @@ def get_first_name(user):
 
 
 def get_last_name(user):
-    return str(user.cn).split()[1]
+    split = str(user.cn).split()
+    return split[len(split)-1]
 
 
 def get_email(user):
