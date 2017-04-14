@@ -48,12 +48,12 @@ def get_email(user):
 
 # at least I think this is the what this Id is
 def get_ldap_id(user):
-    return user.uidNumber
+    return str(user.uidNumber)
 
 
 # If student it returns "Student". I believe it returns Professor for professors
 # Not sure if it is better to return this or ou attribute instead
 def get_user_type(user):
-    return user.ritEduAccountType
+    return str(user.ritEduAccountType)
 
 

@@ -203,11 +203,9 @@ def add_user(request, checkout_id, username):
         user.first_name=ldap.get_first_name(ldap_user)
         user.last_name=ldap.get_last_name(ldap_user)
         user.save()
-        print('made:', user)
     else:
         user = users[0]
 
-    print(user)
     checkout.person = user;
-    checkout.save
+    checkout.save()
     return get_pending_checkout(request)
