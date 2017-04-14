@@ -35,7 +35,7 @@ def get_user_by_universityid(uni_id):
 
 # For these you send in an entry that is returned by the user search.
 def get_first_name(user):
-    return str(user.cn).cn.split()[0]
+    return str(user.cn).split()[0]
 
 
 def get_last_name(user):
