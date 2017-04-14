@@ -13,6 +13,12 @@
 	    $('#allitemsButton').on('click',function(){
 	        window.location="/item/";
 	    });
+	    $('#categoriesButton').on('click',function(){
+	        window.location="/category/";
+	    });
+	    $('#reservationsButton').on('click',function(){
+	        window.location="/reservationRequest/pending";
+	    });
 	});
 </script>
 <div class="container-fluid">
@@ -28,7 +34,7 @@
     		<button id="checkinButton" class="btn btn-wide btn-warning btn-lg"><h1><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></h1><h3>Item Check In</h3></button>
     	</div>
     	<div class="col-sm-4 text-center">
-    		<button id="accountButton" class="btn btn-wide btn-primary btn-lg"><h1><i class="fa fa-gavel" aria-hidden="true"></i></h1><h3>Pending<br/>Reservations</h3></button>
+    		<button id="reservationsButton" class="btn btn-wide btn-primary btn-lg"><h1><i class="fa fa-gavel" aria-hidden="true"></i></h1><h3>Pending<br/>Reservations</h3></button>
     	</div>
     </div>
     <div class="row">
@@ -36,7 +42,7 @@
     		<button id="allitemsButton" class="btn btn-wide btn-primary btn-lg"><h1><i class="fa fa-list" aria-hidden="true"></i></h1><h3>All Items</h3></button>
     	</div>
     	<div class="col-sm-4 text-center">
-    		<button id="accountButton" class="btn btn-wide btn-primary btn-lg"><h1><i class="fa fa-list-ul" aria-hidden="true"></i></h1><h3>All Categories</h3></button>
+    		<button id="categoriesButton" class="btn btn-wide btn-primary btn-lg"><h1><i class="fa fa-list-ul" aria-hidden="true"></i></h1><h3>All Categories</h3></button>
     	</div>
     	<div class="col-sm-4 text-center">
     		<button id="accountButton" class="btn btn-wide btn-lg"><h1><i class="fa fa-user" aria-hidden="true"></i></h1><h3>Account</h3></button>
