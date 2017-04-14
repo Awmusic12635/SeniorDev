@@ -50,6 +50,7 @@
                     var userSelect = "<span>Found: " + data + "</span>";
                     $('#userSelect').html(userSelect);
                     $('.selectUserButton').css('display', 'block');
+                    $('.selectUserButton').attr('username', username);
                 },
                 error: function () {
                     $('#userSelect').html("<p>No matching users</p>");
@@ -73,7 +74,7 @@
 
     <div>
         <span id="userSelect"></span>
-        <button style="{display: none;}" type="button" data-id="{{ checkout.id }}" username="'+username+'"class="btn btn-primary btn-xs selectUserButton">Select</button>
+        <button style="{display: none !important;}" type="button" data-id="{{ checkout.id }}" username="" class="btn btn-primary btn-xs selectUserButton">Select</button>
     </div>
 
     </br>
