@@ -31,10 +31,10 @@
 </script>
 <div class="container tableHeader">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-xs-8">
             <h1>{{itemType.name}}</h1>
         </div>
-        <div class="col-sm-4 text-right">
+        <div class="col-xs-4 text-right">
             <h1>
                 <button class="btn btn-primary btn-lg checkoutButton" data-id="{{ itemType.id }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> View Available </button>
             </h1>
@@ -51,7 +51,6 @@
                     <th>Model</th>
                     <th>Value</th>
                     <th>Description</th>
-                    <th></th>
                 </thead>
                 <tbody>
                     <tr>
@@ -59,13 +58,12 @@
                         <td>{{ itemType.model }}</td>
                         <td>$ {{ itemType.cost }}</td>
                         <td>{{itemType.description}}</td>
-                        <td>
-                            <button style="margin-top:0px;" id='addItemButton' type="button" data-id="{{ itemType.id }}" class="btn btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Item</button>
-                        </td>
                     </tr>
                 </tbody>
-            </table>                
+            </table> 
+            <button id='addItemButton' type="button" data-id="{{ itemType.id }}" class="btn btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Item</button>            
         </div>
+
 
         <div class="col-sm-4 item-photo">
             {% if itemType.image != None %}

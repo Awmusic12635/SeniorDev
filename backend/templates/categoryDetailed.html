@@ -23,16 +23,16 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
-            <h1><a href="../category">Categories</a> in: {{ category.categoryName }}</h1>
+        <div class="col-sm-8">
+            <h1><a href="../category">Categories</a> <i class="fa fa-caret-right" aria-hidden="true"></i> {{ category.categoryName }}</h1>
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-4 text-right">
             <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i>  Add New Subcategory</button>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12 subCategoryDescription">
-            <p>{{ category.categoryDescription }}</p>
+            <p><b>Description:</b> {{ category.categoryDescription }}</p>
         </div>  
     </div>
 </div>
@@ -42,10 +42,10 @@
             <table id="itemTable" class="display">
                 <thead>
                     <tr>
-                        <th class="col-sm-2 text-right">Name</th>
-                        <th class="col-sm-5">Description</th>
-                        <th class="col-sm-3">Default Checkout Length</th>
-                        <th class="col-sm-2">Actions</th>
+                        <th class="text-right">Name</th>
+                        <th>Description</th>
+                        <th>Default Checkout Length</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>

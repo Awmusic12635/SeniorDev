@@ -78,3 +78,9 @@ input[type=file] {
 	background: none !important;
 	border-color: transparent;
 }
+
+@media (max-width: 768px) {
+	.dataTables_filter .input-sm {
+		width: 100%;
+	}
+}

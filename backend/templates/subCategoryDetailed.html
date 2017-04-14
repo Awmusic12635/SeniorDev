@@ -21,7 +21,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-8">
-            <h1><a href="../../">Categories</a> in <a href="../../{{subcategory.itemCategoryID.id}}">{{ subcategory.itemCategoryID.categoryName }}</a>: {{ subcategory.subCategoryName }}</h1>
+            <h1><a href="../../">Categories</a> <i class="fa fa-caret-right" aria-hidden="true"></i> <a href="../../{{subcategory.itemCategoryID.id}}">{{ subcategory.itemCategoryID.categoryName }}</a> <i class="fa fa-caret-right" aria-hidden="true"></i> {{ subcategory.subCategoryName }}</h1>
         </div>
         <div class="col-sm-4 text-right">
             <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i>  Add Item</button>
@@ -31,7 +31,7 @@
         <div class="col-sm-12">
             <p>
                 <b>Default Checkout Length:</b> {{ subcategory.defaultCheckoutLengthDays }} days<br/>
-                {{ subcategory.subcategoryDescription }}
+                <b>Description:</b> {{ subcategory.subcategoryDescription }}
             </p>
         </div>
     </div>
@@ -42,23 +42,21 @@
             <table id="itemTable" class="display">
                 <thead>
                     <tr>
-                        <th class="text-right col-sm-2">Name</th>
-                        <th class="col-sm-3">Description</th>
-                        <th class="col-sm-2">Manufacturer</th>
-                        <th class="col-sm-2">Model</th>
-                        <th class="col-sm-1">Cost</th>
-                        <th class="col-sm-2">Actions</th>
+                        <th class="text-right">Name</th>
+                        <th>Manufacturer</th>
+                        <th>Model</th>
+                        <th>Description</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in subcategory.itemtype_set.all %}
                         <tr>
                             <td data-id="{{ item.id }}" class="text-right viewButton"><b>{{ item.name }}</b></td>
-                            <td class="viewButton" data-id="{{ item.id }}">{{ item.description }}</td>
                             <td class="viewButton" data-id="{{ item.id }}">{{ item.manufacturer }}</td>
                             <td class="viewButton" data-id="{{ item.id }}">{{ item.model }}</td>>
-                            <td class="viewButton" data-id="{{ item.id }}">$ {{ item.cost }}</td>
-                            <td>
+                            <td class="viewButton" data-id="{{ item.id }}">{{ item.description }}</td>
+                            <td class="col-sm-3 ">
                                 <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i>  View</button>
                                 <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
                             </td>

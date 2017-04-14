@@ -56,12 +56,9 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Description</th>
                         <th>Manufacturer</th>
                         <th>Model</th>
-                        <th>Serial</th>
                         <th>Tags</th>
-                        <th>Cost</th>
                         <th>Location</th>
                         <th>Checkout Status</th>
                         <th>Due Date</th>
@@ -72,12 +69,9 @@
                     {% for checkoutitem in checkout.checkoutitem_set.all %}
                         <tr>
                             <td>{{ checkoutitem.item.name }}</td>
-                            <td>{{ checkoutitem.item.description }}</td>
                             <td>{{ checkoutitem.item.manufacturer }}</td>
                             <td>{{ checkoutitem.item.model }}</td>
-                            <td>{{ checkoutitem.item.serial }}</td>
                             <td>{{ checkoutitem.item.tag }}</td>
-                            <td>{{ checkoutitem.item.cost }}</td>
                             <td>{{ checkoutitem.item.location }}</td>
                             <td>{{ checkoutitem.item.checkoutStatus }}</td>
                             <td>{{ checkoutitem.dateTimeDue }}</td>

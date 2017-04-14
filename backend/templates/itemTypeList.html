@@ -23,10 +23,10 @@
 </script>
 <div class="container tableHeader">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-xs-4">
             <h1>Items</h1>
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-xs-8 text-right">
             <button id='categoryButton' type="button" class="btn btn-warning btn-lg"><i class="fa fa-tasks" aria-hidden="true"></i> View Categories</button>
             <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Add New Item</button>
         </div>
@@ -39,10 +39,9 @@
                 <thead>
                     <tr>
                         <th class="text-right">Item</th>
-                        <th>Description</th>
                         <th>Manufacturer</th>
                         <th>Model</th>
-                        <th>Cost</th>
+                        <th>Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -50,11 +49,10 @@
                     {% for item in items %}
                         <tr>
                             <td  class="viewButton text-right" data-id="{{ item.id }}"><b>{{ item.name }}</b></td>
-                            <td class="viewButton" data-id="{{ item.id }}">{{ item.description }}</td>
                             <td class="viewButton" data-id="{{ item.id }}">{{ item.manufacturer }}</td>
                             <td class="viewButton" data-id="{{ item.id }}">{{ item.model }}</td>>
-                            <td class="viewButton" data-id="{{ item.id }}">$ {{ item.cost }}</td>
-                            <td>
+                            <td class="viewButton" data-id="{{ item.id }}">{{ item.description }}</td>
+                            <td class="col-xs-3">
                                 <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
                                 <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
                             </td>

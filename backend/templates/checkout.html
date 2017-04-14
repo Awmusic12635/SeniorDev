@@ -74,12 +74,9 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Description</th>
                         <th>Manufacturer</th>
                         <th>Model</th>
-                        <th>Serial</th>
                         <th>Tags</th>
-                        <th>Cost</th>
                         <th>Location</th>
                         <th>Checkout Status</th>
                         <th>Due Date</th>
@@ -90,12 +87,9 @@
                     {% for checkoutitem in checkout.checkoutitem_set.all %}
                         <tr>
                             <td>{{ checkoutitem.item.name }}</td>
-                            <td>{{ checkoutitem.item.description }}</td>
                             <td>{{ checkoutitem.item.manufacturer }}</td>
                             <td>{{ checkoutitem.item.model }}</td>
-                            <td>{{ checkoutitem.item.serial }}</td>
                             <td>{{ checkoutitem.item.tag }}</td>
-                            <td>{{ checkoutitem.item.cost }}</td>
                             <td>{{ checkoutitem.item.location }}</td>
                             <td>{{ checkoutitem.item.checkoutStatus }}</td>
                             <td>{{ checkoutitem.dateTimeDue }}</td>
@@ -114,8 +108,13 @@
             </table>
         </div>
     </div>
-
-    <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs clearButton">Remove All Items</button>
-    <button type="button" data-id="{{ checkout.id }}" class="btn btn-success btn-xs completeButton">Complete Checkout</button>
+    <div class="row">
+        <div class="col-sm-6">
+            <button type="button" data-id="{{ checkout.id }}" class="btn clearButton btn-lg"><i class="fa fa-ban" aria-hidden="true"></i> Remove All Items</button>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button type="button" data-id="{{ checkout.id }}" class="btn btn-lg btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
+        </div>
+    </div>
 </div>
 {% endblock %}
