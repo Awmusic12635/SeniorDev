@@ -41,13 +41,14 @@
 
         $('#userSearchForm').on('submit', function (event) {
             event.preventDefault();
+            var username = $('#username').val()
             $.ajax({
                 type: "GET",
-                url: "/checkout/findUser/"+$('#username').val(),
+                url: "/checkout/findUser/"+username,
                 success: function (data) {
                     console.log(data);
-                    var userSelect = "<span>Found: " + data.name + "</span>";
-                    userSelect += '<button type="button" data-id="{{ checkout.id }} username="'+data.username+'"class="btn btn-primary btn-xs selectUserButton">Select</button>'
+                    var userSelect = "<span>Found: " + data + "</span>";
+                    userSelect += '<button type="button" data-id="{{ checkout.id }} username="'+username+'"class="btn btn-primary btn-xs selectUserButton">Select</button>'
                     $('#userSelect').html(userSelect);
                 },
                 error: function () {
