@@ -32,6 +32,33 @@
 #addItemButton, #reservedItemButton, #additemtypebutton, #categoryButton {
   margin-top: 20px;
 }
+.success_status {
+	background: #228b22;
+    padding: 5px 10px;
+    font-size: 14px;
+    top: 0px;
+    margin-top: 0;
+    border-radius: 5px;
+    color: #FFFFFF;
+}
+.error_status {
+	background: #ED4337;
+    padding: 5px 10px;
+    font-size: 14px;
+    top: 0px;
+    margin-top: 0;
+    border-radius: 5px;
+    color: #FFFFFF;
+}
+.default_status {
+	background: #575757;
+    padding: 5px 10px;
+    font-size: 14px;
+    top: 0px;
+    margin-top: 0;
+    border-radius: 5px;
+    color: #FFFFFF;
+}
 
 
 .tableHeader {
