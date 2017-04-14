@@ -201,7 +201,7 @@ def add_user(request, checkout_id, username):
         name_parts = str(ldap_user.cn).split()
         email = username+'@rit.edu'
         #add them
-        user = UserManager.create_user(username, email = email, first_name=name_parts[0], last_name=name_parts[1])
+        user = UserManager.create_user(username=username, email = email, first_name=name_parts[0], last_name=name_parts[1])
         print('made:', user)
     else:
         user = users[0]
