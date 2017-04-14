@@ -33,8 +33,8 @@
                 type: "GET",
                 url: "/checkout/"+$(this).attr('data-id')+"/addUser/"+$(this).attr('username'),
                 success: function (data) {
-                    console.log(data);
                     $('#userSelect').html('');
+                    $('#assignedUser').html(data);
                 },
                 error: function () {
                     $('#userSelect').html("<p>Failed to select user</p>");
@@ -80,7 +80,7 @@
     </div>
 
     </br>
-    <p>Checkout To: {{ checkout.person }}</p>
+    <p>Checkout To: <span id="assignedUser">{{ checkout.person }}</span></p>
     <p>Checkout Status: {{ checkout.status }}</p>
 </div>
 
