@@ -210,4 +210,4 @@ def add_user(request, checkout_id, username):
     print(user)
     checkout.person = user;
     checkout.save
-    return get_pending_checkout()
+    return get_pending_checkout(request)
