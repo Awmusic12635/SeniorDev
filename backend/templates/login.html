@@ -2,16 +2,25 @@
 {% block content %}
 {% load widget_tweaks %}
     <div class="container">
-        <div class="card card-container">
-            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
-            <p id="profile-name" class="profile-name-card">User</p>
-            <form class="form-signin" method="post">
-                {% csrf_token %}
-                <span id="reauth-email" class="reauth-email"></span>
-                {% render_field form.username class="form-control" placeholder=form.username.label %} <br/>
-                {% render_field form.password class="form-control" placeholder=form.password.label %} <br/>
-                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
-            </form><!-- /form -->
+        <div class="row">
+            <div class="col-sm-5 text-center" style="background: #eaeaea;">
+                <img style="border-radius: 50%; width: 25%; padding: 5%" id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+                <p id="profile-name" class="lead">Username</p>
+                <form class="form-signin" method="post">
+                    {% csrf_token %}
+                    <span id="reauth-email" class="reauth-email"></span>
+                    {% render_field form.username class="form-control" placeholder=form.username.label %} <br/>
+                    {% render_field form.password class="form-control" placeholder=form.password.label %} <br/>
+                    <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log In</button>
+                    <small><i class="fa fa-lock" aria-hidden="true"></i> Secure Login</small>
+                </form><!-- /form -->
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-6" style="padding-top: 5%">
+                <h2>Login</h2>
+                <h3>Inventory Management System</h3>
+                <p class="lead">Golisano College on Information Sciences</p>
+            </div>
         </div>
     </div><!-- /container -->
 {% endblock %}
