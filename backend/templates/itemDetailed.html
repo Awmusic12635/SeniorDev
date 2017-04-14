@@ -32,11 +32,11 @@
 <div class="container-fluid tableHeader">
     <div class="row">
         <div class="col-xs-8">
-            <h1>{{itemType.name}}</h1>
+            <h3>{{itemType.name}}</h3>
         </div>
         <div class="col-xs-4 text-right">
             <h1>
-                <button class="btn btn-primary btn-lg checkoutButton" data-id="{{ itemType.id }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> View Available </button>
+                <button class="btn btn-primary checkoutButton" data-id="{{ itemType.id }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> View Available </button>
             </h1>
         </div>
     </div>
@@ -61,7 +61,7 @@
                     </tr>
                 </tbody>
             </table> 
-            <button id='addItemButton' type="button" data-id="{{ itemType.id }}" class="btn btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Item</button>            
+            <button style="margin-bottom: 20px;" id='addItemButton' type="button" data-id="{{ itemType.id }}" class="btn btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Item</button>            
         </div>
 
 

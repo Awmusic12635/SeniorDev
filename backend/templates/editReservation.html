@@ -20,7 +20,7 @@
 <div class="container-fluid tableHeader">
     <div class="row">
         <div class="col-sm-10">
-            <h1>Request to Reserve: <a href="../../item/{{request.id}}">{{request.itemTypeID}}</a></h1>
+            <h3>Request to Reserve: <a href="../../item/{{request.id}}">{{request.itemTypeID}}</a></h3>
         </div>
         <div class="col-sm-2">
 
@@ -77,7 +77,7 @@
                      {% endfor %}
 
                     <div class="text-right col-sm-12">
-                        <button type="submit" class="save btn btn-lg btn-success"><i class="fa fa-check" aria-hidden="true"></i> Approve</button>
+                        <button type="submit" class="save btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Approve</button>
                     </div>
                 </form>
             </div>
@@ -98,7 +98,7 @@
                          </span>
                     </div>
                     <div class="col-sm-12">
-                        <button type="submit" class="save btn btn-lg btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Decline</button>
+                        <button type="submit" class="save btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Decline</button>
                     </div>
                 </form>
             </div>
@@ -108,7 +108,7 @@
 <div class="container">
     <div class="row">
         <div class="text-center">
-            <button class="save btn btn-lg" id="cancelButton"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
+            <button class="save btn" id="cancelButton"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
         </div>
     </div>
 </div>
