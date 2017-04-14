@@ -43,7 +43,7 @@ def get_last_name(user):
 
 
 def get_email(user):
-    return user.uid + "@rit.edu"
+    return str(user.uid) + "@rit.edu"
 
 
 # at least I think this is the what this Id is
