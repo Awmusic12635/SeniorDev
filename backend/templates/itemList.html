@@ -52,8 +52,8 @@
                     {% for item in items %}
                         <tr>
                             <td data-id="{{ item.id }}" class="viewButton text-right">{{ item.serial }}</td>
-                            <td data-id="{{ item.id }}" class="viewButton">{{ item.tag }}</td>
-                            <td data-id="{{ item.id }}" class="viewButton">{{ item.location }}</td>
+                            <td data-id="{{ item.id }}" class="viewButton"><small>{{ item.tag }}</small></td>
+                            <td data-id="{{ item.id }}" class="viewButton"><small>{{ item.location }}</small></td>
                             {% if item.checkoutStatus == 'Checked in' %}
                             <td data-id="{{ item.id }}" class="checkoutButton"><span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
                             {% elif item.checkoutStatus == 'Checked out' %}
