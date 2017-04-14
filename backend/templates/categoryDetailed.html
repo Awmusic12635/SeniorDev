@@ -51,9 +51,9 @@
                 <tbody>
                     {% for sub in category.itemsubcategory_set.all %}
                         <tr>
-                            <td class="text-right"><b>{{ sub.subCategoryName }}</b></td>
-                            <td>{{ sub.subCategoryDescription }}</td>
-                            <td>{{ sub.defaultCheckoutLengthDays }} days</td>
+                            <td data-id="{{ sub.id }}" class="text-right viewButton"><b>{{ sub.subCategoryName }}</b></td>
+                            <td data-id="{{ sub.id }}" class="viewButton">{{ sub.subCategoryDescription }}</td>
+                            <td data-id="{{ sub.id }}" class="viewButton">{{ sub.defaultCheckoutLengthDays }} days</td>
                             <td>
                                 <button type="button" data-id="{{ sub.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
                                 <button type="button" data-id="{{ sub.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>

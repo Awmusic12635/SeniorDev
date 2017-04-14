@@ -49,11 +49,11 @@
                 <tbody>
                     {% for item in items %}
                         <tr>
-                            <td class="text-right"><b>{{ item.name }}</b></td>
-                            <td>{{ item.description }}</td>
-                            <td>{{ item.manufacturer }}</td>
-                            <td>{{ item.model }}</td>>
-                            <td>$ {{ item.cost }}</td>
+                            <td  class="viewButton text-right" data-id="{{ item.id }}"><b>{{ item.name }}</b></td>
+                            <td class="viewButton" data-id="{{ item.id }}">{{ item.description }}</td>
+                            <td class="viewButton" data-id="{{ item.id }}">{{ item.manufacturer }}</td>
+                            <td class="viewButton" data-id="{{ item.id }}">{{ item.model }}</td>>
+                            <td class="viewButton" data-id="{{ item.id }}">$ {{ item.cost }}</td>
                             <td>
                                 <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
                                 <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>

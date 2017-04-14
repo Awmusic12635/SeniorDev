@@ -46,9 +46,9 @@
                 <tbody>
                     {% for cat in categories %}
                         <tr>
-                            <td class="col-sm-3 text-right"><b>{{ cat.categoryName }}</b></td>
-                            <td class="col-sm-7">{{ cat.categoryDescription }}</td>
-                            <td class="col-sm-2">
+                            <td class="col-sm-3 text-right viewButton" data-id="{{ cat.id }}"><b>{{ cat.categoryName }}</b></td>
+                            <td class="col-sm-7 viewButton" data-id="{{ cat.id }}">{{ cat.categoryDescription }}</td>
+                            <td class="col-sm-2 viewButton" data-id="{{ cat.id }}">
                                 <button type="button" data-id="{{ cat.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
                                 <button type="button" data-id="{{ cat.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
                             </td>

@@ -44,11 +44,11 @@
                 <tbody>
                     {% for rr in requests %}
                         <tr>
-                            <td class="text-right"><b>{{ rr.itemTypeID.name }}</b></td>
-                            <td>{{ rr.itemSubCategoryID.subCategoryName }}</td>
-                            <td>{{ rr.requester }}</td>
-                            <td>{{ rr.startDate }}</td>
-                            <td>{{ rr.endDate }}</td>
+                            <td data-id="{{ rr.id }}" class="text-right viewButton"><b>{{ rr.itemTypeID.name }}</b></td>
+                            <td class="viewButton" data-id="{{ rr.id }}">{{ rr.itemSubCategoryID.subCategoryName }}</td>
+                            <td class="viewButton" data-id="{{ rr.id }}">{{ rr.requester }}</td>
+                            <td class="viewButton" data-id="{{ rr.id }}">{{ rr.startDate }}</td>
+                            <td class="viewButton" data-id="{{ rr.id }}">{{ rr.endDate }}</td>
                             <td>
                                 <button type="button" data-id="{{ rr.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
                             </td>
