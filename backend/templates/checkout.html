@@ -3,6 +3,8 @@
 {% load widget_tweaks %}
 <script>
     $(document).ready(function() {
+        $('.selectUserButton').hide();
+
         $('#itemTable').DataTable();
 
         $('.viewButton').on('click', function () {
@@ -29,7 +31,7 @@
             console.log('selecting user', $(this).attr('username'));
             $.ajax({
                 type: "GET",
-                url: "/checkout/"+$(this).attr('data-id')+"addUser/"+$(this).attr('username'),
+                url: "/checkout/"+$(this).attr('data-id')+"/addUser/"+$(this).attr('username'),
                 success: function (data) {
                     console.log(data);
                     $('#userSelect').html('');
@@ -49,12 +51,12 @@
                 success: function (data) {
                     var userSelect = "<span>Found: " + data + "</span>";
                     $('#userSelect').html(userSelect);
-                    $('.selectUserButton').css('display', 'block');
+                    $('.selectUserButton').show();
                     $('.selectUserButton').attr('username', username);
                 },
                 error: function () {
                     $('#userSelect').html("<p>No matching users</p>");
-                    $('.selectUserButton').css('display', 'none');
+                    $('.selectUserButton').hide();
                 }
             });
         });
@@ -74,7 +76,7 @@
 
     <div>
         <span id="userSelect"></span>
-        <button style="{display: none !important;}" type="button" data-id="{{ checkout.id }}" username="" class="btn btn-primary btn-xs selectUserButton">Select</button>
+        <button type="button" data-id="{{ checkout.id }}" username="" class="btn btn-primary btn-xs selectUserButton">Select</button>
     </div>
 
     </br>
