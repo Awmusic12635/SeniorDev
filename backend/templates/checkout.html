@@ -48,7 +48,7 @@
                 url: "/checkout/findUser/"+username,
                 success: function (data) {
                     var userSelect = "<span>Found: " + data + "</span>";
-                    userSelect += '<button type="button" data-id="{{ checkout.id }}" username="'+username+'"class="btn btn-primary btn-xs selectUserButton">Select</button>'
+                    userSelect += '<button type="button" data-id="{{ checkout.id }}" username="'+username+'"class="btn btn-primary btn-xs selectUserButton">Select</button>';
                     $('#userSelect').html(userSelect);
                 },
                 error: function () {
@@ -75,6 +75,7 @@
 
     </div>
 
+    </br>
     <p>Checkout To: {{ checkout.person }}</p>
     <p>Checkout Status: {{ checkout.status }}</p>
 </div>
