@@ -25,15 +25,29 @@
             window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
         });
 
+        $('.selectUserButton').on('click', function () {
+            $.ajax({
+                type: "GET",
+                url: "/checkout/"+$(this).attr('data-id')+"addUser/"+$(this).attr('username'),
+                success: function (data) {
+                    console.log(data);
+                    $('#userSelect').html('');
+                },
+                error: function () {
+                    $('#userSelect').html("<p>Failed to select user</p>");
+                }
+            });
+        });
+
         $('#userSearchForm').on('submit', function (event) {
-            console.log('searching');
             event.preventDefault();
             $.ajax({
                 type: "GET",
                 url: "/checkout/findUser/"+$('#username').val(),
                 success: function (data) {
                     console.log(data);
-                    var userSelect = "<span>" + data + "</span>";
+                    var userSelect = "<span>Found: " + data.name + "</span>";
+                    userSelect += '<button type="button" data-id="{{ checkout.id }} username="'+data.username+'"class="btn btn-primary btn-xs selectUserButton">Select</button>'
                     $('#userSelect').html(userSelect);
                 },
                 error: function () {

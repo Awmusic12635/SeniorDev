@@ -186,7 +186,7 @@ def getDefaultCheckoutLength(item):
 
 def find_user(request, username):
     ldap_user = ldap.get_user_by_username(username)
-    return HttpResponse(ldap_user.uid)
+    return HttpResponse(json.dumps({'username': ldap_user.uid, 'name': ldap_user.cn}), content_type="application/json")
 
 
 def add_user(request, checkout_id, username):
@@ -195,7 +195,6 @@ def add_user(request, checkout_id, username):
     #is this user in our table already
     user = User.objects.filter(username = username)
     if user is None:
-        print('user not found');
         #get them from ldap again
         ldap_user = ldap.get_user_by_username(username)
         name_parts = ldap_user.cn.split()
