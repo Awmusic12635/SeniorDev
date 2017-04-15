@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^logout', auth_views.logout, name='logout'),
     #dashboard
     url(r'^dashboard/$', dashboard.show, name='dashboard'),
+    url(r'^dashboard/search/$', dashboard.search, name='search'),
     #items
     url(r'^item/$', item.list_item_types, name='itemList'),
     url(r'^item/add$', item.add_item_type, name='items'),

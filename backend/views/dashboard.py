@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from backend.models import CheckoutItem, ItemType, Item
@@ -24,5 +24,15 @@ def show(request):
         'numberOfItemsDueToday'   : numberOfItemsDueToday,
         'itemTypes'               : itemsInfo
     })
+
+def search(request):
+    if request.method == "POST":
+        search_text = request.POSTP['search_text']
+    else:
+        search_text = ''
+
+    itemType = ItemType.objects.filter(name__contains=search_text)
+
+    return render_to_response('search.html', {'itemType' : itemType})
 
 
