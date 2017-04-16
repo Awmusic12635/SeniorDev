@@ -1,7 +1,8 @@
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
+from datetime import datetime
 from backend.models import CheckoutItem, ItemType, Item
+
 
 
 @login_required
@@ -11,28 +12,30 @@ def show(request):
     numberOfItemsInInventory = Item.objects.all().count() - CheckoutItem.objects.all().count()
     numberOfItemsCheckedOut = CheckoutItem.objects.all().count()
     numberOfItemsDueToday = CheckoutItem.objects.filter(dateTimeDue__gte = datetime.today()).count()
-    itemTypes = ItemType.objects.all()
-    itemsInfo = []
-    for itemType in itemTypes:
-        itemInfo = (itemType, items.filter(ItemTypeID_id = itemType.id).count())
-        itemsInfo.append(itemInfo)
     return render(request, 'dashboard.html', {
         'title': 'Dashboard',
         'numberOfItemsInInventory': numberOfItemsInInventory,
         'numberOfItemsCheckedOut' : numberOfItemsCheckedOut,
         'numberOfItems'           : numberOfItems,
-        'numberOfItemsDueToday'   : numberOfItemsDueToday,
-        'itemTypes'               : itemsInfo
+        'numberOfItemsDueToday'   : numberOfItemsDueToday
     })
 
 def search(request):
-    if request.method == "POST":
-        search_text = request.POSTP['search_text']
+    if request.is_ajax():
+        search_text = request.POST['search_text']
     else:
         search_text = ''
 
-    itemType = ItemType.objects.filter(name__contains=search_text)
+    print(search_text)
+    itemTypes = ItemType.objects.filter(name__contains=search_text)
+    itemsInfo = []
+    for itemType in itemTypes:
+        itemInfo = (itemType, Item.objects.all().filter(ItemTypeID_id = itemType.id).count())
+        itemsInfo.append(itemInfo)
 
-    return render_to_response('search.html', {'itemType' : itemType})
+    for itemType, quantity in itemsInfo:
+        print(quantity)
+
+    return render(request,'search.html',{'itemTypes':itemsInfo})
 
 

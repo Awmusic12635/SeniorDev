@@ -23,36 +23,49 @@
                 window.location="/item/{{ item_type_id }}/add";
             });
         });
+
+        $(function(){
+
+            $('#search').keyup(function() {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/dashboard/search/",
+                    data: {
+                        'search_text' : $('#search').val(),
+                        'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+                    },
+                    success: searchSuccess,
+                    dataType: 'html'
+                });
+
+            });
+
+        });
+
+        function searchSuccess(data, textStatus, jqXHR)
+        {
+            $('#result').html(data);
+        }
     </script>
 
-    <div>
+    {% csrf_token %}
+    <input type="text" id="search" name="search_text" />
+    <div id="tableSearch">
     <table id="itemTable" class="display">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Model</th>
-                    <th>Cost</th>
-                    <th>Available Quantitiy</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for itemType, quantity in itemTypes %}
-                <tr>
-                    <td>{{ itemType.id }}</td>
-                    <td>{{ itemType.name }}</td>
-                    <td>{{ itemType.model }}</td>
-                    <td>{{ itemType.cost }}</td>
-                    <td>{{ quantity }}</td>
-                    <td>
-                        <button type="button" data-id="{{ itemType.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                        <button type="button" data-id="{{ itemType.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Model</th>
+                <th>Cost</th>
+                <th>Available Quantitiy</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="result">
+        </tbody>
+    </table>
     </div>
 </div>
 {% endblock %}
