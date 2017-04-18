@@ -17,18 +17,17 @@
         });
     });
 </script>
-<div class="container tableHeader">
+<div class="container-fluid tableHeader">
     <div class="row">
-        <div class="col-sm-6">
-            <h1>Reserved Items</h1>
+        <div class="col-xs-6">
+            <h3>Reserved Items</h3>
         </div>
-        <div class="col-sm-6 text-right">
-            <button id='reservedItemButton' type="button" class="btn btn-warning btn-lg"><i class="fa fa-gavel" aria-hidden="true"></i> Pending Items</button>
-            <button id='addItemButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Reserve an Item</button>
+        <div class="col-xs-6 text-right">
+            <button id='addItemButton' type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Reserve an Item</button>
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <table id="itemTable" class="display">
@@ -48,13 +47,13 @@
                     {% for r in reservations %}
                         <tr>
                             <td class="text-right"><b>{{ r.itemTypeID.name }}</b></td>
-                            <td>{{ r.userID }}</td>
-                            <td>{{ r.startDate }}</td>
-                            <td>{{ r.endDate }}</td>
-                            <td>{{ r.quantity }}</td>
-                            <td>{{ r.lengthOfCheckout }} days</td>
-                            <td>{{ r.reservationRequestID.approvedBy }}</td>
-                            <td>{{ r.reservationRequestID.approvedOn }}</td>
+                            <td><small>{{ r.userID }}</small></td>
+                            <td><small>{{ r.startDate }}</small></td>
+                            <td><small>{{ r.endDate }}</small></td>
+                            <td><small>{{ r.quantity }}</small></td>
+                            <td><small>{{ r.lengthOfCheckout }} days</small></td>
+                            <td><small>{{ r.reservationRequestID.approvedBy }}</small></td>
+                            <td><small>{{ r.reservationRequestID.approvedOn }}</small></td>
                         </tr>
                     {% endfor %}
                 </tbody>
