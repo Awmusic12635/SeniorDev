@@ -59,6 +59,15 @@ urlpatterns = [
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.decline_request, name='reservationRequestDecline'),
     url(r'^reservation/$', reservation.list_reservations, name='reservationList'),
+    #admin area
+    url(r'^admin/$', admin.dashboard, name='reservationList'),
+    url(r'^admin/user$', admin.dashboard, name='reservationList'),
+    url(r'^admin/user/add$', admin.dashboard, name='reservationList'),
+    url(r'^admin/user/(?P<id>\d*)$', admin.dashboard, name='reservationList'),
+    url(r'^admin/user/(?P<id>\d*)/edit$', admin.dashboard, name='reservationList'),
+    url(r'^admin/report/$', admin.dashboard, name='reservationList'),
+    url(r'^admin/report/new$', admin.dashboard, name='reservationList'),
+    url(r'^admin/report/(?P<id>\d*)$', admin.dashboard, name='reservationList'),
 
 ]
 if settings.DEBUG:

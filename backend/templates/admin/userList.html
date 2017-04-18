@@ -1,0 +1,54 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    $(document).ready(function(){
+        $('#userTable').DataTable();
+
+        $('.viewButton').on('click',function(){
+            window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id');
+        });
+        $('.editButton').on('click',function(){
+            window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id')+"/edit";
+        });
+        $('#addItemButton').on('click',function(){
+            window.location="/item/{{ item_type_id }}/add";
+        });
+        $('.checkoutButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id')+"/checkout";
+        });
+    });
+</script>
+
+<button id='addUserButton' type="button" class="btn btn-primary btn-lg">Add User</button>
+
+<table id="userTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>Is Staff</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.is_staff }}</td>
+                    <td>
+                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs checkoutButton">Checkout</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
