@@ -2,11 +2,11 @@
 {% block content %}
 {% load widget_tweaks %}
 <script>
-    var selectUser = function(){
-        console.log('selecting user', $(this).attr('username'));
+    var selectUser = function(btn){
+        console.log('selecting user', btn.attr('username'), btn);
             $.ajax({
                 type: "GET",
-                url: "/checkout/"+$(this).attr('data-id')+"/addUser/"+$(this).attr('username'),
+                url: "/checkout/"+btn.attr('data-id')+"/addUser/"+btn.attr('username'),
                 success: function (data) {
                     $('#userSelect').html('');
                     $('#assignedUser').html(data);
@@ -69,8 +69,7 @@
                 success: function (data) {
                     var userSelect = "<span>Found: </span>";
                     data.users.forEach(function(user){
-                        console.log(user, user.name, user.username);
-                        userSelect += '<div><span>'+ user.name +' - '+ user.username +'</span><button onclick="selectUser();" type="button" data-id="{{ checkout.id }}" username="'+user.username+'" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
+                        userSelect += '<div><span>'+ user.name +' - '+ user.username +'</span><button onclick="selectUser(this);" type="button" data-id="{{ checkout.id }}" username="'+user.username+'" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
                     });
 
 
@@ -97,7 +96,7 @@
                 success: function (data) {
                     var userSelect = "<span>Found: </span>";
                     data.users.forEach(function(user){
-                        userSelect += '<div><span>'+ user.name +' - '+ user.username +'</span><button onclick="selectUser();" type="button" data-id="{{ checkout.id }}" username="'+user.username+'" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
+                        userSelect += '<div><span>'+ user.name +' - '+ user.username +'</span><button onclick="selectUser(this);" type="button" data-id="{{ checkout.id }}" username="'+user.username+'" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
                     });
 
                     if(data.users.length == 0){
