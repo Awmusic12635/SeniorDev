@@ -188,7 +188,7 @@ def find_user_name(request, username):
     ldap_users = ldap.get_user_by_username(username)
     ret_arr = []
     for user in ldap_users:
-        ret_arr.append({'name': str(user.cn), 'username': str(user.uidNumber)})
+        ret_arr.append({'name': str(user.cn), 'username': str(user.uid)})
     return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
 
 
@@ -196,7 +196,7 @@ def find_user_id(request, uid):
     ldap_users = ldap.get_user_by_universityid(uid)
     ret_arr = []
     for user in ldap_users:
-        ret_arr.append({'name': str(user.cn), 'username': str(user.uidNumber)})
+        ret_arr.append({'name': str(user.cn), 'username': str(user.uid)})
     return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
 
 
