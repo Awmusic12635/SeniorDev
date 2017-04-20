@@ -13,36 +13,48 @@
 
 </script>
 
+<div class="container-fluid tableHeader">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>Check In</h3>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
 
-<div style="margin: 15px;">
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Checked Out to</th>
-                <th>Date Out</th>
-                <th>Checked Out By</th>
-                <th>Items</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for checkout in checkouts %}
-                <tr>
-                    <td>{{ checkout.person }}</td>
-                    <td>{{ checkout.dateTimeOut }}</td>
-                    <td>{{ checkout.checkedOutBy }}</td>
-                    <td>
-                        {% for checkoutitem in checkout.checkoutitem_set.all %}
-                            {{ checkoutitem.item.name }},
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right">Items</th>
+                        <th>Checked Out To</th>
+                        <th>Checked Out By</th>
+                        <th>Checkout Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for checkout in checkouts %}
+                        <tr>
+                            <td data-id="{{ checkout.id }}" class="text-right viewButton">
+                                {% for checkoutitem in checkout.checkoutitem_set.all %}
+                                    {{ checkoutitem.item.name }},
+                                {% endfor %}
+                            </td>
+                            <td data-id="{{ checkout.id }}" class="viewButton"><small>{{ checkout.person }}</small></td>
+                            <td data-id="{{ checkout.id }}" class="viewButton"><small>{{ checkout.checkedOutBy }}</small></td>
+                            <td data-id="{{ checkout.id }}" class="viewButton"><small>{{ checkout.dateTimeOut }}</small></td>
+                            <td>
+                                <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
 
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

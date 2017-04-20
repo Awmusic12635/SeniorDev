@@ -21,38 +21,49 @@
 
 </script>
 
-    <div>
-        <p>Name: {{ category.categoryName }}</p>
-        <p>Description: {{ category.categoryDescription }}</p>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <h3><a href="../category">Categories</a> <i class="fa fa-caret-right" aria-hidden="true"></i> {{ category.categoryName }}</h3>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button id='addItemButton' type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Add New Subcategory</button>
+        </div>
     </div>
-
-<div style="margin: 15px;">
-    Sub Categories
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Default Checkout Length</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sub in category.itemsubcategory_set.all %}
-                <tr>
-                    <td>{{ sub.subCategoryName }}</td>
-                    <td>{{ sub.subCategoryDescription }}</td>
-                    <td>{{ sub.defaultCheckoutLengthDays }}</td>
-                    <td>
-                        <button type="button" data-id="{{ sub.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                        <button type="button" data-id="{{ sub.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-sm-12 subCategoryDescription">
+            <p><b>Description:</b> {{ category.categoryDescription }}</p>
+        </div>  
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right">Name</th>
+                        <th>Description</th>
+                        <th>Default Checkout Length</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sub in category.itemsubcategory_set.all %}
+                        <tr>
+                            <td data-id="{{ sub.id }}" class="text-right viewButton"><b>{{ sub.subCategoryName }}</b></td>
+                            <td data-id="{{ sub.id }}" class="viewButton"><small>{{ sub.subCategoryDescription }}</small></td>
+                            <td data-id="{{ sub.id }}" class="viewButton"><small>{{ sub.defaultCheckoutLengthDays }} days</small></td>
+                            <td>
+                                <button type="button" data-id="{{ sub.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
+                                <button type="button" data-id="{{ sub.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-    <button id='addItemButton' type="button" class="btn btn-primary btn-lg">Add Sub Category</button>
 {% endblock %}

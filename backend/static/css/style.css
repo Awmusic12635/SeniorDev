@@ -1,0 +1,91 @@
+.navbar {
+	background: #F36E21;
+	border-radius: 0;
+	border: none;
+}
+.navbar-inverse .navbar-nav>li>a {
+	color: #FFFFFF;
+}
+.navbar-brand {
+	color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+}
+.navbar-brand img {
+	max-width: 125px;
+}
+.dropdown-menu>li>a:hover {
+	background:#da631d !important;
+	color: #FFFFFF;
+}
+.dropdown-toggle,.navbar-nav>li {
+	cursor: pointer;
+}
+.navbar-nav>li:hover, .navbar-inverse .navbar-nav>.open>a {
+	background: #da631d !important;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover  {
+	background-color: #c2581a !important;
+}
+
+
+#addItemButton, #reservedItemButton, #additemtypebutton, #categoryButton {
+  margin-top: 20px;
+}
+.btn-wide {
+	min-width: 200px;
+	min-height: 125px;
+	margin: 5%;
+}
+
+.tableHeader {
+	margin-bottom: 40px;
+}
+
+
+.dataTables_filter label {
+	width: 500px;
+	margin-bottom: 20px;
+}
+ .dataTables_filter .input-sm {
+ 	width: 80%;
+ }
+
+
+#additemtypeform p label {
+	width: 100px;
+	text-align: right;
+}
+#additemtypeform p input[type="text"] {
+	width: 85%;
+}
+
+
+.form-category button[type="submit"] {
+	margin-top: 20px;
+}
+.form-decline {
+	margin-top: 85px;
+}
+
+
+#subcategoryDiv {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.subCategoryDescription p {
+	margin-bottom: 40px;
+}
+input[type=file] {
+	display: initial;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	background: none !important;
+	border-color: transparent;
+}
+
+@media (max-width: 768px) {
+	.dataTables_filter .input-sm {
+		width: 100%;
+	}
+}
