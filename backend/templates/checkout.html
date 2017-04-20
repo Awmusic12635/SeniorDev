@@ -9,7 +9,6 @@
                 url: "/checkout/"+$(btn).attr('data-id')+"/addUser/"+$(btn).attr('username'),
                 success: function (data) {
                     $('#userSelect').html('');
-                    $('#assignedUser').html(data);
                     $('.selectUserButton').hide();
                 },
                 error: function () {
@@ -41,22 +40,6 @@
 
         $('.resetButton').on('click', function () {
             window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
-        });
-
-        $('.selectUserButton').on('click', function () {
-            console.log('selecting user', $(this).attr('username'));
-            $.ajax({
-                type: "GET",
-                url: "/checkout/"+$(this).attr('data-id')+"/addUser/"+$(this).attr('username'),
-                success: function (data) {
-                    $('#userSelect').html('');
-                    $('#assignedUser').html(data);
-                    $('.selectUserButton').hide();
-                },
-                error: function () {
-                    $('#userSelect').html("<p>Failed to select user</p>");
-                }
-            });
         });
 
         $('#userSearchFormUsername').on('submit', function (event) {

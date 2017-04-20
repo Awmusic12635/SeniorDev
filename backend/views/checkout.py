@@ -22,6 +22,7 @@ def get_pending_checkout(request):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
+@login_required
 def add_item(request, item_id):
     checkout = create_pending_checkout()
     item = get_object_or_404(Item, pk=int(item_id))
@@ -45,6 +46,7 @@ def add_item(request, item_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
 
+@login_required
 def remove_item(request, item_id):
     item = get_object_or_404(Item, pk=int(item_id))
     checkout = create_pending_checkout()
@@ -64,6 +66,7 @@ def remove_item(request, item_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
 
 
+@login_required
 def override_date(request, checkoutitem_id):
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     if request.method == "POST":
@@ -86,6 +89,7 @@ def override_date(request, checkoutitem_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
 
+@login_required
 def reset_duedate(request, checkoutitem_id):
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     ci.dateTimeDue = datetime.now() + timedelta(days=getDefaultCheckoutLength(ci.item))
@@ -108,12 +112,14 @@ def reset_duedate(request, checkoutitem_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
 
+@login_required
 def clear(request):
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDIN)
     CheckoutItem.objects.filter(checkout=create_pending_checkout()).delete()
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
+@login_required
 def complete(request):
     checkout = create_pending_checkout()
     checkout.status = CONST_STATUS_OPEN
@@ -184,6 +190,7 @@ def getDefaultCheckoutLength(item):
     return checkoutlength
 
 
+@login_required
 def find_user_name(request, username):
     ldap_users = ldap.get_user_by_username(username)
     ret_arr = []
@@ -192,6 +199,7 @@ def find_user_name(request, username):
     return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
 
 
+@login_required
 def find_user_id(request, uid):
     ldap_users = ldap.get_user_by_universityid(uid)
     ret_arr = []
@@ -200,6 +208,7 @@ def find_user_id(request, uid):
     return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
 
 
+@login_required
 def add_user(request, checkout_id, username):
     checkout = Checkout.objects.get(pk=checkout_id)
 
@@ -217,6 +226,9 @@ def add_user(request, checkout_id, username):
     else:
         user = users[0]
 
+    print(user)
     checkout.person = user;
     checkout.save()
+
+    print(checkout)
     return get_pending_checkout(request)
