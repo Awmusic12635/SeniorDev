@@ -185,16 +185,18 @@ def getDefaultCheckoutLength(item):
 
 
 def find_user_name(request, username):
-    ldap_user = ldap.get_user_by_username(username)
-    return HttpResponse(ldap_user.cn)
+    ldap_users = ldap.get_user_by_username(username)
+    ret_arr = []
+    for user in ldap_users:
+        ret_arr.append({'name': user.cn, 'username': user.uidNumber})
+    return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
 
 
 def find_user_id(request, uid):
     ldap_users = ldap.get_user_by_universityid(uid)
     ret_arr = []
-    print(ldap_users)
     for user in ldap_users:
-        ret_arr.append(user.cn)
+        ret_arr.append({'name': user.cn, 'username': user.uidNumber})
     return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
 
 
