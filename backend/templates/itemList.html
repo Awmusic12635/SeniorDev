@@ -15,10 +15,11 @@
             window.location="/item/{{ item_type_id }}/add";
         });
         $('.checkoutButton').on('click',function(){
-            window.location="/checkout/";
+            window.location="/item/"+$(this).attr('data-id')+"/checkout";
         });
     });
 </script>
+
 
 <div class="container-fluid tableHeader">
     <div class="row">
@@ -71,5 +72,6 @@
             </table>
         </div>
     </div>
+
 </div>
 {% endblock %}

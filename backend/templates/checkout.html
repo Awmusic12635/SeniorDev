@@ -2,32 +2,70 @@
 {% block content %}
 {% load widget_tweaks %}
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
+        $('.selectUserButton').hide();
+
         $('#itemTable').DataTable();
 
-        $('.viewButton').on('click',function(){
-            window.location="/item/"+$(this).attr('data-id');
+        $('.viewButton').on('click', function () {
+            window.location = "/item/" + $(this).attr('data-id');
         });
 
-        $('.removeButton').on('click',function(){
-            window.location="/checkout/removeItem/"+$(this).attr('data-id');
+        $('.removeButton').on('click', function () {
+            window.location = "/checkout/removeItem/" + $(this).attr('data-id');
         });
 
-        $('.clearButton').on('click',function(){
-            window.location="/checkout/clear";
+        $('.clearButton').on('click', function () {
+            window.location = "/checkout/clear";
         });
 
-        $('.completeButton').on('click',function(){
-            window.location="/checkout/complete";
+        $('.completeButton').on('click', function () {
+            window.location = "/checkout/complete";
         });
 
-        $('.resetButton').on('click',function(){
-            window.location="/checkout/resetDueDate/"+$(this).attr('data-id');
+        $('.resetButton').on('click', function () {
+            window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
+        });
+
+        $('.selectUserButton').on('click', function () {
+            console.log('selecting user', $(this).attr('username'));
+            $.ajax({
+                type: "GET",
+                url: "/checkout/"+$(this).attr('data-id')+"/addUser/"+$(this).attr('username'),
+                success: function (data) {
+                    $('#userSelect').html('');
+                    $('#assignedUser').html(data);
+                    $('.selectUserButton').hide();
+                },
+                error: function () {
+                    $('#userSelect').html("<p>Failed to select user</p>");
+                }
+            });
+        });
+
+        $('#userSearchForm').on('submit', function (event) {
+            event.preventDefault();
+            var username = $('#username').val()
+            $.ajax({
+                type: "GET",
+                url: "/checkout/findUser/"+username,
+                success: function (data) {
+                    var userSelect = "<span>Found: " + data + "</span>";
+                    $('#userSelect').html(userSelect);
+                    $('.selectUserButton').show();
+                    $('.selectUserButton').attr('username', username);
+                },
+                error: function () {
+                    $('#userSelect').html("<p>No matching users</p>");
+                    $('.selectUserButton').hide();
+                }
+            });
         });
     });
 
 
 </script>
+
 
 <div class="container-fluid tableHeader">
     <div class="row">
@@ -37,6 +75,30 @@
         <div class="col-xs-6">
             <br/>
             <div class="row">
+              <div style="margin: 15px;">
+                  <form id="userSearchForm">
+                      {% csrf_token %}
+                      <p>Search for user</p>
+                      <label for="username">Username:</label>
+                      <input type="text" size="15" required name="username" id="username">
+                      <input type="submit" value="Search">
+                  </form>
+
+                  <div>
+                      <span id="userSelect"></span>
+                      <button type="button" data-id="{{ checkout.id }}" username="" class="btn btn-primary btn-xs selectUserButton">Select</button>
+                  </div>
+
+                  </br>
+              </div>  
+                <div class="col-xs-8 text-right">
+                    <b>Checkout To:</b>
+                </div>
+                <div class="col-xs-4 text-left">
+                  <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.person }}</span>
+                </div>
+            </div>
+              </div>  
                 <div class="col-xs-8 text-right">
                     <b>Status:</b>
                 </div>
@@ -116,5 +178,6 @@
             <button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
         </div>
     </div>
+
 </div>
 {% endblock %}

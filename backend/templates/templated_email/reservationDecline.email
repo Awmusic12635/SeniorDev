@@ -1,0 +1,8 @@
+{% block subject %}Reservation Declined{% endblock %}
+
+{% block plain %}
+  Your request to reserve {{ request.itemTypeID.name }} from {{ request.startDate }} to {{ request.endDate }} has been declined for the following reason:
+      {{ request.declinedReason }}.
+
+  If you have any questions or concerns please contact John Simonson at 585-475-xxxx.
+{% endblock %}

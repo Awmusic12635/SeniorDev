@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 from .views import admin
 from .views import user, checkout, checkin,reservation, category, subcategory
 from .views.items import item
+from .views.ldap import ldap
 
 urlpatterns = [
     url(r'^$', user.index, name='index'),
@@ -22,7 +23,7 @@ urlpatterns = [
     url(r'^item/(?P<item_type_id>\d*)/items$', item.list_items, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)$', item.show_item, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/edit$', item.edit_item, name='items'),
-    url(r'^item/(?P<item_type_id>\d*)/(?P<item_id>\d*)/checkout$', checkout.add_item, name='items'),
+    url(r'^item/(?P<item_id>\d*)/checkout$', checkout.add_item, name='items'),
     #category
     url(r'^category/$', category.list_categories, name='categoryList'),
     url(r'^category/add$', category.add_category, name='categoryAdd'),
@@ -40,6 +41,8 @@ urlpatterns = [
     url(r'^search$', user.index, name='items'),
     #checkout
     url(r'^checkout/$', checkout.get_pending_checkout, name='items'),
+    url(r'^checkout/findUser/(?P<username>\S*)$', checkout.find_user, name='items'),
+    url(r'^checkout/(?P<checkout_id>\d*)/addUser/(?P<username>\S*)$', checkout.add_user, name='items'),
     url(r'^checkout/addItem/(?P<item_id>\d*)$', checkout.add_item, name='items'),
     url(r'^checkout/removeItem/(?P<item_id>\d*)$', checkout.remove_item, name='items'),
     url(r'^checkout/resetDueDate/(?P<checkoutitem_id>\d*)$', checkout.reset_duedate, name='items'),
@@ -55,7 +58,7 @@ urlpatterns = [
     url(r'^reservationRequest/pending$', reservation.view_requests, name='reservationRequestPending'),
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.decline_request, name='reservationRequestDecline'),
-    url(r'^reservation/$', reservation.list_reservations, name='reservationList')
+    url(r'^reservation/$', reservation.list_reservations, name='reservationList'),
 
 ]
 if settings.DEBUG:
