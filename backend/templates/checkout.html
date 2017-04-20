@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 <script>
     var selectUser = function(btn){
-        console.log('selecting user', btn.attr('username'), btn);
+        console.log(btn);
             $.ajax({
                 type: "GET",
                 url: "/checkout/"+btn.attr('data-id')+"/addUser/"+btn.attr('username'),
