@@ -52,11 +52,8 @@
                 dataType: "json",
                 success: function (data) {
                     var userSelect = "<span>Found: </span>";
-                    console.log(data);
-                    console.log(data.users);
-                    console.log(data.users[0]);
                     for(user in data.users){
-                        console.log(user);
+                        console.log(user, user.name, user.username);
                         userSelect += '<div><span>'+ user.name +' - '+ user.username +'</span><button type="button" data-id="{{ checkout.id }}" username="'+user.username+'" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
                     }
 
