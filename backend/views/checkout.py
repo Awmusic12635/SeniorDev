@@ -230,5 +230,5 @@ def add_user(request, checkout_id, username):
     checkout.person = user;
     checkout.save()
 
-    print(checkout)
+    print(checkout.person)
     return get_pending_checkout(request)
