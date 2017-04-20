@@ -39,7 +39,7 @@
                         <tr>
                             <td data-id="{{ checkout.id }}" class="text-right viewButton">
                                 {% for checkoutitem in checkout.checkoutitem_set.all %}
-                                    {{ checkoutitem.item.name }},
+                                    {{ checkoutitem.item.ItemTypeID.name }},
                                 {% endfor %}
                             </td>
                             <td data-id="{{ checkout.id }}" class="viewButton"><small>{{ checkout.person }}</small></td>
