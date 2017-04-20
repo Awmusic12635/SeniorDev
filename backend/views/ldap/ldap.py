@@ -25,12 +25,12 @@ def get_user_by_username(user_id):
 # this method doesn't work yet
 def get_user_by_universityid(uni_id):
     conn = setup_ldap()
-    conn.search('ou=people,dc=rit,dc=edu', '(universityid='+uni_id+')', attributes=[ALL_ATTRIBUTES])
+    conn.search('ou=people,dc=rit,dc=edu', '(ritId='+uni_id+')', attributes=[ALL_ATTRIBUTES])
 
-    entry = conn.entries[0]
+    entries = conn.entries
     conn.unbind()
 
-    return entry
+    return entries
 
 
 # For these you send in an entry that is returned by the user search.
