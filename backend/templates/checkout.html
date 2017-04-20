@@ -3,10 +3,10 @@
 {% load widget_tweaks %}
 <script>
     var selectUser = function(btn){
-        console.log(btn);
+        console.log('selecting user', $(btn).attr('username'));
             $.ajax({
                 type: "GET",
-                url: "/checkout/"+btn.attr('data-id')+"/addUser/"+btn.attr('username'),
+                url: "/checkout/"+$(btn).attr('data-id')+"/addUser/"+$(btn).attr('username'),
                 success: function (data) {
                     $('#userSelect').html('');
                     $('#assignedUser').html(data);
