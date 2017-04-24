@@ -3,12 +3,14 @@
 {% load widget_tweaks %}
     <script>
         $(document).ready(function() {
+            $('#id_username').css('display', 'none');
+
             $.ajax({
                 type: "GET",
                 url: "/user/staff",
                 dataType: "json",
                 success: function (data) {
-                    var userSelect = "<select name=userSelect required><option value=''>---</option>";
+                    var userSelect = "<select onChange = 'userSelected(this)' name=userSelect required><option value=''>---</option>";
                     console.log(data);
                     data.users.forEach(function(user){
                         userSelect += '<option value = ' + user + '>'+ user + '</option>';
@@ -26,6 +28,11 @@
                     $('#userSelect').html("<p>No staff users found</p>");
                 }
             });
+
+            userSelected = function (elem) {
+                console.log(elem. elem.value);
+                $('#id_username').value = 'TEST';
+            }
 
         });
 
