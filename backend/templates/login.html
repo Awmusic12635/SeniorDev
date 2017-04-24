@@ -1,6 +1,37 @@
 {% extends 'loggedoutbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "/login/users",
+                dataType: "json",
+                success: function (data) {
+                    var userSelect = "<select name=userSelect required><option value=''>---</option>";
+                    console.log(data);
+                    data.users.forEach(function(user){
+                        userSelect += '<option value = ' + user.username + '>'+ user.username + '</option>';
+                    });
+
+                    userSelect += '</select>';
+
+                    if(data.users.length == 0){
+                        userSelect ="<p>No staff users found</p>";
+                    }
+
+                    $('#userSelect').html(userSelect);
+                },
+                error: function () {
+                    $('#userSelect').html("<p>No staff users found</p>");
+                }
+            });
+
+        });
+
+    </script>
+
+
     <div class="container">
         <div class="row">
             <div class="col-sm-5 text-center" style="background: #eaeaea;">
@@ -10,12 +41,8 @@
                     {% csrf_token %}
                     <span id="reauth-email" class="reauth-email"></span>
 
-                    <select name="username" required >
-                        <option  value=''>-- Select a user --</option>
-                        {% for s in staff %}
-                            <option value='{{ s.id }}' >{{ s.username }}</option>
-                        {% endfor %}
-                    </select>
+                    <div id="userSelect">
+                    </div>
 
                     {% render_field form.username class="form-control" placeholder=form.username.label %} <br/>
 
@@ -33,3 +60,6 @@
         </div>
     </div><!-- /container -->
 {% endblock %}
+
+
+
