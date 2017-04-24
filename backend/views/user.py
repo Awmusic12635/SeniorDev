@@ -19,6 +19,7 @@ def dashboard(request):
 
 
 def get_staff(request):
+    print('in get staff')
     staff = User.objects.all().filter(is_staff=1)
     print(staff)
     return HttpResponse(json.dumps({'users': staff}), content_type="application/json")

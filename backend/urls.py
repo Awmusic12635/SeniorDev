@@ -11,7 +11,7 @@ from .views.ldap import ldap
 urlpatterns = [
     url(r'^$', user.index, name='index'),
     url(r'^login', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    url(r'^login/users', user.get_staff, name='login'),
+    url(r'^login/users$', user.get_staff, name='login'),
     url(r'^logout', auth_views.logout, name='logout'),
     url(r'^dashboard/$', user.dashboard, name='dashboard'),
     #items
