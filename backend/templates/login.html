@@ -9,7 +9,16 @@
                 <form class="form-signin" method="post">
                     {% csrf_token %}
                     <span id="reauth-email" class="reauth-email"></span>
+
+                    <select name="username" required >
+                        <option  value=''>-- Select a user --</option>";
+                        {% for s in staff %}
+                            <option value='{{ s.id }}' >{{ s.username }}</option>
+                        {% endfor %}
+                    </select>
+
                     {% render_field form.username class="form-control" placeholder=form.username.label %} <br/>
+
                     {% render_field form.password class="form-control" placeholder=form.password.label %} <br/>
                     <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log In</button>
                     <small><i class="fa fa-lock" aria-hidden="true"></i> Secure Login</small>
