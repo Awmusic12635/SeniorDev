@@ -11,7 +11,7 @@
                     var userSelect = "<select name=userSelect required><option value=''>---</option>";
                     console.log(data);
                     data.users.forEach(function(user){
-                        userSelect += '<option value = ' + user.username + '>'+ user.username + '</option>';
+                        userSelect += '<option value = ' + user + '>'+ user + '</option>';
                     });
 
                     userSelect += '</select>';
