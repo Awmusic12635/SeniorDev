@@ -5,7 +5,7 @@
         $(document).ready(function() {
             $.ajax({
                 type: "GET",
-                url: "/login/users",
+                url: "/user/staff",
                 dataType: "json",
                 success: function (data) {
                     var userSelect = "<select name=userSelect required><option value=''>---</option>";
