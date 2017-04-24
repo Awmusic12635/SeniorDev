@@ -11,7 +11,7 @@
                     <span id="reauth-email" class="reauth-email"></span>
 
                     <select name="username" required >
-                        <option  value=''>-- Select a user --</option>";
+                        <option  value=''>-- Select a user --</option>
                         {% for s in staff %}
                             <option value='{{ s.id }}' >{{ s.username }}</option>
                         {% endfor %}

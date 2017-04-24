@@ -10,6 +10,7 @@ def index(request):
 
 def login(request):
     staff = User.objects.all().filter(is_staff=1)
+    print(staff)
     return render(request, 'login.html', {'staff':staff})
 
 
