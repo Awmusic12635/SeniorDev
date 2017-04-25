@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    'pinax.eventlog'
+    'pinax.eventlog',
+    'report_builder'
 ]
 
 MIDDLEWARE = [
