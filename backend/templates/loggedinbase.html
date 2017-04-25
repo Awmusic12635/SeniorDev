@@ -23,6 +23,30 @@
         <!-- LOCAL STYLE SHEETS -->
         <link rel="stylesheet" href="/static/css/style.css">
 
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "/checkout/cart/count",
+                dataType: "json",
+                success: function (data) {
+                    $('#cartCount').html('<span>'+ data + '</span>');
+                },
+                error: function () {
+                    $('#cartCount').html('<span>0</span>');
+                }
+            });
+
+            userSelected = function (elem) {
+                $('#id_username').val(elem.value);
+            }
+
+        });
+
+    </script>
+
+
+
     </head>
     <body>
         <nav class="navbar navbar-inverse">
@@ -59,6 +83,7 @@
                   <li id="checkout-li"><a href="/checkout">Check Out</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/checkout">Cart(<span id='cartCount'> </span>) <i class="fa fa-shopping-cart"></i></a><</li>
                   <li><a href="/logout">Logout <i class="fa fa-sign-out"></i></a></li>
                 </ul>
               </div><!--/.nav-collapse -->

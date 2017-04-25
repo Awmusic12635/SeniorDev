@@ -232,3 +232,11 @@ def add_user(request, checkout_id, username):
 
     print(checkout.person)
     return get_pending_checkout(request)
+
+
+@login_required
+def cart_count(request):
+    checkout = create_pending_checkout()
+    count = CheckoutItem.objects.filter(checkout = checkout).count()
+    print(count)
+    return HttpResponse(str(count))
