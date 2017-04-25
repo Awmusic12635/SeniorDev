@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
@@ -6,7 +6,6 @@ from django.conf.urls.static import static
 from .views import admin
 from .views import user, checkout, checkin,reservation, category, subcategory, dashboard
 from .views.items import item
-import include
 
 urlpatterns = [
     url(r'^$', user.index, name='index'),
