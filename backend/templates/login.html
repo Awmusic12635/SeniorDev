@@ -11,7 +11,6 @@
                 dataType: "json",
                 success: function (data) {
                     var userSelect = "<select onChange = 'userSelected(this)' name=userSelect required><option value=''>---</option>";
-                    console.log(data);
                     data.users.forEach(function(user){
                         userSelect += '<option value = ' + user + '>'+ user + '</option>';
                     });
@@ -30,8 +29,7 @@
             });
 
             userSelected = function (elem) {
-                console.log(elem);
-                $('#id_username').val(elem.val());
+                $('#id_username').val(elem.value);
             }
 
         });
