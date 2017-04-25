@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 from .views import admin
 from .views import user, checkout, checkin,reservation, category, subcategory, dashboard
 from .views.items import item
+import include
 
 urlpatterns = [
     url(r'^$', user.index, name='index'),
@@ -57,7 +58,9 @@ urlpatterns = [
     url(r'^reservationRequest/pending$', reservation.view_requests, name='reservationRequestPending'),
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.decline_request, name='reservationRequestDecline'),
-    url(r'^reservation/$', reservation.list_reservations, name='reservationList')
+    url(r'^reservation/$', reservation.list_reservations, name='reservationList'),
+
+    url(r'^report_builder/', include('report_builder.urls'))
 
 ]
 if settings.DEBUG:
