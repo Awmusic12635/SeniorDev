@@ -25,7 +25,7 @@ SECRET_KEY = '%58l7v9@*qp!c&t4f&m0piws^rh=s60o(f#dkkx2evoa@^9!ae'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ted.alexwacker.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['ted.alexwacker.com','team-hollerith.ist.rit.edu', 'localhost', '127.0.0.1']
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGIN_URL='/login'
 
