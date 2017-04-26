@@ -27,6 +27,8 @@ class ItemCategory(TimeStampedModel):
     def __str__(self):
         return self.categoryName
 
+    class ReportBuilder:
+        exclude = ('id')
 #classes with FKs
 
 
@@ -62,6 +64,8 @@ class ItemType(TimeStampedModel):
     def __str__(self):
         return self.name
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class Item(TimeStampedModel):
     ItemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
@@ -71,6 +75,8 @@ class Item(TimeStampedModel):
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', blank=False)
     checkoutStatus = models.CharField(max_length=50, default="Checked in")
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class ItemStateLog(TimeStampedModel):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -103,6 +109,8 @@ class Checkout(TimeStampedModel):
     signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class CheckoutItem(TimeStampedModel):
     dateTimeDue = models.DateTimeField(null=True)
@@ -113,6 +121,8 @@ class CheckoutItem(TimeStampedModel):
     dateTimeIn = models.DateTimeField(null=True)
     checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class CheckInListResults(TimeStampedModel):
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
@@ -137,6 +147,8 @@ class ReservationRequest(TimeStampedModel):
     declinedOn = models.DateTimeField(null=True)
     declinedReason = models.CharField(max_length=250,blank=True, null=True)
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class Reservation(TimeStampedModel):
     itemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
@@ -146,3 +158,6 @@ class Reservation(TimeStampedModel):
     lengthOfCheckout = models.IntegerField()
     quantity = models.IntegerField()
     reservationRequestID = models.ForeignKey(ReservationRequest, on_delete=models.CASCADE)
+
+    class ReportBuilder:
+        exclude = ('id')

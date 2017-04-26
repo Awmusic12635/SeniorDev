@@ -138,4 +138,4 @@ EMAIL_PORT=os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
 
-REPORT_BUILDER_EXCLUDE = ['backend.AccessRule','backend.ResponseType','backend.ItemState','backend.CheckInOrOutListItem','backend.ItemStateLog','backend.CheckInOrOutList','backend.CheckInListItems','backend.CheckInListResults']
+REPORT_BUILDER_EXCLUDE = ['backend.accessrule','seniordev.backend.responsetype','seniordev.backend.ItemState','seniorDev.backend.CheckInOrOutListItem','SeniorDev.backend.ItemStateLog','backend.CheckInOrOutList','backend.CheckInListItems','backend.CheckInListResults']
