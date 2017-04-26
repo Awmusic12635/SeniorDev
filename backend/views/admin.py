@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
 from django.contrib.auth.decorators import user_passes_test
 from .ldap import ldap
 from backend.models import Item, Checkout, CheckoutItem, User
@@ -25,7 +26,7 @@ def show_users(request):
 @user_passes_test(admin_check)
 def show_user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    return render(request, 'admin/showUser.html', {'title': user.firstname + ' | Admin', 'user': user})
+    return render(request, 'admin/showUser.html', {'title': user.first_name + ' | Admin', 'user': user})
 
 
 @user_passes_test(admin_check)
@@ -48,6 +49,27 @@ def add_user(request):
             return redirect('itemList')
     else:
         return render(request, 'admin/addUser.html', {'title': 'Add User | Admin', 'form': form})
+
+
+def promote_to_staff(username):
+
+    users = User.objects.filter(username = username)
+    if not users:
+        #get them from ldap again
+        ldap_user = ldap.get_user_by_username(username)
+        #add them
+        user = User.objects.create_user(username=username, email = ldap.get_email(ldap_user))
+        user.first_name=ldap.get_first_name(ldap_user)
+        user.last_name=ldap.get_last_name(ldap_user)
+        user.is_staff = True
+        user.save()
+
+        return HttpResponse(status=204)
+    else:
+        user = users[0]
+        user.is_staff = True
+        user.save()
+        return HttpResponse(status=204)
 
 
 @user_passes_test(admin_check)

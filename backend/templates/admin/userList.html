@@ -6,16 +6,16 @@
         $('#userTable').DataTable();
 
         $('.viewButton').on('click',function(){
-            window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id');
+            window.location="/admin/user/"+$(this).attr('data-id');
         });
         $('.editButton').on('click',function(){
-            window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id')+"/edit";
+            window.location="/admin/user/"+$(this).attr('data-id')+"/edit";
         });
-        $('#addItemButton').on('click',function(){
-            window.location="/item/{{ item_type_id }}/add";
+        $('#addUserButton').on('click',function(){
+            window.location="/admin/user/add";
         });
         $('.checkoutButton').on('click',function(){
-            window.location="/item/"+$(this).attr('data-id')+"/checkout";
+            window.location="/admin/user/"+$(this).attr('data-id')+"/promote";
         });
     });
 </script>
@@ -29,6 +29,7 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Username</th>
+                <th>Email</th>
                 <th>Is Staff</th>
                 <th>Actions</th>
             </tr>
@@ -37,14 +38,15 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>
-                    <td>{{ user.firstname }}</td>
-                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
                     <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
                     <td>{{ user.is_staff }}</td>
                     <td>
                         <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs viewButton">View</button>
                         <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs checkoutButton">Checkout</button>
+                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs checkoutButton">Promote To Staff</button>
                     </td>
                 </tr>
             {% endfor %}
