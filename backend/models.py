@@ -45,6 +45,9 @@ class ItemSubCategory(TimeStampedModel):
     def __str__(self):
         return self.subCategoryName
 
+    class ReportBuilder:
+        exclude = ('id')
+
 class ItemType(TimeStampedModel):
     subCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
