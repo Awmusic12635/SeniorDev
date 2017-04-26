@@ -136,7 +136,12 @@ EMAIL_PORT=os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
 
-CONTEXT_PROCESSORS = (
+
+TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
-    'django.core.context_processors.media'
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "myapp.processor.foos",
 )
