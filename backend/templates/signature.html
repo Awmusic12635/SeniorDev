@@ -48,7 +48,7 @@
     </div>
   </div>
 
-    <form method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display:none}">
+    <form method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display:none}" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" id="data_url">
     </form>
