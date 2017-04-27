@@ -249,3 +249,11 @@ def cart_count(request):
     count = CheckoutItem.objects.filter(checkout = checkout).count()
     print(count)
     return HttpResponse(str(count))
+
+
+def signature_form(request):
+    return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
+
+
+def signature_form_save(request):
+    return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
