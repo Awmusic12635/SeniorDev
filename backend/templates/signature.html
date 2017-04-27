@@ -13,11 +13,11 @@
 
     <script>
      $(document).ready(function() {
-         $('.sig_form').hide();
+         $('#sig_form').hide();
 
          $(".clearButton").on('click', function () {
            signaturePad.clear();
-           $('.sig_form').hide();
+           $('#sig_form').hide();
         });
 
          $(".saveButton").on('click', function () {
@@ -25,7 +25,7 @@
                  var img = signaturePad.toDataURL();
                 console.log(img);
                 $('#data_url').val(img);
-                $('.sig_form').show();
+                $('#sig_form').show();
              }
 
         });
