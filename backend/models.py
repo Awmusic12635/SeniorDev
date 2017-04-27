@@ -112,6 +112,7 @@ class Checkout(TimeStampedModel):
     dateTimeOut = models.DateTimeField(null=True)
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=50, default="Pending")
+    needsSignature = models.BooleanField(default=False)
     signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
     tracker = FieldTracker()
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
