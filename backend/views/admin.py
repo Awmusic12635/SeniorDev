@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .ldap import ldap
 from backend.models import Item, Checkout, CheckoutItem, User
 from django.contrib.auth.models import UserManager
+from django.contrib.auth.forms import UserChangeForm
 from pinax.eventlog.models import log
 
 
@@ -32,10 +33,9 @@ def show_user(request, user_id):
 @user_passes_test(admin_check)
 def add_user(request):
     if request.method == "POST":
-        form = ItemTypeForm(request.POST, request.FILES)
+        form = UserChangeForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
             obj.save()
             # for now redirect back to item listings. Until detailed page is done
 
@@ -46,7 +46,7 @@ def add_user(request):
                 extra={
                 }
             )
-            return redirect('itemList')
+            return redirect('userList')
     else:
         return render(request, 'admin/addUser.html', {'title': 'Add User | Admin', 'form': form})
 
@@ -74,7 +74,25 @@ def promote_to_staff(username):
 
 @user_passes_test(admin_check)
 def edit_user(request, user_id):
-    print("hi")
+    if request.method == "POST":
+        form = UserChangeForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
+            # for now redirect back to item listings. Until detailed page is done
+
+            log(
+                user=request.user,
+                action="ITEM_TYPE_CREATED",
+                obj=obj,
+                extra={
+                }
+            )
+            return redirect('itemList')
+    else:
+        user = get_object_or_404(User, pk=user_id)
+        form = UserChangeForm(user=user)
+        return render(request, 'admin/editUser.html', {'title': 'Edit User | Admin', 'form': form})
 
 
 @user_passes_test(admin_check)
