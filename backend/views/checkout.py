@@ -256,7 +256,9 @@ def signature_form(request):
 
 
 def signature_form_save(request, checkout_id):
-    print(request.POST)
-    print(request.POST.get('data_url', False))
-    print(request.POST['data_url'])
+    print(request.method)
+    if request.method == 'POST':
+        print(request.POST)
+        print(request.POST.get('data_url', False))
+        print(request.POST['data_url'])
     return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
