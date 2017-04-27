@@ -261,6 +261,7 @@ def signature_form_save(request, checkout_id):
     if request.method == 'POST':
         dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
         ImageData = request.POST.get('data_url')
+        print(ImageData)
         ImageData = dataUrlPattern.match(ImageData).group(2)
 
     if (ImageData == None or len(ImageData) == 0):
