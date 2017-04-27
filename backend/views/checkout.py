@@ -255,5 +255,5 @@ def signature_form(request):
     return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
 
 
-def signature_form_save(request):
+def signature_form_save(request, checkout_id):
     return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
