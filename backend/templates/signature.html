@@ -18,7 +18,11 @@
         });
 
          $(".saveButton").on('click', function () {
-           window.location = "/signatureForm/" + $(this).attr('data-id');
+             var img = signaturePad.toDataURL();
+             console.log(img);
+             $('#dataurl').val(img);
+
+             $('#form').submit();
         });
 
          var canvas = document.querySelector("canvas");
@@ -38,8 +42,13 @@
     <div class="m-signature-pad--footer">
       <div class="description">Sign above</div>
       <button type="button" class="clearButton">Clear</button>
-      <button type="button" class="saveButton" data-id="{{ checkout.id }}">Save</button>
+      <button type="button" class="saveButton">Save</button>
     </div>
   </div>
+
+    <form method="post" action="/sgnatureForm/{{ checkout.id }}" id="form" style="{display: none}">
+        {% csrf_token %}
+        <input type="hidden" id="dataurl">
+    </form>
 </body>
 </html>
