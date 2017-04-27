@@ -41,12 +41,26 @@ def checkin_item(request, checkoutitem_id):
     ci.save()
     item.save()
 
+    log(
+        user=request.user,
+        action="ITEM_CHECKED_IN",
+        obj=ci,
+        extra={
+        }
+    )
+
     # is checkout complete
     items = CheckoutItem.objects.filter(checkout= ci.checkout, item__checkoutStatus=CONST_STATUS_CHECKEDOUT)
     if not items:
         checkout = ci.checkout
         checkout.status = CONST_STATUS_CLOSED
         checkout.save()
-
+        log(
+            user=request.user,
+            action="CHECKOUT_CLOSED",
+            obj=ci,
+            extra={
+            }
+        )
     return render(request, 'checkoutEdit.html', {'title': 'Check In', 'checkout': ci.checkout})
 

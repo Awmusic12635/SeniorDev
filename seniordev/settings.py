@@ -25,7 +25,7 @@ SECRET_KEY = '%58l7v9@*qp!c&t4f&m0piws^rh=s60o(f#dkkx2evoa@^9!ae'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ted.alexwacker.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['ted.alexwacker.com','team-hollerith.ist.rit.edu', 'localhost', '127.0.0.1']
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGIN_URL='/login'
 
@@ -137,3 +137,8 @@ EMAIL_HOST=os.getenv('EMAIL_HOST')
 EMAIL_PORT=os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_FROM')
+
+LDAP_HOSTNAME = os.getenv('LDAP_HOSTNAME')
+LDAP_USERNAME = os.getenv('LDAP_USERNAME')
+LDAP_PASSWORD = os.getenv('LDAP_PASSWORD')

@@ -2,85 +2,200 @@
 {% block content %}
 {% load widget_tweaks %}
 <script>
-    $(document).ready(function(){
+    var selectUser = function(btn){
+        window.location = "/checkout/"+$(btn).attr('data-id')+"/addUser/"+$(btn).attr('username')
+      };
+
+    $(document).ready(function() {
+        $('.selectUserButton').hide();
+
         $('#itemTable').DataTable();
 
-        $('.viewButton').on('click',function(){
-            window.location="/item/"+$(this).attr('data-id');
+        $('.viewButton').on('click', function () {
+            window.location = "/item/" + $(this).attr('data-id');
         });
 
-        $('.removeButton').on('click',function(){
-            window.location="/checkout/removeItem/"+$(this).attr('data-id');
+        $('.removeButton').on('click', function () {
+            window.location = "/checkout/removeItem/" + $(this).attr('data-id');
         });
 
-        $('.clearButton').on('click',function(){
-            window.location="/checkout/clear";
+        $('.clearButton').on('click', function () {
+            window.location = "/checkout/clear";
         });
 
-        $('.completeButton').on('click',function(){
-            window.location="/checkout/complete";
+        $('.completeButton').on('click', function () {
+            window.location = "/checkout/complete";
         });
 
-        $('.resetButton').on('click',function(){
-            window.location="/checkout/resetDueDate/"+$(this).attr('data-id');
+        $('.resetButton').on('click', function () {
+            window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
+        });
+
+        $('#userSearchFormUsername').on('submit', function (event) {
+            event.preventDefault();
+            var username = $('#username').val()
+            $.ajax({
+                type: "GET",
+                url: "/checkout/findUserName/"+username,
+                dataType: "json",
+                success: function (data) {
+                    var userSelect = "<span>Found: </span>";
+                    data.users.forEach(function(user){
+                        userSelect += '<div><span>'+ user.name +' - '+ user.username +'</span><button onclick="selectUser(this);" type="button" data-id="{{ checkout.id }}" username="'+user.username+'" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
+                    });
+
+
+                    if(data.users.length == 0){
+                        userSelect ="<p>No matching users</p>";
+                    }
+
+                    $('#userSelect').html(userSelect);
+                },
+                error: function () {
+                    $('#userSelect').html("<p>No matching users</p>");
+                    $('.selectUserButton').hide();
+                }
+            });
+        });
+
+        $('#userSearchFormID').on('submit', function (event) {
+            event.preventDefault();
+            var uid = $('#uid').val()
+            $.ajax({
+                type: "GET",
+                url: "/checkout/findUserID/"+uid,
+                dataType: "json",
+                success: function (data) {
+                    var userSelect = "<span>Found: </span>";
+                    data.users.forEach(function(user){
+                        userSelect += '<div><span>'+ user.name +' - '+ user.username +'</span><button onclick="selectUser(this);" type="button" data-id="{{ checkout.id }}" username="'+user.username+'" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
+                    });
+
+                    if(data.users.length == 0){
+                        userSelect ="<p>No matching users</p>";
+                    }
+
+                    $('#userSelect').html(userSelect);
+                },
+                error: function () {
+                    $('#userSelect').html("<p>No matching users</p>");
+                    $('.selectUserButton').hide();
+                }
+            });
         });
     });
 
 
 </script>
 
-<div style="margin: 15px;">
-    <p>Checkout To: {{ checkout.person }}</p>
-    <p>Checkout Status: {{ checkout.status }}</p>
 
+<div class="container-fluid tableHeader">
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>Check Out </h3>
+        </div>
+        <div class="col-xs-6">
+            <br/>
+            <div class="row">
+              <div style="margin: 15px;">\
+                  <p>Search for user</p>
+                  <form id="userSearchFormUsername">
+                      {% csrf_token %}
+                      <label for="username">Username:</label>
+                      <input type="text" size="15" required name="username" id="username">
+                      <input type="submit" value="Search">
+                  </form>
+                  <form id="userSearchFormID">
+                      {% csrf_token %}
+                      <label for="username">UID:</label>
+                      <input type="text" size="15" required name="uid" id="uid">
+                      <input type="submit" value="Search">
+                  </form>
+
+                  <div>
+                      <div id="userSelect"></div>
+                  </div>
+
+                  </br>
+              </div>  
+                <div class="col-xs-8 text-left">
+                    <b>Checkout To:</b>
+                </div>
+                <div class="col-xs-4 text-left">
+                  <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.person }}</span>
+                </div>
+                <div class="col-xs-8 text-left">
+                    <b>Status:</b>
+                </div>
+                <div class="col-xs-4 text-left">
+                    {% if checkout.status == 'Open' %}
+                        <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.status }}</span>
+                    {% elif checkout.status == 'Closed' %}
+                        <span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ checkout.status }}</span>
+                    {% elif checkout.status == 'Checked in' %}
+                        <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.status }}</span>
+                    {% elif checkout.status == 'Checked out' %}
+                        <span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ checkout.status }}</span>
+                    {% elif checkout.status == 'Pending' %}
+                        <span class="btn btn-warning btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ checkout.status }}</span>
+                    {% else %}
+                        <span class="btn btn-info btn-xs">{{ checkout.status }}</span>
+                    {% endif %}
+                </div>
+
+              </div>
+            </div>
+        </div>
 </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Manufacturer</th>
+                        <th>Model</th>
+                        <th>Tags</th>
+                        <th>Location</th>
+                        <th>Checkout Status</th>
+                        <th>Due Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for checkoutitem in checkout.checkoutitem_set.all %}
+                        <tr>
+                            <td>{{ checkoutitem.item.ItemTypeID.name }}</td>
+                            <td>{{ checkoutitem.item.ItemTypeID.manufacturer }}</td>
+                            <td>{{ checkoutitem.item.ItemTypeID.model }}</td>
+                            <td>{{ checkoutitem.item.tag }}</td>
+                            <td>{{ checkoutitem.item.location }}</td>
+                            <td>{{ checkoutitem.item.checkoutStatus }}</td>
+                            <td>{{ checkoutitem.dateTimeDue }}</td>
+                            <td>
+                                <form action="/checkout/{{ checkoutitem.id }}/overrideDate" class="form-signin" method="post">
+                                    {% csrf_token %}
+                                    <input type="datetime" name="overrideDate" placeholder="YYYY-MM-DD HH:MM">
+                                    <button type="submit" class="save btn btn-default">Save</button>
+                                </form>
+                                <button type="button" data-id="{{ checkoutitem.id }}" class="btn btn-primary btn-xs resetButton">Reset Due Date</button>
+                                <button type="button" data-id="{{ checkoutitem.item.id }}" class="btn btn-primary btn-xs removeButton">Remove</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <button type="button" data-id="{{ checkout.id }}" class="btn clearButton"><i class="fa fa-ban" aria-hidden="true"></i> Remove All Items</button>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
+        </div>
+    </div>
 
-
-<div style="margin: 15px;">
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Manufacturer</th>
-                <th>Model</th>
-                <th>Serial</th>
-                <th>Tags</th>
-                <th>Cost</th>
-                <th>Location</th>
-                <th>Checkout Status</th>
-                <th>Due Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for checkoutitem in checkout.checkoutitem_set.all %}
-                <tr>
-                    <td>{{ checkoutitem.item.name }}</td>
-                    <td>{{ checkoutitem.item.description }}</td>
-                    <td>{{ checkoutitem.item.manufacturer }}</td>
-                    <td>{{ checkoutitem.item.model }}</td>
-                    <td>{{ checkoutitem.item.serial }}</td>
-                    <td>{{ checkoutitem.item.tag }}</td>
-                    <td>{{ checkoutitem.item.cost }}</td>
-                    <td>{{ checkoutitem.item.location }}</td>
-                    <td>{{ checkoutitem.item.checkoutStatus }}</td>
-                    <td>{{ checkoutitem.dateTimeDue }}</td>
-                    <td>
-                        <form action="/checkout/{{ checkoutitem.id }}/overrideDate" class="form-signin" method="post">
-                            {% csrf_token %}
-                            <input type="datetime" name="overrideDate" placeholder="YYYY-MM-DD HH:MM">
-                            <button type="submit" class="save btn btn-default">Save</button>
-                        </form>
-                        <button type="button" data-id="{{ checkoutitem.id }}" class="btn btn-primary btn-xs resetButton">Reset Due Date</button>
-                        <button type="button" data-id="{{ checkoutitem.item.id }}" class="btn btn-primary btn-xs removeButton">Remove</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs clearButton">Remove All Items</button>
-    <button type="button" data-id="{{ checkout.id }}" class="btn btn-primary btn-xs completeButton">Complete Checkout</button>
 </div>
 {% endblock %}

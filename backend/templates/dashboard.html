@@ -1,71 +1,58 @@
 {% extends 'loggedinbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
-<div class="container">
-    <div style="" class="starter-template">
-        <div style="margin: 40px;" class="col-md-2 btn btn-info">Total products: {{ numberOfItems }}</div>
-        <div style="margin: 40px;" class="col-md-2 btn btn-info">Items in inventory: {{ numberOfItemsInInventory }}</div>
-        <div style="margin: 40px;" class="col-md-2 btn btn-info">Items checkout: {{numberOfItemsCheckedOut }}</div>
-        <div style="margin: 40px;" class="col-md-2 btn btn-info">Items due today: {{numberOfItemsDueToday}}</div>
+<script>
+    $(document).ready(function(){
+		$('#checkoutButton').on('click',function(){
+	        window.location="/checkout/";
+
+	    });
+	    $('#checkinButton').on('click',function(){
+	        window.location="/checkin/";
+	    });
+	    $('#allitemsButton').on('click',function(){
+	        window.location="/item/";
+	    });
+	    $('#categoriesButton').on('click',function(){
+	        window.location="/category/";
+	    });
+	    $('#reservationsButton').on('click',function(){
+	        window.location="/reservationRequest/pending";
+	    });
+	});
+</script>
+<div class="container-fluid">
+    <div class="container-fluid">
+        <h3>Dashboard</h3>
     </div>
+    <div class="row">
+    	<div class="col-sm-4 text-center">
+    		<button id="allitemsButton" class="btn btn-wide btn-primary btn-lg"><i class="fa fa-2x fa-list" aria-hidden="true"></i><br/>All Items</button>
+    	</div>
+    	<div class="col-sm-4 text-center">
+    		<button id="categoriesButton" class="btn btn-wide btn-primary btn-lg"><i class="fa fa-2x fa-list-ul" aria-hidden="true"></i><br/>All Categories</button>
+    	</div>
+    	<div class="col-sm-4 text-center">
+    		<button id="reservationsButton" class="btn btn-wide btn-primary btn-lg"><i class="fa fa-2x fa-gavel" aria-hidden="true"></i><br/>Pending<br/>Reservations</button>
+    	</div>
+    </div>
+    <div class="row">
+    	<div class="col-sm-4 text-center">
+    		<button id="checkoutButton" class="btn btn-wide btn-warning btn-lg"><i class="fa fa-2x fa-shopping-cart" aria-hidden="true"></i><br/>Item Check Out</button>
+    	</div>
+    	<div class="col-sm-4 text-center">
+    		<button id="checkinButton" class="btn btn-wide btn-warning btn-lg"><i class="fa fa-2x fa-cart-arrow-down" aria-hidden="true"></i><br/>Item Check In</button>
+    	</div>
+    	<div class="col-sm-4 text-center">
+    		<button id="accountButton" class="btn btn-wide btn-lg"><i class="fa fa-2x fa-user" aria-hidden="true"></i><br/>Account</button>
+    	</div>
 
-    <script>
-        $(document).ready(function(){
-            $('#itemTable').DataTable();
+    </div>
+    <div class="row">
 
-            $('.viewButton').on('click',function(){
-                window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id');
-            });
-            $('.editButton').on('click',function(){
-                window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id')+"/edit";
-            });
-            $('#addItemButton').on('click',function(){
-                window.location="/item/{{ item_type_id }}/add";
-            });
-        });
-
-        $(function(){
-
-            $('#search').keyup(function() {
-
-                $.ajax({
-                    type: "POST",
-                    url: "/dashboard/search/",
-                    data: {
-                        'search_text' : $('#search').val(),
-                        'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
-                    },
-                    success: searchSuccess,
-                    dataType: 'html'
-                });
-
-            });
-
-        });
-
-        function searchSuccess(data, textStatus, jqXHR)
-        {
-            $('#result').html(data);
-        }
-    </script>
-
-    {% csrf_token %}
-    <input type="text" id="search" name="search_text" />
-    <div id="tableSearch">
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Model</th>
-                <th>Cost</th>
-                <th>Available Quantitiy</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="result">
-        </tbody>
-    </table>
+    	<div class="col-sm-4 text-center">
+    		<button id="settingsButton" class="btn btn-wide btn-lg"><i class="fa fa-2x fa-gear" aria-hidden="true"></i><br/>Settings</button>
+    	</div>
     </div>
 </div>
 {% endblock %}

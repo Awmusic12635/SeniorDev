@@ -17,17 +17,17 @@
 
 
 </script>
-<div class="container tableHeader">
+<div class="container-fluid tableHeader">
     <div class="row">
-        <div class="col-sm-8">
-            <h1>Request to Reserve Item: <a href="../../item/{{request.id}}">{{request.itemTypeID}}</a></h1>
+        <div class="col-sm-10">
+            <h3>Request to Reserve: <a href="../../item/{{request.id}}">{{request.itemTypeID}}</a></h3>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
 
         </div>
     </div>
 </div>
-<div class="container tableHeader">
+<div class="container-fluid tableHeader">
     <div class="row">
         <div class="col-sm-12">
             <table class="table">
@@ -60,9 +60,24 @@
             <div>
                 <form action="" class="form-category" method="post">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="text-right">
-                        <button type="submit" class="save btn btn-lg btn-success"><i class="fa fa-check" aria-hidden="true"></i> Approve</button>
+                    
+                    {% for field in form %}
+                     <div class="form-group col-sm-6 {% if form.fieldname.errors %}has-success{% endif %}">
+                         <label class="control-label"
+                                for="{{ field.id_for_label }}">{{field.label}} 
+                         </label>
+             
+                        {{field | add_class:"form-control"}}
+             
+                         <span id="{{field.auto_id}}"
+                               class="help-block">
+                             {{ field.errors }}
+                         </span>
+                    </div>
+                     {% endfor %}
+
+                    <div class="text-right col-sm-12">
+                        <button type="submit" class="save btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Approve</button>
                     </div>
                 </form>
             </div>
@@ -72,9 +87,19 @@
             <div>
                 <form action="/reservationRequest/decline/{{ request.id }}" class="form-category form-decline" method="post">
                     {% csrf_token %}
-                    <label for="reason">Reason for Declining</label>
-                    <input name="reason" id ="reason" type="text" required style="width: 100%">
-                    <button type="submit" class="save btn btn-lg btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Decline</button>
+                    
+             
+                    <div class="form-group col-sm-12">
+                        <label class="control-label" for="reason">Reason for Declining</label>
+                        <input class="form-control" name="reason" id ="reason" type="text" required style="width: 100%">
+                        <span id="{{field.auto_id}}"
+                               class="help-block">
+                             {{ field.errors }}
+                         </span>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="submit" class="save btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Decline</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -83,7 +108,7 @@
 <div class="container">
     <div class="row">
         <div class="text-center">
-            <button class="save btn btn-lg" id="cancelButton"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
+            <button class="save btn" id="cancelButton"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
         </div>
     </div>
 </div>

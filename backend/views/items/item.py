@@ -2,6 +2,7 @@ from backend.models import ItemType, Item, ItemCategory, ItemSubCategory
 from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth.decorators import login_required
 from backend.forms import ItemForm, ItemTypeForm
+from pinax.eventlog.models import log
 
 
 @login_required
@@ -20,6 +21,14 @@ def add_item_type(request):
             obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
             obj.save()
             # for now redirect back to item listings. Until detailed page is done
+
+            log(
+                user=request.user,
+                action="ITEM_TYPE_CREATED",
+                obj=obj,
+                extra={
+                }
+            )
             return redirect('itemList')
     else:
         form = ItemTypeForm()
@@ -44,7 +53,21 @@ def edit_item_type(request, item_type_id):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.subCategoryID = get_object_or_404(ItemSubCategory, pk=request.POST['subCategory'])
+            oldValues = obj.tracker.changed()
             obj.save()
+
+            #build the extras for the log
+            extras = {}
+            for key in oldValues:
+                extras.update({'old-'+key: oldValues[key]})
+                extras.update({'new-'+key: obj.tracker.previous(key)})
+
+            log(
+                user=request.user,
+                action="ITEM_TYPE_MODIFIED",
+                obj=obj,
+                extra=extras
+            )
             # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')
     else:
@@ -57,6 +80,13 @@ def edit_item_type(request, item_type_id):
 
 @login_required
 def delete_item_type(request,item_type_id):
+    log(
+        user=request.user,
+        action="ITEM_TYPE_DELETED",
+        obj=item_type_id,
+        extra={
+        }
+    )
     print("deleting item type")
 
 
@@ -68,6 +98,14 @@ def add_item(request, item_type_id):
             obj = form.save(commit = False)
             obj.ItemTypeID = get_object_or_404(ItemType, pk=item_type_id)
             obj.save()
+
+            log(
+                user=request.user,
+                action="ITEM_CREATED",
+                obj=obj,
+                extra={
+                }
+            )
             # for now redirect back to the same page
             return redirect('itemList')
     else:
@@ -82,12 +120,27 @@ def edit_item(request,item_type_id,item_id):
     if request.method == "POST":
         form = ItemForm(request.POST, instance=item)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            oldValues = obj.tracker.changed()
+            # build the extras for the log
+            obj.save()
+
+            extras = {}
+            for key in oldValues:
+                extras.update({'old-' + key: oldValues[key]})
+                extras.update({'new-' + key: obj.tracker.previous(key)})
+
+            log(
+                user=request.user,
+                action="ITEM_MODIFIED",
+                obj=item,
+                extra=extras
+            )
             # for now redirect back to item listings. Until detailed page is done
             return redirect('itemList')
     else:
         form = ItemForm(instance=item)
-        return render(request, 'editItem.html', {'title': "Edit: " + item.name, 'form': form, 'item': item, 'itemType':
+        return render(request, 'editItem.html', {'title': "Edit: " + itemType.name, 'form': form, 'item': item, 'itemType':
                 itemType})
 
 
@@ -100,9 +153,9 @@ def list_items(request,item_type_id):
 
 @login_required
 def show_item(request,item_type_id,item_id):
-    item = get_object_or_404(ItemType, pk=item_id, ItemTypeID=item_type_id)
-    itemType = get_object_or_404(Item, pk=item_type_id)
+    itemType = get_object_or_404(ItemType, pk= item_type_id)
+    item = get_object_or_404(Item, pk=item_id)
 
-    return render(request, 'itemDetailed.html', {'title': item.name, 'itemType': itemType, 'item':item})
+    return render(request, 'itemDetailed.html', {'title': itemType.name, 'itemType': itemType, 'item':item})
 
 

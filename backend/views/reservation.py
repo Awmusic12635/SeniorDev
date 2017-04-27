@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth.decorators import login_required
 from backend.forms import ReservationRequestForm, ReservationRequestApprovalForm
 from datetime import datetime
-from django.core.mail import send_mail
-
+from templated_email import send_templated_mail
+from pinax.eventlog.models import log
 
 @login_required
 def request(request):
@@ -15,9 +15,15 @@ def request(request):
             obj = form.save(commit = False)
             obj.requester = request.user
             obj.save()
-            # for now redirect back to the same page
-            # return redirect('reservationRequest')
-            submitted = True
+
+            log(
+                user=request.user,
+                action="RESERVATION_REQUEST_SUBMITTED",
+                obj=obj,
+                extra={
+                }
+            )
+            return redirect('reservationRequest')
     else:
             form = ReservationRequestForm()
     return render(request, 'reserveItem.html', {'title': 'Reserve Item', 'form': form, 'submitted': submitted})
@@ -57,18 +63,53 @@ def edit_request(request, request_id):
             # set approval info
             rr.approvedBy = request.user
             rr.approvedOn = datetime.now()
+            oldValues = rr.tracker.changed()
+            # build the extras for the log
             rr.save()
 
-            # send email to notify of approval,nSent will be 1 if successful, 0 if failed
-            nSent = send_mail(
-                'Reservation Approved',
-                'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime(
-                    '%m/%d/%Y') + ' to ' + rr.endDate.strftime(
-                    '%m/%d/%Y') + 'has been approved.',
-                'ISTECAGE@rit.edu',
-                [rr.requester.email],
-                fail_silently=True,
+            extras = {}
+            for key in oldValues:
+                extras.update({'old-' + key: oldValues[key]})
+                extras.update({'new-' + key: rr.tracker.previous(key)})
+
+            log(
+                user=request.user,
+                action="RESERVATION_REQUEST_APPROVED",
+                obj=obj,
+                extra=extras
             )
+            # send email to notify of approval,nSent will be 1 if successful, 0 if failed
+            # send email to notify of decline, nSent will be 1 if successful, 0 if failed
+            nSent = send_templated_mail(
+                template_name='reservationApproved',
+                recipient_list=[rr.requester.email],
+                from_email=None,
+                fail_silently=True,
+                context={
+                    'request': rr,
+                    'approvedInfo': form.save(commit=False)
+                }
+            )
+            if nSent == 0:
+                log(
+                    user=request.user,
+                    action="EMAIL_SENDING_FAILED",
+                    obj=None,
+                    extra={
+                        'email' : 'reservationApproved',
+                        'recipient_list' : [rr.requester.email]
+                    }
+                )
+            else:
+                log(
+                    user=request.user,
+                    action="EMAIL_SENT",
+                    obj=None,
+                    extra={
+                        'email': 'reservationApproved',
+                        'recipient_list' : [rr.requester.email]
+                    }
+                )
 
         return(view_requests(request))
     else:
@@ -91,16 +132,47 @@ def decline_request(request, request_id):
         rr.declinedReason = reason
         rr.declinedBy = request.user
         rr.declinedOn = datetime.now()
+
+        log(
+            user=request.user,
+            action="RESERVATION_REQUEST_DECLINED",
+            obj=rr,
+            extra={
+            }
+        )
+
         rr.save()
 
         #send email to notify of decline, nSent will be 1 if successful, 0 if failed
-        nSent = send_mail(
-            'Reservation Declined',
-            'Your request to reserve ' + rr.itemTypeID.name + ' from ' + rr.startDate.strftime('%m/%d/%Y') + ' to ' + rr.endDate.strftime('%m/%d/%Y') + 'has been declined for the following reason: ' + rr.declinedReason,
-            'ISTECAGE@rit.edu',
-            [rr.requester.email],
+        nSent = send_templated_mail(
+            template_name='reservationDecline',
+            recipient_list=[rr.requester.email],
+            from_email=None,
             fail_silently=True,
+            context={
+                'request': rr
+            }
         )
+        if nSent == 0:
+            log(
+                user=request.user,
+                action="EMAIL_SENDING_FAILED",
+                obj=None,
+                extra={
+                    'email' : 'reservationDecline',
+                    'recipient_list' : [rr.requester.email]
+                }
+            )
+        else:
+            log(
+                user=request.user,
+                action="EMAIL_SENT",
+                obj=None,
+                extra={
+                    'email': 'reservationDecline',
+                    'recipient_list' : [rr.requester.email]
+                }
+            )
         return redirect('reservationRequestPending')
 
 
