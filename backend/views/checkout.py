@@ -176,11 +176,12 @@ def create_pending_checkout():
         checkout = Checkout(status=CONST_STATUS_PENDING)
         checkout.save()
     else:
-        signatureItems = CheckoutItem.objects.filter(Item.ItemTypeID.needsSignature == True)
-        if signatureItems is None:
-            checkout.needsSignature = False
-        else:
-            checkout.needsSignature = True
+        cis = CheckoutItem.objects.all()
+        for ci in cis:
+            if ci.item.ItemTypeID.needsSignature :
+                checkout.needsSignature = True
+            else:
+                checkout.needsSignature = False
         checkout.save()
     return checkout
 
