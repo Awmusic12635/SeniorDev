@@ -7,6 +7,10 @@
       };
 
     $(document).ready(function() {
+        $("#signatureWarning").dialog({
+            autoOpen : false, modal : true, show : "blind", hide : "blind"
+          });
+
         $('.selectUserButton').hide();
 
         $('#itemTable').DataTable();
@@ -34,10 +38,7 @@
 
         $('.needsSignatureButton').on('click', function () {
             //show dialog
-            $("#signatureWarning").dialog({
-                autoOpen : true, modal : true, show : "blind", hide : "blind"
-              });
-
+            $("#signatureWarning").dialog("open");
             //window.location = "/checkout/complete";
         });
 
