@@ -13,19 +13,16 @@
 
     <script>
      $(document).ready(function() {
-         $('#sig_form').hide();
-
          $(".clearButton").on('click', function () {
            signaturePad.clear();
-           $('#sig_form').hide();
         });
 
          $(".saveButton").on('click', function () {
              if (!signaturePad.isEmpty()){
                  var img = signaturePad.toDataURL();
-                console.log(img);
-                $('#data_url').val(img);
-                $('#sig_form').show();
+                 console.log(img);
+                 $('#data_url').val(img);
+
              }
 
         });
@@ -51,10 +48,9 @@
     </div>
   </div>
 
-    <input method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form">
+    <input method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display:none}">
         {% csrf_token %}
         <input type="hidden" id="data_url">
-        <input type="submit" value="Submit">
     </form>
 </body>
 </html>

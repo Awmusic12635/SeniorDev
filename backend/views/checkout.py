@@ -10,6 +10,8 @@ from pinax.eventlog.models import log
 from templated_email import send_templated_mail
 from .ldap import ldap
 import json
+import re
+import base64
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
@@ -257,6 +259,14 @@ def signature_form(request):
 
 def signature_form_save(request, checkout_id):
     if request.method == 'POST':
-        print(request.POST)
-        print(request.POST['data_url'])
+        dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+        ImageData = request.POST.get('data_url')
+        ImageData = dataUrlPattern.match(ImageData).group(2)
+
+    if (ImageData == None or len(ImageData) == 0):
+    # PRINT ERROR MESSAGE HERE
+        pass
+    else:
+        ImageData = base64.b64decode(ImageData)
+
     return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
