@@ -13,16 +13,21 @@
 
     <script>
      $(document).ready(function() {
+         $('.sig_form').hide();
+
          $(".clearButton").on('click', function () {
            signaturePad.clear();
+           $('.sig_form').hide();
         });
 
          $(".saveButton").on('click', function () {
-             var img = signaturePad.toDataURL();
-             console.log(img);
-             $('#data_url').val(img);
+             if (!signaturePad.isEmpty()){
+                 var img = signaturePad.toDataURL();
+                console.log(img);
+                $('#data_url').val(img);
+                $('.sig_form').show();
+             }
 
-             $('#sig_form').submit();
         });
 
          var canvas = document.querySelector("canvas");
@@ -42,13 +47,14 @@
     <div class="m-signature-pad--footer">
       <div class="description">Sign above</div>
       <button type="button" class="clearButton">Clear</button>
-      <button type="button" class="saveButton">Save</button>
+      <button type="button" class="saveButton">Save Signature</button>
     </div>
   </div>
 
-    <form method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display: none}">
+    <input method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form">
         {% csrf_token %}
         <input type="hidden" id="data_url">
+        <input type="submit" value="Submit">
     </form>
 </body>
 </html>
