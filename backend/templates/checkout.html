@@ -31,6 +31,17 @@
             window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
         });
 
+
+        $('.needsSignatureButton').on('click', function () {
+            //show dialog
+            $("#signatureWarning").dialog({
+                autoOpen : true, modal : true, show : "blind", hide : "blind"
+              });
+
+            //window.location = "/checkout/complete";
+        });
+
+
         $('#userSearchFormUsername').on('submit', function (event) {
             event.preventDefault();
             var username = $('#username').val()
@@ -196,10 +207,19 @@
         </div>
         <div class="col-xs-6 text-right">
             {%  if checkout.needsSignature %}
-                <p>Signature Required</p>
+                <button type="button" data-id="{{ checkout.id }}" class="btn btn-success needsSignatureButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items - Needs Signature</button>
+            {% else %}
+                <button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
             {% endif %}
-            <button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
         </div>
+    </div>
+
+
+    <div id="signatureWarning" title="Signature Required">
+        <p>Signature is required.</p>
+        <p>Please give present the tablet.</p>
+
+        <button type="button" data-id="{{ checkout.id }}" class="btn btn-success checkSignature"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
     </div>
 
 </div>
