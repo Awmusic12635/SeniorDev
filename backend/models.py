@@ -63,6 +63,7 @@ class ItemType(TimeStampedModel):
     manufacturer = models.CharField(max_length=100, null=True)
     model = models.CharField(max_length=200, null=True)
     cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
+    needsSignature = models.BooleanField(default=False)
     tracker = FieldTracker()
 
     def __str__(self):
