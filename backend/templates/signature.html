@@ -22,7 +22,7 @@
                  var img = signaturePad.toDataURL();
                  console.log(img);
                  $('#data_url').val(img);
-
+                 $('#sig_form').submit();
              }
 
         });
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-    <input method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display:none}">
+    <form method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display:none}">
         {% csrf_token %}
         <input type="hidden" id="data_url">
     </form>
