@@ -65,7 +65,7 @@ urlpatterns = [
     url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.decline_request, name='reservationRequestDecline'),
     url(r'^reservation/$', reservation.list_reservations, name='reservationList'),
     url(r'^report_builder/', include('report_builder.urls')),
-    url(r'^signatureForm/$', checkout.signature_form, name='signature')
+    url(r'^signatureForm/$', checkout.signature_form, name='signature'),
     url(r'^signatureForm/(?P<checkout_id>\d*)$', checkout.signature_form_save, name='signature')
 
 
