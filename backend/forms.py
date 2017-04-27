@@ -11,7 +11,7 @@ class ItemForm(forms.ModelForm):
 class ItemTypeForm(forms.ModelForm):
     class Meta:
         model = ItemType
-        fields = ('name', 'description', 'manufacturer', 'model', 'cost', 'image')
+        fields = ('name', 'description', 'manufacturer', 'model', 'cost', 'needsSignature', 'image')
 
 
 class ItemCategoryForm(forms.ModelForm):
