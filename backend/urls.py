@@ -1,10 +1,10 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
 from .views import admin
-from .views import user, checkout, checkin,reservation, category, subcategory
+from .views import user, checkout, checkin,reservation, category, subcategory, dashboard
 from .views.items import item
 from .views.ldap import ldap
 
@@ -12,7 +12,9 @@ urlpatterns = [
     url(r'^$', user.index, name='index'),
     url(r'^login', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout', auth_views.logout, {'next_page': 'login'}, name='logout'),
-    url(r'^dashboard/$', user.dashboard, name='dashboard'),
+    #dashboard
+    url(r'^dashboard/$', dashboard.show, name='dashboard'),
+    url(r'^dashboard/search/$', dashboard.search, name='search'),    
     #items
     url(r'^item/$', item.list_item_types, name='itemList'),
     url(r'^item/add$', item.add_item_type, name='items'),
@@ -62,6 +64,8 @@ urlpatterns = [
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.decline_request, name='reservationRequestDecline'),
     url(r'^reservation/$', reservation.list_reservations, name='reservationList'),
+    url(r'^report_builder/', include('report_builder.urls'))
+
 
 ]
 if settings.DEBUG:

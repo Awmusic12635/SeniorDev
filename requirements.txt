@@ -5,4 +5,6 @@ django-widget-tweaks == 1.4.1
 django-model-utils == 2.6.1
 pinax-eventlog == 1.1.2
 django-templated-email == 2.1
+djangorestframework==3.4.3
+django-report-builder == 3.4.4
 ldap3 == 2.2.2
