@@ -43,7 +43,7 @@ def add_item(request, item_id):
             extra={
             }
         )
-    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
 @login_required
@@ -63,7 +63,7 @@ def remove_item(request, item_id):
         extra={
         }
     )
-    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
 @login_required
@@ -174,6 +174,13 @@ def create_pending_checkout():
     checkout = Checkout.objects.filter(status=CONST_STATUS_PENDING).first()
     if checkout is None:
         checkout = Checkout(status=CONST_STATUS_PENDING)
+        checkout.save()
+    else:
+        signatureItems = CheckoutItem.objects.filter(Item.ItemTypeID.needsSignature == True)
+        if signatureItems is None:
+            checkout.needsSignature = False
+        else:
+            checkout.needsSignature = True
         checkout.save()
     return checkout
 

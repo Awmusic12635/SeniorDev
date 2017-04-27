@@ -158,6 +158,7 @@
                         <th>Model</th>
                         <th>Tags</th>
                         <th>Location</th>
+                        <th>Signature?</th>
                         <th>Checkout Status</th>
                         <th>Due Date</th>
                         <th>Actions</th>
@@ -171,6 +172,7 @@
                             <td>{{ checkoutitem.item.ItemTypeID.model }}</td>
                             <td>{{ checkoutitem.item.tag }}</td>
                             <td>{{ checkoutitem.item.location }}</td>
+                            <td>{{ checkoutitem.item.ItemTypeID.needsSignature }}</td>
                             <td>{{ checkoutitem.item.checkoutStatus }}</td>
                             <td>{{ checkoutitem.dateTimeDue }}</td>
                             <td>
@@ -193,6 +195,9 @@
             <button type="button" data-id="{{ checkout.id }}" class="btn clearButton"><i class="fa fa-ban" aria-hidden="true"></i> Remove All Items</button>
         </div>
         <div class="col-xs-6 text-right">
+            {%  if checkout.needsSignature %}
+                <p>Signature Required</p>
+            {% endif %}
             <button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
         </div>
     </div>
