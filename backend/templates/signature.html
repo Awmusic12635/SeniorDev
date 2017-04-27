@@ -46,9 +46,8 @@
     </div>
   </div>
 
-    <form method="post" action="/signatureForm/{{ checkout.id }}" id="sig_form" style="{display: none}">
+    <form method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display: none}">
         {% csrf_token %}
-        <input type="hidden" id="test" value="fuck you django">
         <input type="hidden" id="data_url">
     </form>
 </body>
