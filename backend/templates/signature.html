@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signature Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+
+    <script>
+     $(document).ready(function() {
+         $(".clearButton").on('click', function () {
+           signaturePad.clear();
+        });
+
+         $(".saveButton").on('click', function () {
+           window.location = "/signatureForm/" + $(this).attr('data-id');
+        });
+
+         var canvas = document.querySelector("canvas");
+         var signaturePad = new SignaturePad(canvas);
+
+     });
+
+
+    </script>
+</head>
+<body>
+
+    <div id="signature-pad">
+    <div class="m-signature-pad--body">
+      <canvas></canvas>
+    </div>
+    <div class="m-signature-pad--footer">
+      <div class="description">Sign above</div>
+      <button type="button" class="clearButton">Clear</button>
+      <button type="button" class="saveButton" data-id="{{ checkout.id }}">Save</button>
+    </div>
+  </div>
+</body>
+</html>
