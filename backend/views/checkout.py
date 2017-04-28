@@ -259,17 +259,18 @@ def signature_form(request):
 
 def signature_form_save(request, checkout_id):
     print(request.POST)
+    print(request)
 
-    if request.method == 'POST':
-        dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
-        ImageData = request.POST.get('data_url')
-        print(ImageData)
-        ImageData = dataUrlPattern.match(ImageData).group(2)
-
-    if (ImageData == None or len(ImageData) == 0):
-    # PRINT ERROR MESSAGE HERE
-        pass
-    else:
-        ImageData = base64.b64decode(ImageData)
-
-    return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
+    # if request.method == 'POST':
+    #     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+    #     ImageData = request.POST.get('data_url')
+    #     print(ImageData)
+    #     ImageData = dataUrlPattern.match(ImageData).group(2)
+    #
+    # if (ImageData == None or len(ImageData) == 0):
+    # # PRINT ERROR MESSAGE HERE
+    #     pass
+    # else:
+    #     ImageData = base64.b64decode(ImageData)
+    #
+    # return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
