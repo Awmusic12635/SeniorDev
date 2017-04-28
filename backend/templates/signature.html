@@ -71,7 +71,7 @@
                 console.log(fd.getAll("file"));
 
                 httpRequest.open('POST', url, true);
-                //httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                httpRequest.setRequestHeader("X-CSRFToken", String(getCookie('csrftoken')));
                 httpRequest.send(sendContent);
 
              }
