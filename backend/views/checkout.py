@@ -260,21 +260,19 @@ def signature_form(request):
 
 @csrf_exempt
 def signature_form_save(request, checkout_id):
-    print(request.body)
-    body_unicode = request.body.decode('utf-8')
-    body_data = json.loads(body_unicode)
-    print(body_data)
+    #print(request.body)
+    #body_unicode = request.body.decode('utf-8')
+    #body_data = json.loads(body_unicode)
+    #print(body_data)
 
-    # if request.method == 'POST':
-    #     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
-    #     ImageData = request.POST.get('data_url')
-    #     print(ImageData)
-    #     ImageData = dataUrlPattern.match(ImageData).group(2)
-    #
-    # if (ImageData == None or len(ImageData) == 0):
-    # # PRINT ERROR MESSAGE HERE
-    #     pass
-    # else:
-    #     ImageData = base64.b64decode(ImageData)
-    #
+    if request.method == 'POST':
+         dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+         ImageData = dataUrlPattern.match(request.body).group(2)
+
+    if (ImageData == None or len(request.body) == 0):
+      # PRINT ERROR MESSAGE HERE
+        pass
+    else:
+         ImageData = base64.b64decode(ImageData)
+
     # return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
