@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import UserManager
 from datetime import datetime, timedelta
 from backend.models import Checkout, CheckoutItem, Item, User
@@ -257,6 +258,7 @@ def signature_form(request):
     return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
 
 
+@csrf_exempt()
 def signature_form_save(request, checkout_id):
     print(request.body)
 
