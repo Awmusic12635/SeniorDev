@@ -71,7 +71,7 @@
                 httpRequest.setRequestHeader("X-CSRFToken", String(getCookie('csrftoken')));
 
                 console.log(httpRequest, sendContent);
-                httpRequest.send(sendContent);
+                httpRequest.send(fd);
 
              }
 
