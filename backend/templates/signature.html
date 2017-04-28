@@ -46,13 +46,15 @@
 
                 var fd = new FormData();
                 fd.append("file", blob, "{{ checkout.id }}.png");
-                fd.append("file", blob, "{{ checkout.id }}.png");
 
                 httpRequest = new XMLHttpRequest();
 
                 var url = "/signatureForm/save/{{ checkout.id }}";
                 var sendCSRFtoken = "csrfmiddlewaretoken="+String(getCookie('csrftoken'));
                 var sendContent = sendCSRFtoken+"&"+fd;
+
+                console.log(fd);
+                console.log(sendContent);
 
                 httpRequest.open('POST', url, true);
                 httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
