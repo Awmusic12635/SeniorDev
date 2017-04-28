@@ -258,7 +258,7 @@ def signature_form(request):
     return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
 
 
-@csrf_exempt()
+@csrf_exempt
 def signature_form_save(request, checkout_id):
     print(request.body)
 
