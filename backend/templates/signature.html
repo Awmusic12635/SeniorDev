@@ -47,7 +47,7 @@
                 console.log(blob)
 
                 var fd = new FormData();
-                fd.append("file", blob, "{{ checkout.id }}.png");
+                fd.append("file", blob);
 
                 httpRequest = new XMLHttpRequest();
 
