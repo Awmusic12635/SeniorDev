@@ -260,7 +260,7 @@ def signature_form(request):
 
 @csrf_exempt
 def signature_form_save(request, checkout_id):
-    print(request.body)
+    print(request.body['file'])
 
     # if request.method == 'POST':
     #     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
