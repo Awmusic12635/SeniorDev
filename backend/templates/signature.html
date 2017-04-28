@@ -28,6 +28,26 @@
             return "";
         }
 
+        function dataURItoBlob(dataURI) {
+            // convert base64/URLEncoded data component to raw binary data held in a string
+            var byteString;
+            if (dataURI.split(',')[0].indexOf('base64') >= 0)
+                byteString = atob(dataURI.split(',')[1]);
+            else
+                byteString = unescape(dataURI.split(',')[1]);
+
+            // separate out the mime component
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+            // write the bytes of the string to a typed array
+            var ia = new Uint8Array(byteString.length);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            return new Blob([ia], {type:mimeString});
+        }
+
      $(document).ready(function() {
          $(".clearButton").on('click', function () {
            signaturePad.clear();
@@ -36,14 +56,7 @@
          $(".saveButton").on('click', function () {
              if (!signaturePad.isEmpty()){
                  var dataurl = signaturePad.toDataURL();
-
-                 var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-                while(n--){
-                    u8arr[n] = bstr.charCodeAt(n);
-                }
-                var blob =  new Blob([u8arr], {type:mime});
-
+                 var blob = dataURItoBlob(dataurl);
                 console.log(blob)
 
                 var fd = new FormData();
@@ -58,8 +71,7 @@
                 console.log(fd);
 
                 httpRequest.open('POST', url, true);
-                httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
+                httpRequest.setRequestHeader("Content-type", "multipart/form-data");
                 httpRequest.send(sendContent);
 
              }
