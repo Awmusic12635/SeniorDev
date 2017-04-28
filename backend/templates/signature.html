@@ -67,6 +67,7 @@
                 var sendContent = sendCSRFtoken+"&"+fd;
 
                 httpRequest.open('POST', url, true);
+                httpRequest.setRequestHeader("Content-type", "multipart/form-data");
                 httpRequest.setRequestHeader("X-CSRFToken", String(getCookie('csrftoken')));
 
                 console.log(httpRequest, sendContent);
