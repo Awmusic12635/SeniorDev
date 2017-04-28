@@ -44,6 +44,8 @@
                 }
                 var blob =  new Blob([u8arr], {type:mime});
 
+                console.log(blob)
+
                 var fd = new FormData();
                 fd.append("file", blob, "{{ checkout.id }}.png");
 
@@ -54,7 +56,6 @@
                 var sendContent = sendCSRFtoken+"&"+fd;
 
                 console.log(fd);
-                console.log(sendContent);
 
                 httpRequest.open('POST', url, true);
                 httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
