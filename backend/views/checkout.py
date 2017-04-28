@@ -260,7 +260,7 @@ def signature_form(request):
 
 @csrf_exempt
 def signature_form_save(request, checkout_id):
-    print(request.raw_post_data)
+    print(request.body.raw_post_data)
     #body_unicode = request.body.decode('utf-8')
     #body_data = json.loads(body_unicode)
     #print(body_data)
