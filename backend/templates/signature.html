@@ -68,7 +68,7 @@
                 var sendCSRFtoken = "csrfmiddlewaretoken="+String(getCookie('csrftoken'));
                 var sendContent = sendCSRFtoken+"&"+fd;
 
-                console.log(fd.getAll());
+                console.log(fd.getAll("file"));
 
                 httpRequest.open('POST', url, true);
                 //httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
