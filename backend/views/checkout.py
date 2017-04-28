@@ -258,9 +258,7 @@ def signature_form(request):
 
 
 def signature_form_save(request, checkout_id):
-    print(request.POST)
     print(request.body)
-    print(request)
 
     # if request.method == 'POST':
     #     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
