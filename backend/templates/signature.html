@@ -28,10 +28,21 @@
                 }
                 var blob =  new Blob([u8arr], {type:mime});
 
-                var fd = new FormData($('#sig_form'));
+                var fd = new FormData();
+                fd.append("file", blob, "{{ checkout.id }}.png");
                 fd.append("file", blob, "{{ checkout.id }}.png");
 
-                $('#sig_form').submit();
+                httpRequest = new XMLHttpRequest();
+
+                var url = "/signatureForm/save/{{ checkout.id }}";
+                var sendCSRFtoken = "csrfmiddlewaretoken="+String(getCookie('csrftoken'));
+                var sendContent = sendCSRFtoken+"&"+fd;
+
+                httpRequest.open('POST', url, true);
+                httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                httpRequest.send(sendContent);
+
              }
 
         });
