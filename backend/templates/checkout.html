@@ -95,6 +95,24 @@
                 }
             });
         });
+
+        $('#checkSignature').on('click', function () {
+            $.ajax({
+                type: "GET",
+                url: "/checkout/checkSignature",
+                dataType: "json",
+                success: function (data) {
+                    if(data.ready){
+                        window.location = "/checkout/complete";
+                    }else{
+                        $('#signatureResult').html("<p>No signature yet/p>");
+                    }
+                },
+                error: function () {
+                    $('#signatureResult').html("<p>No signature yet/p>");
+                }
+            });
+        });
     });
 
 
@@ -220,7 +238,9 @@
         <p>Signature is required.</p>
         <p>Please give present the tablet.</p>
 
-        <button type="button" data-id="{{ checkout.id }}" class="btn btn-success checkSignature"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
+        <div id = "signatureResult"></div>
+
+        <button type="button" class="btn btn-success checkSignature"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
     </div>
 
 </div>

@@ -53,6 +53,7 @@ urlpatterns = [
     url(r'^checkout/(?P<checkoutitem_id>\d*)/overrideDate$', checkout.override_date, name='items'),
     url(r'^checkout/cart/count', checkout.cart_count, name='items'),
     url(r'^checkout/clear', checkout.clear, name='items'),
+    url(r'^checkout/checkSignature', checkout.check_signature, name='items'),
     url(r'^checkout/complete', checkout.complete, name='items'),
    #checkin
     url(r'^checkin/$', checkin.get_open_checkouts, name='items'),
