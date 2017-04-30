@@ -276,7 +276,7 @@ def signature_form_save(request, checkout_id):
 
 
 @login_required
-def checkSignature(request):
+def check_signature(request):
     checkout = create_pending_checkout()
     ready = False
     if checkout.signatureFormFile is not None:
