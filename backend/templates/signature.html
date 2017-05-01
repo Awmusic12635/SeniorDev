@@ -28,20 +28,19 @@
                      url: "/signatureForm/save/"+encoded,
                      dataType: "json",
                      success: function (data) {
-                         console.log(data);
                          if(data.saved) {
-                             $('#resultsDiv').html = "<p>Signature saved successfully</p>";
+                             $('#resultsDiv').html("<p>Signature saved successfully</p>);
                          }else{
-                             $('#resultsDiv').html = "<p>Signature save failed</p>";
+                             $('#resultsDiv').html("<p>Signature save failed</p>");
                          }
                      },
                      error: function () {
-                         $('#resultsDiv').html = "<p>Signature save failed</p>";
+                         $('#resultsDiv').html("<p>Signature save failed</p>");
                      }
 
                  });
              }else{
-                 $('#resultsDiv').html = "<p>Please sign in the box</p>";
+                 $('#resultsDiv').html("<p>Please sign in the box</p>");
              }
          });
 

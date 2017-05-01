@@ -103,7 +103,8 @@
                 dataType: "json",
                 success: function (data) {
                     if(data.ready){
-                        $('#signatureResult').html('<img style="max-width:100%;" src="'+ data.url +'" /><button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Complete Chekout</button>');
+                        $('#signatureResult').html('<img style="max-width:100%;" src="'+ data.url +'" />');
+                        document.getElementById("dialogComplete").disabled = false;
                     }else{
                         $('#signatureResult').html("<p>No signature yet</p>");
                     }
@@ -241,6 +242,7 @@
         <div id = "signatureResult"></div>
 
         <button type="button" class="btn btn-success checkSignature" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
+        <button type="button" id = "dialogComplete" data-id="{{ checkout.id }}" class="btn btn-success completeButton" disabled="true"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
     </div>
 
 </div>
