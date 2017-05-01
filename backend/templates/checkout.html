@@ -96,7 +96,7 @@
             });
         });
 
-        $('#checkSignature').on('click', function () {
+        var checkSignature =  function () {
             $.ajax({
                 type: "GET",
                 url: "/checkout/checkSignature",
@@ -240,7 +240,7 @@
 
         <div id = "signatureResult"></div>
 
-        <button type="button" class="btn btn-success checkSignature"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
+        <button type="button" class="btn btn-success" onClick = "checkSignature();" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
     </div>
 
 </div>
