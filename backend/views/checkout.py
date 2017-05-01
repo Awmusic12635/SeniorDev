@@ -235,6 +235,15 @@ def add_user(request, checkout_id, username):
         user.first_name=ldap.get_first_name(ldap_user)
         user.last_name=ldap.get_last_name(ldap_user)
         user.save()
+
+        log(
+            user=request.user,
+            action="USER_ADDED",
+            obj=user,
+            extra={
+                'username': username
+            }
+        )
     else:
         user = users[0]
 
@@ -270,16 +279,21 @@ def signature_form_save(request, data_url):
       # PRINT ERROR MESSAGE HERE
         pass
     else:
-        checkout = create_pending_checkout()
-
-        #ImageData = base64.b64decode(ImageData)
-        #fout = open('/home/media/uploads/signatures/' + str(checkout.id) + 'signature.png', 'wb')
-        #fout.write(struct.pack('>s', ImageData))
-        #fout.close()
-        #checkout.signatureFormFile =
         file = decode_base64_file(ImageData)
+        checkout = create_pending_checkout()
         checkout.signatureFormFile = file
         checkout.save()
+
+        log(
+            user=request.user,
+            action="SIGNATURE_SAVED",
+            obj=checkout,
+            extra={
+                'signature_file': checkout.signatureFormFile.url,
+                'person_signing': checkout.person.email
+            }
+        )
+
         saved = True
     return HttpResponse(json.dumps({'saved': saved}), content_type="application/json")
 
