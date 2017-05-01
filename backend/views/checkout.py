@@ -271,10 +271,15 @@ def signature_form_save(request, data_url):
         pass
     else:
         checkout = create_pending_checkout()
-        ImageData = base64.b64decode(ImageData)
-        fout = open('/home/media/uploads/signatures/' + str(checkout.id) + 'signature.png', 'wb')
-        fout.write(struct.pack('>s', ImageData))
-        fout.close()
+
+        #ImageData = base64.b64decode(ImageData)
+        #fout = open('/home/media/uploads/signatures/' + str(checkout.id) + 'signature.png', 'wb')
+        #fout.write(struct.pack('>s', ImageData))
+        #fout.close()
+        #checkout.signatureFormFile =
+        file = decode_base64_file(ImageData)
+        checkout.signatureFormFile = file
+        checkout.save()
         saved = True
     return HttpResponse(json.dumps({'saved': saved}), content_type="application/json")
 
@@ -286,3 +291,41 @@ def check_signature(request):
     if checkout.signatureFormFile is not None:
         ready = True
     return HttpResponse(json.dumps({'ready': ready}), content_type="application/json")
+
+
+def decode_base64_file(data):
+    #http://stackoverflow.com/questions/36993615/save-base64-string-into-django-imagefield/43508555#43508555
+    def get_file_extension(file_name, decoded_file):
+        import imghdr
+
+        extension = imghdr.what(file_name, decoded_file)
+        extension = "jpg" if extension == "jpeg" else extension
+
+        return extension
+
+    from django.core.files.base import ContentFile
+    import base64
+    import six
+    import uuid
+
+    # Check if this is a base64 string
+    if isinstance(data, six.string_types):
+        # Check if the base64 string is in the "data:" format
+        if 'data:' in data and ';base64,' in data:
+            # Break out the header from the base64 content
+            header, data = data.split(';base64,')
+
+        # Try to decode the file. Return validation error if it fails.
+        try:
+            decoded_file = base64.b64decode(data)
+        except TypeError:
+            TypeError('invalid_image')
+
+        # Generate file name:
+        file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+        # Get the file name extension:
+        file_extension = get_file_extension(file_name, decoded_file)
+
+        complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+        return ContentFile(decoded_file, name=complete_file_name)

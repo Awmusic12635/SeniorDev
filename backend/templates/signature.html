@@ -12,41 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 
     <script>
-        function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-
-        function dataURItoBlob(dataURI) {
-            // convert base64/URLEncoded data component to raw binary data held in a string
-            var byteString;
-            if (dataURI.split(',')[0].indexOf('base64') >= 0)
-                byteString = atob(dataURI.split(',')[1]);
-            else
-                byteString = unescape(dataURI.split(',')[1]);
-
-            // separate out the mime component
-            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-            // write the bytes of the string to a typed array
-            var ia = new Uint8Array(byteString.length);
-            for (var i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-            }
-
-            return new Blob([ia], {type:mimeString});
-        }
 
      $(document).ready(function() {
          $(".clearButton").on('click', function () {
@@ -57,7 +22,6 @@
              if (!signaturePad.isEmpty()) {
                  var dataurl = signaturePad.toDataURL();
                  var encoded = encodeURIComponent(dataurl);
-                 console.log(encoded);
 
                  $.ajax({
                      type: "GET",
@@ -75,28 +39,10 @@
                      }
 
                  });
+             }else{
+                 $('#resultsDiv').html = "<p>Please sign in the box</p>";
              }
          });
-                 /*
-                 var blob = dataURItoBlob(dataurl);
-                var fd = new FormData();
-                fd.append("file", blob);
-
-                httpRequest = new XMLHttpRequest();
-
-                var url = "/signatureForm/save/{{ checkout.id }}";
-                var sendCSRFtoken = "csrfmiddlewaretoken="+String(getCookie('csrftoken'));
-                var sendContent = sendCSRFtoken+"&"+fd;
-
-                httpRequest.open('POST', url, true);
-                //httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                //httpRequest.setRequestHeader("X-CSRFToken", String(getCookie('csrftoken')));
-
-                console.log(httpRequest, sendContent);
-                httpRequest.send(fd);
-                */
-             //}
-
 
          var canvas = document.querySelector("canvas");
          var signaturePad = new SignaturePad(canvas);
@@ -109,10 +55,10 @@
 <body>
 <div>
     <p>Person: {{ checkout.person }}</p>
-    <p>Items you are signing for</p>
+    <p>Items you are signing for:</p>
     {%  for ci in checkout.checkoutitem_set.all %}
-        {%  if ci.ItemTypeID.needsSignature == True %}
-            <p> Name: {{ ci.ItemTypeID.name}} : Due: {{ ci.dateTimeDue}} : Cost:{{ ci.ItemTypeID.cost}}></p>
+        {%  if ci.item.ItemTypeID.needsSignature == True %}
+            <p> Name: {{ ci.item.ItemTypeID.name}} : Due: {{ ci.dateTimeDue}} : Cost:{{ ci.item.ItemTypeID.cost}}></p>
         {% endif %}
 
     {% endfor %}
@@ -127,11 +73,6 @@
       <button type="button" class="saveButton">Save Signature</button>
     </div>
   </div>
-
-    <form method="post" action="/signatureForm/save/{{ checkout.id }}" id="sig_form" style="{display:none}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="hidden" id="data_url">
-    </form>
 
 <div id = "resultsDiv"></div>
 </body>
