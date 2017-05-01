@@ -10,7 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from pinax.eventlog.models import log
 from templated_email import send_templated_mail
 from .ldap import ldap
-import json, re, base64, unicodedata, codecs, urllib
+import json, re, base64, unicodedata, codecs, urllib.parse
 import re
 import base64
 
@@ -260,7 +260,7 @@ def signature_form(request):
 
 @csrf_exempt
 def signature_form_save(request, data_url):
-    decoded = urllib.unquote(data_url)
+    decoded = urllib.parse.unquote(data_url)
     print(decoded)
 
     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
