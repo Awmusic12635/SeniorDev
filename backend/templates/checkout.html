@@ -105,11 +105,11 @@
                     if(data.ready){
                         window.location = "/checkout/complete";
                     }else{
-                        $('#signatureResult').html("<p>No signature yet/p>");
+                        $('#signatureResult').html("<p>No signature yet</p>");
                     }
                 },
                 error: function () {
-                    $('#signatureResult').html("<p>No signature yet/p>");
+                    $('#signatureResult').html("<p>No signature yet</p>");
                 }
             });
         })
@@ -240,7 +240,7 @@
 
         <div id = "signatureResult"></div>
 
-        <button type="button" class="btn btn-success checkSignature" onClick = "checkSignature();" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
+        <button type="button" class="btn btn-success checkSignature" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
     </div>
 
 </div>

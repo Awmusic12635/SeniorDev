@@ -56,6 +56,7 @@
          $(".saveButton").on('click', function () {
              if (!signaturePad.isEmpty()){
                  var dataurl = signaturePad.toDataURL();
+                 console.log(dataurl);
                  var blob = dataURItoBlob(dataurl);
                 var fd = new FormData();
                 fd.append("file", blob);
