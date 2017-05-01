@@ -54,9 +54,30 @@
         });
 
          $(".saveButton").on('click', function () {
-             if (!signaturePad.isEmpty()){
+             if (!signaturePad.isEmpty()) {
                  var dataurl = signaturePad.toDataURL();
-                 console.log(dataurl);
+                 var encoded = encodeURIComponent(dataurl);
+                 console.log(encoded);
+
+                 $.ajax({
+                     type: "GET",
+                     url: "/signatureForm/save/"+encoded,
+                     dataType: "json",
+                     success: function (data) {
+                         if(data.saved) {
+                             $('#resultsDiv').html = "<p>Signature saved successfully</p>";
+                         }else{
+                             $('#resultsDiv').html = "<p>Signature save failed</p>";
+                         }
+                     },
+                     error: function () {
+                         $('#resultsDiv').html = "<p>Signature save failed</p>";
+                     }
+
+                 });
+             }
+         });
+                 /*
                  var blob = dataURItoBlob(dataurl);
                 var fd = new FormData();
                 fd.append("file", blob);
@@ -73,10 +94,9 @@
 
                 console.log(httpRequest, sendContent);
                 httpRequest.send(fd);
+                */
+             //}
 
-             }
-
-        });
 
          var canvas = document.querySelector("canvas");
          var signaturePad = new SignaturePad(canvas);
@@ -87,7 +107,16 @@
     </script>
 </head>
 <body>
+<div>
+    <p>Person: {{ checkout.person }}</p>
+    <p>Items you are signing for</p>
+    {%  for ci in checkout.checkoutitem_set.all %}
+        {%  if ci.ItemTypeID.needsSignature == True %}
+            <p> Name: {{ ci.ItemTypeID.name}} : Due: {{ ci.dateTimeDue}} : Cost:{{ ci.ItemTypeID.cost}}></p>
+        {% endif %}
 
+    {% endfor %}
+</div>
     <div id="signature-pad">
     <div class="m-signature-pad--body">
       <canvas></canvas>
@@ -103,5 +132,7 @@
         {% csrf_token %}
         <input type="hidden" id="data_url">
     </form>
+
+<div id = "resultsDiv"></div>
 </body>
 </html>
