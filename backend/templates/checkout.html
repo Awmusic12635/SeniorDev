@@ -103,7 +103,7 @@
                 dataType: "json",
                 success: function (data) {
                     if(data.ready){
-                        window.location = "/checkout/complete";
+                        $('#signatureResult').html('<img style="max-width:100%;" src="'+ data.url +'" /><button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Complete Chekout</button>');
                     }else{
                         $('#signatureResult').html("<p>No signature yet</p>");
                     }

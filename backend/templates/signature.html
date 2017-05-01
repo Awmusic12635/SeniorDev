@@ -28,6 +28,7 @@
                      url: "/signatureForm/save/"+encoded,
                      dataType: "json",
                      success: function (data) {
+                         console.log(data);
                          if(data.saved) {
                              $('#resultsDiv').html = "<p>Signature saved successfully</p>";
                          }else{
@@ -58,7 +59,7 @@
     <p>Items you are signing for:</p>
     {%  for ci in checkout.checkoutitem_set.all %}
         {%  if ci.item.ItemTypeID.needsSignature == True %}
-            <p> Name: {{ ci.item.ItemTypeID.name}} : Due: {{ ci.dateTimeDue}} : Cost:{{ ci.item.ItemTypeID.cost}}></p>
+            <p> Name: {{ ci.item.ItemTypeID.name}} : Due: {{ ci.dateTimeDue}} : Cost:{{ ci.item.ItemTypeID.cost}}</p>
         {% endif %}
 
     {% endfor %}

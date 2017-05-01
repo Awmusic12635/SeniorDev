@@ -288,9 +288,11 @@ def signature_form_save(request, data_url):
 def check_signature(request):
     checkout = create_pending_checkout()
     ready = False
+    url = ''
     if checkout.signatureFormFile is not None:
         ready = True
-    return HttpResponse(json.dumps({'ready': ready}), content_type="application/json")
+        url = checkout.signatureFormFile.url
+    return HttpResponse(json.dumps({'ready': ready, 'url': url}), content_type="application/json")
 
 
 def decode_base64_file(data):
