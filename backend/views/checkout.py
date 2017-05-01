@@ -272,7 +272,7 @@ def signature_form_save(request, data_url):
     else:
         checkout = create_pending_checkout()
         ImageData = base64.b64decode(ImageData)
-        fout = open('/home/media/uploads/signatures/' + checkout.id + 'signature.png', 'wb')
+        fout = open('/home/media/uploads/signatures/' + str(checkout.id) + 'signature.png', 'wb')
         fout.write(struct.pack('>s', ImageData))
         fout.close()
         saved = True
