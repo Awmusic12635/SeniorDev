@@ -1,6 +1,42 @@
 {% extends 'loggedoutbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
+    <script>
+        $(document).ready(function() {
+            $('#id_username').css('display', 'none');
+
+            $.ajax({
+                type: "GET",
+                url: "/user/staff",
+                dataType: "json",
+                success: function (data) {
+                    var userSelect = "<select onChange = 'userSelected(this)' name=userSelect required><option value=''>---</option>";
+                    data.users.forEach(function(user){
+                        userSelect += '<option value = ' + user + '>'+ user + '</option>';
+                    });
+
+                    userSelect += '</select>';
+
+                    if(data.users.length == 0){
+                        userSelect ="<p>No staff users found</p>";
+                    }
+
+                    $('#userSelect').html(userSelect);
+                },
+                error: function () {
+                    $('#userSelect').html("<p>No staff users found</p>");
+                }
+            });
+
+            userSelected = function (elem) {
+                $('#id_username').val(elem.value);
+            }
+
+        });
+
+    </script>
+
+
     <div class="container">
         <div class="row">
             <div class="col-sm-5 text-center" style="background: #eaeaea;">
@@ -9,7 +45,12 @@
                 <form class="form-signin" method="post">
                     {% csrf_token %}
                     <span id="reauth-email" class="reauth-email"></span>
+
+                    <div id="userSelect">
+                    </div>
+
                     {% render_field form.username class="form-control" placeholder=form.username.label %} <br/>
+
                     {% render_field form.password class="form-control" placeholder=form.password.label %} <br/>
                     <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log In</button>
                     <small><i class="fa fa-lock" aria-hidden="true"></i> Secure Login</small>
@@ -24,3 +65,6 @@
         </div>
     </div><!-- /container -->
 {% endblock %}
+
+
+

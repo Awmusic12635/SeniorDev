@@ -2,7 +2,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-
+from backend.models import User
+import json
 
 def index(request):
     return HttpResponse("Hello, world. You're at the user index.")
@@ -15,3 +16,13 @@ def login(request):
 @login_required
 def dashboard(request):
     return render(request, 'dashboard.html', {'title': 'Dashboard'})
+
+
+def get_staff(request):
+    print('in get staff')
+    staff = User.objects.all().filter(is_staff=1)
+    staffArr = []
+    for s in staff:
+        staffArr.append(s.username)
+    print(staffArr)
+    return HttpResponse(json.dumps({'users': staffArr}), content_type="application/json")

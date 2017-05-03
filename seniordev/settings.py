@@ -25,7 +25,7 @@ SECRET_KEY = '%58l7v9@*qp!c&t4f&m0piws^rh=s60o(f#dkkx2evoa@^9!ae'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ted.alexwacker.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['ted.alexwacker.com','team-hollerith.ist.rit.edu', 'localhost', '127.0.0.1']
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGIN_URL='/login'
 
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    'pinax.eventlog'
+    'pinax.eventlog',
+    'report_builder'
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
+                'django.template.context_processors.media',
             ],
         },
     },
