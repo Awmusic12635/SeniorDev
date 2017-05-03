@@ -7,35 +7,33 @@ from backend.models import CheckoutItem, ItemType, Item
 
 @login_required
 def show(request):
+    return render(request, 'dashboard.html', get_dashboard_context())
+
+
+@login_required
+def search(request):
+    search_text = request.POST['search']
+    items = ItemType.objects.filter(name__contains=search_text)
+
+    context = get_dashboard_context()
+    context.items = items
+    context.searchedText = search_text
+    context.searched = True
+
+    return render(request,'dashboard.html',context)
+
+
+@login_required
+def get_dashboard_context():
     items = Item.objects.all()
     numberOfItems = items.count()
     numberOfItemsInInventory = Item.objects.all().count() - CheckoutItem.objects.all().count()
     numberOfItemsCheckedOut = CheckoutItem.objects.all().count()
-    numberOfItemsDueToday = CheckoutItem.objects.filter(dateTimeDue__gte = datetime.today()).count()
-    return render(request, 'dashboard.html', {
+    numberOfItemsDueToday = CheckoutItem.objects.filter(dateTimeDue__gte=datetime.today()).count()
+    return {
         'title': 'Dashboard',
         'numberOfItemsInInventory': numberOfItemsInInventory,
         'numberOfItemsCheckedOut' : numberOfItemsCheckedOut,
         'numberOfItems'           : numberOfItems,
         'numberOfItemsDueToday'   : numberOfItemsDueToday
-    })
-
-def search(request):
-    if request.is_ajax():
-        search_text = request.POST['search_text']
-    else:
-        search_text = ''
-
-    print(search_text)
-    itemTypes = ItemType.objects.filter(name__contains=search_text)
-    itemsInfo = []
-    for itemType in itemTypes:
-        itemInfo = (itemType, Item.objects.all().filter(ItemTypeID_id = itemType.id).count())
-        itemsInfo.append(itemInfo)
-
-    for itemType, quantity in itemsInfo:
-        print(quantity)
-
-    return render(request,'search.html',{'itemTypes':itemsInfo})
-
-
+    }
