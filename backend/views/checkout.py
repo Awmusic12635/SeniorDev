@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import UserManager
 from datetime import datetime, timedelta
 from backend.models import Checkout, CheckoutItem, Item, User
@@ -9,7 +10,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from pinax.eventlog.models import log
 from templated_email import send_templated_mail
 from .ldap import ldap
-import json
+import json, re, base64, urllib.parse, struct
+import re
+import base64
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
@@ -22,6 +25,7 @@ def get_pending_checkout(request):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
+@login_required
 def add_item(request, item_id):
     checkout = create_pending_checkout()
     item = get_object_or_404(Item, pk=int(item_id))
@@ -42,9 +46,10 @@ def add_item(request, item_id):
             extra={
             }
         )
-    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
+@login_required
 def remove_item(request, item_id):
     item = get_object_or_404(Item, pk=int(item_id))
     checkout = create_pending_checkout()
@@ -61,9 +66,10 @@ def remove_item(request, item_id):
         extra={
         }
     )
-    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
+@login_required
 def override_date(request, checkoutitem_id):
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     if request.method == "POST":
@@ -86,6 +92,7 @@ def override_date(request, checkoutitem_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
 
+@login_required
 def reset_duedate(request, checkoutitem_id):
     ci = CheckoutItem.objects.get(pk=checkoutitem_id)
     ci.dateTimeDue = datetime.now() + timedelta(days=getDefaultCheckoutLength(ci.item))
@@ -108,12 +115,14 @@ def reset_duedate(request, checkoutitem_id):
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout':  ci.checkout})
 
 
+@login_required
 def clear(request):
     Item.objects.filter(checkoutStatus=CONST_STATUS_PENDING).update(checkoutStatus = CONST_STATUS_CHECKEDIN)
     CheckoutItem.objects.filter(checkout=create_pending_checkout()).delete()
     return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
+@login_required
 def complete(request):
     checkout = create_pending_checkout()
     checkout.status = CONST_STATUS_OPEN
@@ -169,6 +178,15 @@ def create_pending_checkout():
     if checkout is None:
         checkout = Checkout(status=CONST_STATUS_PENDING)
         checkout.save()
+    else:
+        cis = CheckoutItem.objects.all()
+        needsSigCount = 0
+        for ci in cis:
+            if ci.item.ItemTypeID.needsSignature :
+                needsSigCount += 1
+        if needsSigCount > 0 :
+            checkout.needsSignature = True
+        checkout.save()
     return checkout
 
 
@@ -184,11 +202,25 @@ def getDefaultCheckoutLength(item):
     return checkoutlength
 
 
-def find_user(request, username):
-    ldap_user = ldap.get_user_by_username(username)
-    return HttpResponse(ldap_user.cn)
+@login_required
+def find_user_name(request, username):
+    ldap_users = ldap.get_user_by_username(username)
+    ret_arr = []
+    for user in ldap_users:
+        ret_arr.append({'name': str(user.cn), 'username': str(user.uid)})
+    return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
 
 
+@login_required
+def find_user_id(request, uid):
+    ldap_users = ldap.get_user_by_universityid(uid)
+    ret_arr = []
+    for user in ldap_users:
+        ret_arr.append({'name': str(user.cn), 'username': str(user.uid)})
+    return HttpResponse(json.dumps({'users': ret_arr}), content_type="application/json")
+
+
+@login_required
 def add_user(request, checkout_id, username):
     checkout = Checkout.objects.get(pk=checkout_id)
 
@@ -203,9 +235,113 @@ def add_user(request, checkout_id, username):
         user.first_name=ldap.get_first_name(ldap_user)
         user.last_name=ldap.get_last_name(ldap_user)
         user.save()
+
+        log(
+            user=request.user,
+            action="USER_ADDED",
+            obj=user,
+            extra={
+                'username': username
+            }
+        )
     else:
         user = users[0]
 
+    print(user)
     checkout.person = user;
     checkout.save()
-    return HttpResponse(user.username)
+
+    print(checkout.person)
+    return get_pending_checkout(request)
+
+
+@login_required
+def cart_count(request):
+    checkout = create_pending_checkout()
+    count = CheckoutItem.objects.filter(checkout = checkout).count()
+    print(count)
+    return HttpResponse(str(count))
+
+
+def signature_form(request):
+    return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
+
+
+@csrf_exempt
+def signature_form_save(request, data_url):
+    decoded = urllib.parse.unquote(data_url)
+
+    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+    ImageData = dataUrlPattern.match(decoded).group(2)
+
+    saved = False
+    if (ImageData == None or len(decoded) == 0):
+      # PRINT ERROR MESSAGE HERE
+        pass
+    else:
+        file = decode_base64_file(ImageData)
+        checkout = create_pending_checkout()
+        checkout.signatureFormFile = file
+        checkout.save()
+
+        log(
+            user=request.user,
+            action="SIGNATURE_SAVED",
+            obj=checkout,
+            extra={
+                'signature_file': checkout.signatureFormFile.url,
+                'person_signing': checkout.person.email
+            }
+        )
+
+        saved = True
+    return HttpResponse(json.dumps({'saved': saved}), content_type="application/json")
+
+
+@login_required
+def check_signature(request):
+    checkout = create_pending_checkout()
+    ready = False
+    url = ''
+    if checkout.signatureFormFile is not None:
+        ready = True
+        url = checkout.signatureFormFile.url
+    return HttpResponse(json.dumps({'ready': ready, 'url': url}), content_type="application/json")
+
+
+def decode_base64_file(data):
+    #http://stackoverflow.com/questions/36993615/save-base64-string-into-django-imagefield/43508555#43508555
+    def get_file_extension(file_name, decoded_file):
+        import imghdr
+
+        extension = imghdr.what(file_name, decoded_file)
+        extension = "jpg" if extension == "jpeg" else extension
+
+        return extension
+
+    from django.core.files.base import ContentFile
+    import base64
+    import six
+    import uuid
+
+    # Check if this is a base64 string
+    if isinstance(data, six.string_types):
+        # Check if the base64 string is in the "data:" format
+        if 'data:' in data and ';base64,' in data:
+            # Break out the header from the base64 content
+            header, data = data.split(';base64,')
+
+        # Try to decode the file. Return validation error if it fails.
+        try:
+            decoded_file = base64.b64decode(data)
+        except TypeError:
+            TypeError('invalid_image')
+
+        # Generate file name:
+        file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+        # Get the file name extension:
+        file_extension = get_file_extension(file_name, decoded_file)
+
+        complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+        return ContentFile(decoded_file, name=complete_file_name)

@@ -8,37 +8,54 @@
         $('.viewButton').on('click',function(){
             window.location="/reservationRequest/edit/"+$(this).attr('data-id');
         });
+        $('#addItemButton').on('click',function(){
+            window.location="/reservationRequest/";
+        });
+        $('#reservedItemButton').on('click',function(){
+            window.location="/reservation/";
+        });
     });
-
-
 </script>
-
-<div style="margin: 15px;">
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Requester</th>
-                <th>Sub Category</th>
-                <th>Item</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for rr in requests %}
-                <tr>
-                    <td>{{ rr.requester }}</td>
-                    <td>{{ rr.itemSubCategoryID.subCategoryName }}</td>
-                    <td>{{ rr.itemTypeID.name }}</td>
-                    <td>{{ rr.startDate }}</td>
-                    <td>{{ rr.endDate }}</td>
-                    <td>
-                        <button type="button" data-id="{{ rr.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container-fluid tableHeader">
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>Pending Requests</h3>
+        </div>
+        <div class="col-xs-6 text-right">
+             <button id='addItemButton' type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Reserve an Item</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right">Item</th>
+                        <th>Category</th>
+                        <th>Requested By</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rr in requests %}
+                        <tr>
+                            <td data-id="{{ rr.id }}" class="text-right viewButton"><b>{{ rr.itemTypeID.name }}</b></td>
+                            <td class="viewButton" data-id="{{ rr.id }}"><small>{{ rr.itemSubCategoryID.subCategoryName }}</small></td>
+                            <td class="viewButton" data-id="{{ rr.id }}"><small>{{ rr.requester }}</small></td>
+                            <td class="viewButton" data-id="{{ rr.id }}"><small>{{ rr.startDate }}</small></td>
+                            <td class="viewButton" data-id="{{ rr.id }}"><small>{{ rr.endDate }}</small></td>
+                            <td>
+                                <button type="button" data-id="{{ rr.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

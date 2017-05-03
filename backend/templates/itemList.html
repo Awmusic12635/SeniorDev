@@ -20,35 +20,58 @@
     });
 </script>
 
-<button id='addItemButton' type="button" class="btn btn-primary btn-lg">Add Item</button>
 
-<table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Serial</th>
-                <th>Tag</th>
-                <th>Location</th>
-                <th>Checkout Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-                <tr>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.serial }}</td>
-                    <td>{{ item.tag }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.checkoutStatus }}</td>
-                    <td>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs checkoutButton">Checkout</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container-fluid tableHeader">
+    <div class="row">
+        <div class="col-xs-8">
+            <h3>Item</h3>
+        </div>
+        <div class="col-xs-4 text-right">
+            <button id='addItemButton' type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add Item</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <b>Checked Out To:</b> {{ checkout.person }}
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right">Serial</th>
+                        <th>Tag</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td data-id="{{ item.id }}" class="viewButton text-right">{{ item.serial }}</td>
+                            <td data-id="{{ item.id }}" class="viewButton"><small>{{ item.tag }}</small></td>
+                            <td data-id="{{ item.id }}" class="viewButton"><small>{{ item.location }}</small></td>
+                            {% if item.checkoutStatus == 'Checked in' %}
+                            <td data-id="{{ item.id }}" class="checkoutButton"><span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% elif item.checkoutStatus == 'Checked out' %}
+                            <td data-id="{{ item.id }}" class="checkoutButton"><span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% else %}
+                            <td data-id="{{ item.id }}" class="checkoutButton"><span class="btn btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% endif %}
+                            <td>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

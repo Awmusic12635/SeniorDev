@@ -8,8 +8,9 @@
         $('.viewButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id');
         });
-
-
+        $('#addItemButton').on('click',function(){
+            window.location="/item/add";
+        });
         $('.editButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id')+"/edit";
         });
@@ -17,43 +18,53 @@
 
 
 </script>
-
-    <div>
-        <p>Category: {{ subcategory.itemCategoryID.categoryName }}</p>
-        <p>Name: {{ subcategory.subCategoryName }}</p>
-        <p>Description: {{ subcategory.subcategoryDescription }}</p>
-        <p>Default Checkout Length: {{ subcategory.defaultCheckoutLengthDays }}</p>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-8">
+            <h3><a href="../../">Categories</a> <i class="fa fa-caret-right" aria-hidden="true"></i> <a href="../../{{subcategory.itemCategoryID.id}}">{{ subcategory.itemCategoryID.categoryName }}</a> <i class="fa fa-caret-right" aria-hidden="true"></i> {{ subcategory.subCategoryName }}</h3>
+        </div>
+        <div class="col-xs-4 text-right">
+            <button id='addItemButton' type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>  Add Item</button>
+        </div>
     </div>
-
-<div style="margin: 15px;">
-    Items in this Sub Category
-    <table id="itemTable" class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Manufacturer</th>
-                <th>Model</th>
-                <th>Cost</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in subcategory.itemtype_set.all %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.manufacturer }}</td>
-                    <td>{{ item.model }}</td>>
-                    <td>{{ item.cost }}</td>
-                    <td>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                        <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+                <b>Default Checkout Length:</b> {{ subcategory.defaultCheckoutLengthDays }} days<br/>
+                <b>Description:</b> {{ subcategory.subcategoryDescription }}
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right">Name</th>
+                        <th>Manufacturer</th>
+                        <th>Model</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in subcategory.itemtype_set.all %}
+                        <tr>
+                            <td data-id="{{ item.id }}" class="text-right viewButton"><b>{{ item.name }}</b></td>
+                            <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.manufacturer }}</small></td>
+                            <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.model }}</small></td>>
+                            <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.description }}</small></td>
+                            <td class="col-sm-3 ">
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i>  View</button>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
