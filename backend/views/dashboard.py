@@ -13,15 +13,18 @@ def show(request):
 
 @login_required
 def search(request):
-    search_text = request.POST['search']
-    items = Item.objects.filter(Q(ItemTypeID__name__icontains=search_text) | Q(barcode__icontains=search_text))
+    if request.method == "POST":
+        search_text = request.POST['search']
+        items = Item.objects.filter(Q(ItemTypeID__name__icontains=search_text) | Q(barcode__icontains=search_text))
 
-    context = get_dashboard_context()
-    context['items'] = items
-    context['searchedText'] = search_text
-    context['searched'] = True
+        context = get_dashboard_context()
+        context['items'] = items
+        context['searchedText'] = search_text
+        context['searched'] = True
 
-    return render(request,'dashboard.html',context)
+        return render(request,'dashboard.html',context)
+    else:
+        return show(request)
 
 
 def get_dashboard_context():
