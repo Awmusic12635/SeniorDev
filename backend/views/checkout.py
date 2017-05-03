@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import UserManager
 from datetime import datetime, timedelta
 from backend.models import Checkout, CheckoutItem, Item, User
@@ -9,7 +10,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from pinax.eventlog.models import log
 from templated_email import send_templated_mail
 from .ldap import ldap
-import json
+import json, re, base64, urllib.parse, struct
+import re
+import base64
 
 CONST_STATUS_PENDING = "Pending"
 CONST_STATUS_CHECKEDIN = "Checked in"
@@ -43,7 +46,7 @@ def add_item(request, item_id):
             extra={
             }
         )
-    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
 @login_required
@@ -63,7 +66,7 @@ def remove_item(request, item_id):
         extra={
         }
     )
-    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': checkout})
+    return render(request, 'checkout.html', {'title': 'Checkout', 'checkout': create_pending_checkout()})
 
 
 @login_required
@@ -175,6 +178,15 @@ def create_pending_checkout():
     if checkout is None:
         checkout = Checkout(status=CONST_STATUS_PENDING)
         checkout.save()
+    else:
+        cis = CheckoutItem.objects.all()
+        needsSigCount = 0
+        for ci in cis:
+            if ci.item.ItemTypeID.needsSignature :
+                needsSigCount += 1
+        if needsSigCount > 0 :
+            checkout.needsSignature = True
+        checkout.save()
     return checkout
 
 
@@ -223,6 +235,15 @@ def add_user(request, checkout_id, username):
         user.first_name=ldap.get_first_name(ldap_user)
         user.last_name=ldap.get_last_name(ldap_user)
         user.save()
+
+        log(
+            user=request.user,
+            action="USER_ADDED",
+            obj=user,
+            extra={
+                'username': username
+            }
+        )
     else:
         user = users[0]
 
@@ -240,3 +261,87 @@ def cart_count(request):
     count = CheckoutItem.objects.filter(checkout = checkout).count()
     print(count)
     return HttpResponse(str(count))
+
+
+def signature_form(request):
+    return render(request, 'signature.html', {'title': 'Signature Form', 'checkout': create_pending_checkout()})
+
+
+@csrf_exempt
+def signature_form_save(request, data_url):
+    decoded = urllib.parse.unquote(data_url)
+
+    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+    ImageData = dataUrlPattern.match(decoded).group(2)
+
+    saved = False
+    if (ImageData == None or len(decoded) == 0):
+      # PRINT ERROR MESSAGE HERE
+        pass
+    else:
+        file = decode_base64_file(ImageData)
+        checkout = create_pending_checkout()
+        checkout.signatureFormFile = file
+        checkout.save()
+
+        log(
+            user=request.user,
+            action="SIGNATURE_SAVED",
+            obj=checkout,
+            extra={
+                'signature_file': checkout.signatureFormFile.url,
+                'person_signing': checkout.person.email
+            }
+        )
+
+        saved = True
+    return HttpResponse(json.dumps({'saved': saved}), content_type="application/json")
+
+
+@login_required
+def check_signature(request):
+    checkout = create_pending_checkout()
+    ready = False
+    url = ''
+    if checkout.signatureFormFile is not None:
+        ready = True
+        url = checkout.signatureFormFile.url
+    return HttpResponse(json.dumps({'ready': ready, 'url': url}), content_type="application/json")
+
+
+def decode_base64_file(data):
+    #http://stackoverflow.com/questions/36993615/save-base64-string-into-django-imagefield/43508555#43508555
+    def get_file_extension(file_name, decoded_file):
+        import imghdr
+
+        extension = imghdr.what(file_name, decoded_file)
+        extension = "jpg" if extension == "jpeg" else extension
+
+        return extension
+
+    from django.core.files.base import ContentFile
+    import base64
+    import six
+    import uuid
+
+    # Check if this is a base64 string
+    if isinstance(data, six.string_types):
+        # Check if the base64 string is in the "data:" format
+        if 'data:' in data and ';base64,' in data:
+            # Break out the header from the base64 content
+            header, data = data.split(';base64,')
+
+        # Try to decode the file. Return validation error if it fails.
+        try:
+            decoded_file = base64.b64decode(data)
+        except TypeError:
+            TypeError('invalid_image')
+
+        # Generate file name:
+        file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+        # Get the file name extension:
+        file_extension = get_file_extension(file_name, decoded_file)
+
+        complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+        return ContentFile(decoded_file, name=complete_file_name)

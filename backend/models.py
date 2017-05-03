@@ -63,6 +63,7 @@ class ItemType(TimeStampedModel):
     manufacturer = models.CharField(max_length=100, null=True)
     model = models.CharField(max_length=200, null=True)
     cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
+    needsSignature = models.BooleanField(default=False)
     tracker = FieldTracker()
 
     def __str__(self):
@@ -111,7 +112,8 @@ class Checkout(TimeStampedModel):
     dateTimeOut = models.DateTimeField(null=True)
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=50, default="Pending")
-    signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
+    needsSignature = models.BooleanField(default=False)
+    signatureFormFile = models.FileField(max_length=400, null=True, upload_to='uploads/signatures')  # use a file field?
     tracker = FieldTracker()
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 

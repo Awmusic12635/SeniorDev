@@ -3,8 +3,8 @@
 {% block plain %}
     Thank you or checking out the following items from the ISTE Cage:
     {% for ci in checkout.checkoutitem_set.all %}
-        {{ ci.item.ItemTypeID.name }}
-            Due: {{ ci.dateTimeIn }}
+    Item:{{ ci.item.ItemTypeID.name }}
+    Due: {{ ci.dateTimeDue }}
 
     {% endfor %}
 

@@ -53,6 +53,7 @@ urlpatterns = [
     url(r'^checkout/(?P<checkoutitem_id>\d*)/overrideDate$', checkout.override_date, name='items'),
     url(r'^checkout/cart/count', checkout.cart_count, name='items'),
     url(r'^checkout/clear', checkout.clear, name='items'),
+    url(r'^checkout/checkSignature', checkout.check_signature, name='items'),
     url(r'^checkout/complete', checkout.complete, name='items'),
    #checkin
     url(r'^checkin/$', checkin.get_open_checkouts, name='items'),
@@ -64,7 +65,9 @@ urlpatterns = [
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.decline_request, name='reservationRequestDecline'),
     url(r'^reservation/$', reservation.list_reservations, name='reservationList'),
-    url(r'^report_builder/', include('report_builder.urls'))
+    url(r'^report_builder/', include('report_builder.urls')),
+    url(r'^signatureForm/$', checkout.signature_form, name='signature'),
+    url(r'^signatureForm/save/(?P<data_url>\S*)$', checkout.signature_form_save, name='signature')
 
 
 ]

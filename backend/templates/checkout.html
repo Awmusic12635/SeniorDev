@@ -7,6 +7,10 @@
       };
 
     $(document).ready(function() {
+        $("#signatureWarning").dialog({
+            autoOpen : false, modal : true, show : "blind", hide : "blind"
+          });
+
         $('.selectUserButton').hide();
 
         $('#itemTable').DataTable();
@@ -30,6 +34,14 @@
         $('.resetButton').on('click', function () {
             window.location = "/checkout/resetDueDate/" + $(this).attr('data-id');
         });
+
+
+        $('.needsSignatureButton').on('click', function () {
+            //show dialog
+            $("#signatureWarning").dialog("open");
+            //window.location = "/checkout/complete";
+        });
+
 
         $('#userSearchFormUsername').on('submit', function (event) {
             event.preventDefault();
@@ -83,6 +95,25 @@
                 }
             });
         });
+
+        $('.checkSignature').on('click', function () {
+            $.ajax({
+                type: "GET",
+                url: "/checkout/checkSignature",
+                dataType: "json",
+                success: function (data) {
+                    if(data.ready){
+                        $('#signatureResult').html('<img style="max-width:100%;" src="'+ data.url +'" />');
+                        document.getElementById("dialogComplete").disabled = false;
+                    }else{
+                        $('#signatureResult').html("<p>No signature yet</p>");
+                    }
+                },
+                error: function () {
+                    $('#signatureResult').html("<p>No signature yet</p>");
+                }
+            });
+        })
     });
 
 
@@ -108,7 +139,7 @@
                   <form id="userSearchFormID">
                       {% csrf_token %}
                       <label for="username">UID:</label>
-                      <input type="text" size="15" required name="uid" id="uid">
+                      <input type="password" size="15" required name="uid" id="uid">
                       <input type="submit" value="Search">
                   </form>
 
@@ -158,6 +189,7 @@
                         <th>Model</th>
                         <th>Tags</th>
                         <th>Location</th>
+                        <th>Signature?</th>
                         <th>Checkout Status</th>
                         <th>Due Date</th>
                         <th>Actions</th>
@@ -171,6 +203,7 @@
                             <td>{{ checkoutitem.item.ItemTypeID.model }}</td>
                             <td>{{ checkoutitem.item.tag }}</td>
                             <td>{{ checkoutitem.item.location }}</td>
+                            <td>{{ checkoutitem.item.ItemTypeID.needsSignature }}</td>
                             <td>{{ checkoutitem.item.checkoutStatus }}</td>
                             <td>{{ checkoutitem.dateTimeDue }}</td>
                             <td>
@@ -193,8 +226,23 @@
             <button type="button" data-id="{{ checkout.id }}" class="btn clearButton"><i class="fa fa-ban" aria-hidden="true"></i> Remove All Items</button>
         </div>
         <div class="col-xs-6 text-right">
-            <button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
+            {%  if checkout.needsSignature %}
+                <button type="button" data-id="{{ checkout.id }}" class="btn btn-success needsSignatureButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items - Needs Signature</button>
+            {% else %}
+                <button type="button" data-id="{{ checkout.id }}" class="btn btn-success completeButton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
+            {% endif %}
         </div>
+    </div>
+
+
+    <div id="signatureWarning" title="Signature Required">
+        <p>Signature is required.</p>
+        <p>Please give present the tablet.</p>
+
+        <div id = "signatureResult"></div>
+
+        <button type="button" class="btn btn-success checkSignature" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check for Signature</button>
+        <button type="button" id = "dialogComplete" data-id="{{ checkout.id }}" class="btn btn-success completeButton" disabled="true"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Check Out All Items</button>
     </div>
 
 </div>
