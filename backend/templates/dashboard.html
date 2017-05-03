@@ -29,11 +29,9 @@
 </script>
 <div class="container-fluid">
     <div class="container-fluid">
-        <h3>Dashboard</h3>
+        <h3>Search</h3>
     </div>
-
     <div class="row">
-        <h4>Search Items</h4>
         <form method="POST" action="/dashboard/search">
             {% csrf_token %}
             <input type="text" required name="search" value="{{ searchedText }}" placeholder="Item Name">
@@ -60,7 +58,7 @@
                             <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.model }}</small></td>
                             <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.description }}</small></td>
                             <td class="col-xs-2">
-                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View Available</button>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewAvailable"><i class="fa fa-eye" aria-hidden="true"></i> View Available</button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -70,6 +68,11 @@
 
     </div>
 
+
+
+    <div class="container-fluid">
+        <h3>Dashboard</h3>
+    </div>
 
     <div class="row">
     	<div class="col-sm-4 text-center">
