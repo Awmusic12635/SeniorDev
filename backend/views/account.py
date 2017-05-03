@@ -10,7 +10,8 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def show(request):
-    return render(request, 'account.html', {'title': 'User Account', 'form': UserChangeForm(user=request.user)})
+    form = UserChangeForm(user=request.user)
+    return render(request, 'account.html', {'title': 'User Account', 'form': form})
 
 
 @login_required
