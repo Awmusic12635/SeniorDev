@@ -29,6 +29,8 @@ class ItemCategory(TimeStampedModel):
     def __str__(self):
         return self.categoryName
 
+    class ReportBuilder:
+        exclude = ('id')
 #classes with FKs
 
 
@@ -48,6 +50,9 @@ class ItemSubCategory(TimeStampedModel):
     def __str__(self):
         return self.subCategoryName
 
+    class ReportBuilder:
+        exclude = ('id')
+
 class ItemType(TimeStampedModel):
     subCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
@@ -58,21 +63,26 @@ class ItemType(TimeStampedModel):
     manufacturer = models.CharField(max_length=100, null=True)
     model = models.CharField(max_length=200, null=True)
     cost = models.DecimalField(decimal_places=2,max_digits=10, null=True)
+    needsSignature = models.BooleanField(default=False)
     tracker = FieldTracker()
 
     def __str__(self):
         return self.name
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class Item(TimeStampedModel):
     ItemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
     serial = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
-    itemState = models.ManyToManyField(ItemState, through='ItemStateLog', null=True)
+    itemState = models.ManyToManyField(ItemState, through='ItemStateLog', blank=False)
     checkoutStatus = models.CharField(max_length=50, default="Checked in")
     tracker = FieldTracker()
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class ItemStateLog(TimeStampedModel):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -102,10 +112,13 @@ class Checkout(TimeStampedModel):
     dateTimeOut = models.DateTimeField(null=True)
     checkedOutBy = models.ForeignKey(User,related_name='checked_out_by_person', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=50, default="Pending")
-    signatureFormFile = models.CharField(max_length=400, null=True)  # use a file field?
+    needsSignature = models.BooleanField(default=False)
+    signatureFormFile = models.FileField(max_length=400, null=True, upload_to='uploads/signatures')  # use a file field?
     tracker = FieldTracker()
     #checkInListResults = models.ManyToManyField(CheckInOrOutList, through='CheckInListResults')
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class CheckoutItem(TimeStampedModel):
     dateTimeDue = models.DateTimeField(null=True)
@@ -117,6 +130,8 @@ class CheckoutItem(TimeStampedModel):
     checkedInBy = models.ForeignKey(User,related_name='checked_in_by_person', on_delete=models.CASCADE, null=True)
     tracker = FieldTracker()
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class CheckInListResults(TimeStampedModel):
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
@@ -142,6 +157,8 @@ class ReservationRequest(TimeStampedModel):
     declinedReason = models.CharField(max_length=250,blank=True, null=True)
     tracker = FieldTracker()
 
+    class ReportBuilder:
+        exclude = ('id')
 
 class Reservation(TimeStampedModel):
     itemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
@@ -152,3 +169,8 @@ class Reservation(TimeStampedModel):
     quantity = models.IntegerField()
     reservationRequestID = models.ForeignKey(ReservationRequest, on_delete=models.CASCADE)
     tracker = FieldTracker()
+
+    class ReportBuilder:
+        exclude = ('id')
+
+

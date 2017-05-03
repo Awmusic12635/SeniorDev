@@ -84,6 +84,17 @@ input[type=file] {
 	border-color: transparent;
 }
 
+#signatureWarning{
+	background-color: white;
+	border: 1px solid black;
+}
+
+canvas{
+	height: 400px;
+	width: 800px;
+	border: 1px solid black !important;
+}
+
 @media (max-width: 768px) {
 	.dataTables_filter .input-sm {
 		width: 100%;

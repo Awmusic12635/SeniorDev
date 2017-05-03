@@ -1,0 +1,16 @@
+
+{% block content %}
+    {% for itemType, quantity in itemTypes %}
+        <tr>
+            <td>{{ itemType.id }}</td>
+            <td>{{ itemType.name }}</td>
+            <td>{{ itemType.model }}</td>
+            <td>{{ itemType.cost }}</td>
+            <td>{{ quantity }}</td>
+            <td>
+                <button type="button" data-id="{{ itemType.id }}" class="btn btn-primary btn-xs viewButton">View</button>
+                <button type="button" data-id="{{ itemType.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
