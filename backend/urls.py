@@ -78,6 +78,7 @@ urlpatterns = [
     url(r'^admin/report/$', admin.dashboard, name='reservationList'),
     url(r'^admin/report/new$', admin.dashboard, name='reservationList'),
     url(r'^admin/report/(?P<id>\d*)$', admin.dashboard, name='reservationList'),
+    url(r'^admin/reports', include('report_builder.urls')),
 
 
 ]
