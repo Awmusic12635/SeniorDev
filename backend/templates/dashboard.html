@@ -3,7 +3,9 @@
 {% load widget_tweaks %}
 <script>
     $(document).ready(function(){
-		$('#checkoutButton').on('click',function(){
+		$('#itemTable').DataTable();
+
+        $('#checkoutButton').on('click',function(){
 	        window.location="/checkout/";
 
 	    });
@@ -19,6 +21,10 @@
 	    $('#reservationsButton').on('click',function(){
 	        window.location="/reservationRequest/pending";
 	    });
+
+	    $('.viewAvailable').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id')+"/items";
+        });
 	});
 </script>
 <div class="container-fluid">
@@ -54,8 +60,7 @@
                             <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.model }}</small></td>
                             <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.description }}</small></td>
                             <td class="col-xs-2">
-                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
-                                <button type="button" data-id="{{ item.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View Available</button>
                             </td>
                         </tr>
                     {% endfor %}

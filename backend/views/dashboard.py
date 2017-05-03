@@ -15,6 +15,7 @@ def search(request):
     search_text = request.POST['search']
     items = ItemType.objects.filter(name__contains=search_text)
 
+    print(items)
     context = get_dashboard_context()
     context['items'] = items
     context['searchedText'] = search_text
