@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^logout', auth_views.logout, {'next_page': 'login'}, name='logout'),
     #dashboard
     url(r'^dashboard/$', dashboard.show, name='dashboard'),
-    url(r'^dashboard/search/search', dashboard.search, name='search'),
+    url(r'^dashboard/search$', dashboard.search, name='search'),
     #items
     url(r'^item/$', item.list_item_types, name='itemList'),
     url(r'^item/add$', item.add_item_type, name='items'),
