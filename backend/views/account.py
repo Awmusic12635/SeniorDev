@@ -14,7 +14,7 @@ def show(request):
 
 
 @login_required
-def edit_user(request, user_id):
+def edit_user(request):
     if request.method == "POST":
         form = UserChangeForm(request.POST)
         if form.is_valid():
