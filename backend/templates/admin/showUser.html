@@ -1,0 +1,23 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+<script>
+    $(document).ready(function(){
+        $('#editUserButton').on('click',function(){
+            window.location="/admin/user/{{user.id}}/edit";
+        });
+    });
+</script>
+<button id='editUserButton' type="button"  class="btn btn-primary btn-lg">Edit User</button>
+    <div>
+        <ul>
+            <li>ID: user.id</li>
+            <li>First Name: {{ user.first_name }}</li>
+            <li>Last Name: {{ user.last_name }}</li>
+            <li>Username: {{ user.username }}</li>
+            <li>Email: {{ user.email }}</li>
+            <li>Is Staff: {{ user.is_staff }}</li>
+        </ul>
+    </div>
+{% endblock %}

@@ -65,9 +65,19 @@ urlpatterns = [
     url(r'^reservationRequest/edit/(?P<request_id>\d*)$', reservation.edit_request, name='reservationRequestEdit'),
     url(r'^reservationRequest/decline/(?P<request_id>\d*)$', reservation.decline_request, name='reservationRequestDecline'),
     url(r'^reservation/$', reservation.list_reservations, name='reservationList'),
+    #reporting
     url(r'^report_builder/', include('report_builder.urls')),
     url(r'^signatureForm/$', checkout.signature_form, name='signature'),
-    url(r'^signatureForm/save/(?P<data_url>\S*)$', checkout.signature_form_save, name='signature')
+    url(r'^signatureForm/save/(?P<data_url>\S*)$', checkout.signature_form_save, name='signature'),
+    #admin area
+    url(r'^admin/dashboard$', admin.dashboard, name='reservationList'),
+    url(r'^admin/user$', admin.show_users, name='userList'),
+    url(r'^admin/user/add$', admin.add_user, name='reservationList'),
+    url(r'^admin/user/(?P<user_id>\d*)$', admin.show_user, name='reservationList'),
+    url(r'^admin/user/(?P<user_id>\d*)/edit$', admin.edit_user, name='reservationList'),
+    url(r'^admin/report/$', admin.dashboard, name='reservationList'),
+    url(r'^admin/report/new$', admin.dashboard, name='reservationList'),
+    url(r'^admin/report/(?P<id>\d*)$', admin.dashboard, name='reservationList'),
 
 
 ]
