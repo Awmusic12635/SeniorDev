@@ -22,8 +22,11 @@
 	        window.location="/reservationRequest/pending";
 	    });
 
-	    $('.viewAvailable').on('click',function(){
+	    $('.viewButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id')+"/items";
+        });
+        $('.checkoutItemButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id')+"/checkout";
         });
 	});
 </script>
@@ -44,22 +47,30 @@
                 <thead>
                     <tr>
                         <th class="text-right">Item</th>
-                        <th>Manufacturer</th>
+                        <th>Name</th>
                         <th>Model</th>
-                        <th>Description</th>
-                        <th>Actions</th>
+                        <th>Tag</th>
+                        <th>Barcode</th>
+                        <th>Location</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
                         <tr>
-                            <td  class="viewButton text-right" data-id="{{ item.id }}"><b>{{ item.name }}</b></td>
-                            <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.manufacturer }}</small></td>
-                            <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.model }}</small></td>
-                            <td class="viewButton" data-id="{{ item.id }}"><small>{{ item.description }}</small></td>
-                            <td class="col-xs-2">
-                                <button type="button" data-id="{{ item.id }}" class="btn btn-primary btn-xs viewAvailable"><i class="fa fa-eye" aria-hidden="true"></i> View Available</button>
-                            </td>
+                            <td  class="viewButton text-right" data-id="{{ item.ItemTypeID.id }}"><b>{{ item.ItemTypeID.name }}</b></td>
+                            <td class="viewButton" data-id="{{ item.ItemTypeID.id }}"><small>{{ item.ItemTypeID.model }}</small></td>
+                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.tag }}</small></td>
+                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.barcode }}</small></td>
+                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.location }}</small></td>
+
+                            {% if item.checkoutStatus == 'Checked in' %}
+                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% elif item.checkoutStatus == 'Checked out' %}
+                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% else %}
+                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>

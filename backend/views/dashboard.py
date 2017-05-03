@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from backend.models import CheckoutItem, ItemType, Item
+from django.db.models import Q
 
 
 
@@ -13,7 +14,7 @@ def show(request):
 @login_required
 def search(request):
     search_text = request.POST['search']
-    items = ItemType.objects.filter(name__contains=search_text)
+    items = Item.objects.filter(Q(ItemTypeID__name__icontains=search_text) | Q(barcode__icontains=search_text))
 
     print(items)
     context = get_dashboard_context()
