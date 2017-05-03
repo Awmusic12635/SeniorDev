@@ -28,6 +28,9 @@
         $('.checkoutItemButton').on('click',function(){
             window.location="/item/"+$(this).attr('data-id')+"/checkout";
         });
+        $('.accountButton').on('click',function(){
+            window.location="/user/account";
+        });
 	});
 </script>
 <div class="container-fluid">
@@ -107,11 +110,6 @@
     	</div>
 
     </div>
-    <div class="row">
 
-    	<div class="col-sm-4 text-center">
-    		<button id="settingsButton" class="btn btn-wide btn-lg"><i class="fa fa-2x fa-gear" aria-hidden="true"></i><br/>Settings</button>
-    	</div>
-    </div>
 </div>
 {% endblock %}

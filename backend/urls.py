@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
 from .views import admin
-from .views import user, checkout, checkin,reservation, category, subcategory, dashboard
+from .views import user, checkout, checkin,reservation, category, subcategory, dashboard, account
 from .views.items import item
 from .views.ldap import ldap
 
@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^user/add$', user.index, name='items'),
     url(r'^user/(?P<id>\d*)$', user.index, name='items'),
     url(r'^user/(?P<id>\d*)/edit$', user.index, name='items'),
+    url(r'^user/account$', account.show, name='items'),
+    url(r'^user/account/password$', account.edit_user, name='items'),
     #search
     url(r'^search$', user.index, name='items'),
     #checkout
