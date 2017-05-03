@@ -229,7 +229,7 @@ def add_user(request, checkout_id, username):
     users = User.objects.filter(username = username)
     if not users:
         #get them from ldap again
-        ldap_user = ldap.get_user_by_username(username)
+        ldap_user = ldap.get_user_by_username(username)[0]
         #add them
         user = User.objects.create_user(username=username, email = ldap.get_email(ldap_user))
         user.first_name=ldap.get_first_name(ldap_user)
@@ -247,11 +247,9 @@ def add_user(request, checkout_id, username):
     else:
         user = users[0]
 
-    print(user)
     checkout.person = user;
     checkout.save()
 
-    print(checkout.person)
     return get_pending_checkout(request)
 
 

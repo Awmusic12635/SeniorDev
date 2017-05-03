@@ -70,6 +70,7 @@ urlpatterns = [
     url(r'^signatureForm/$', checkout.signature_form, name='signature'),
     url(r'^signatureForm/save/(?P<data_url>\S*)$', checkout.signature_form_save, name='signature'),
     #admin area
+    url(r'^admin/$', admin.dashboard, name='reservationList'),
     url(r'^admin/dashboard$', admin.dashboard, name='reservationList'),
     url(r'^admin/user$', admin.show_users, name='userList'),
     url(r'^admin/user/add$', admin.add_user, name='reservationList'),

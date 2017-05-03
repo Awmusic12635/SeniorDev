@@ -48,6 +48,9 @@ def add_user(request):
             )
             return redirect('userList')
     else:
+
+
+
         return render(request, 'admin/addUser.html', {'title': 'Add User | Admin', 'form': form})
 
 
