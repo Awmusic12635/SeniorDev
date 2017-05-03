@@ -1,0 +1,39 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+<script>
+    $(document).ready(function(){
+        $('#changePassword').on('click',function(){
+            window.location="/admin/user/{{user.id}}/edit";
+        });
+    });
+
+</script>
+
+    <h3>Account Information</h3>
+
+    <div>
+        <ul>
+            <li>First Name: {{ request.user.first_name }}</li>
+            <li>Last Name: {{ request.user.last_name }}</li>
+            <li>Username: {{ request.user.username }}</li>
+            <li>Email: {{ request.user.email }}</li>
+        </ul>
+    </div>
+
+
+
+    <h3>Change Password</h3>
+    <form action="/account/password" method="POST">
+        {% csrf_token %}
+        <label for="oldPassword">Old Password:</label>
+        <input type="password" required name="oldPassword">
+        <label for="newPassword">Old Password:</label>
+        <input type="password" required name="newPassword">
+        <label for="newPassword2">Old Password:</label>
+        <input type="password" required name="newPassword2">
+        <input type="submit" value="Change">
+
+    </form>
+{% endblock %}
