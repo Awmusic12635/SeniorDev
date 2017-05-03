@@ -29,6 +29,7 @@
     <div class="row">
         <h4>Search Items</h4>
         <form method="POST" action="/dashboard/search">
+            {% csrf_token %}
             <input type="text" required name="search" value="{{ searchedText }}" placeholder="Item Name">
             <input type="submit" value="Search">
         </form>
