@@ -16,9 +16,9 @@ def search(request):
     items = ItemType.objects.filter(name__contains=search_text)
 
     context = get_dashboard_context()
-    context.items = items
-    context.searchedText = search_text
-    context.searched = True
+    context['items'] = items
+    context['searchedText'] = search_text
+    context['searched'] = True
 
     return render(request,'dashboard.html',context)
 
