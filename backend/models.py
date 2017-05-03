@@ -76,7 +76,7 @@ class Item(TimeStampedModel):
     ItemTypeID = models.ForeignKey(ItemType, on_delete=models.CASCADE)
     serial = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
-    barcode = models.CharField(max_length=200)
+    barcode = models.CharField(max_length=200, null= True)
     location = models.CharField(max_length=200)
     itemState = models.ManyToManyField(ItemState, through='ItemStateLog', blank=False)
     checkoutStatus = models.CharField(max_length=50, default="Checked in")
