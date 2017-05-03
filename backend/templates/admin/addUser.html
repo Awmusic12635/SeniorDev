@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<script>
+    var selectUser = function(btn){
+        window.location = "/checkout/"+$(btn).attr('data-id')+"/addUser/"+$(btn).attr('username')
+            $.ajax({
+                type: "POST",
+                url: "/admin/user/add",
+                dataType: "json",
+                data:{"username":username},
+                success: function (data) {
+                    var userSelect = "<span>Found: </span>";
+                    data.users.forEach(function (user) {
+                        userSelect += '<div><span>' + user.name + ' - ' + user.username + '</span><button onclick="selectUser(this);" type="button" data-id="{{ checkout.id }}" username="' + user.username + '" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
+                    });
 
-</body>
-</html>
+
+                    if (data.users.length == 0) {
+                        userSelect = "<p>No matching users</p>";
+                    }
+
+                    $('#userSelect').html(userSelect);
+                },
+                error: function () {
+                    $('#userSelect').html("<p>No matching users</p>");
+                    $('.selectUserButton').hide();
+                }
+            });
+
+      };
+    $(document).ready(function() {
+        $('#userSearchFormUsername').on('submit', function (event) {
+            event.preventDefault();
+            var username = $('#username').val()
+            $.ajax({
+                type: "GET",
+                url: "/admin/findUserName/" + username,
+                dataType: "json",
+                success: function (data) {
+                    var userSelect = "<span>Found: </span>";
+                    data.users.forEach(function (user) {
+                        userSelect += '<div><span>' + user.name + ' - ' + user.username + '</span><button onclick="selectUser(this);" type="button" data-id="{{ checkout.id }}" username="' + user.username + '" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
+                    });
+
+
+                    if (data.users.length == 0) {
+                        userSelect = "<p>No matching users</p>";
+                    }
+
+                    $('#userSelect').html(userSelect);
+                },
+                error: function () {
+                    $('#userSelect').html("<p>No matching users</p>");
+                    $('.selectUserButton').hide();
+                }
+            });
+        });
+    });
+</script>
+                  <p>Search for user</p>
+                  <form id="userSearchFormUsername">
+                      {% csrf_token %}
+                      <label for="username">Username:</label>
+                      <input type="text" size="15" required name="username" id="username">
+                      <input type="submit" value="Search">
+                  </form>
+                  <div>
+                      <div id="userSelect"></div>
+                  </div>
+{% endblock %}
