@@ -23,7 +23,6 @@ def search(request):
     return render(request,'dashboard.html',context)
 
 
-@login_required
 def get_dashboard_context():
     items = Item.objects.all()
     numberOfItems = items.count()
