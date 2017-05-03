@@ -78,37 +78,44 @@ def promote_to_staff(username):
 @user_passes_test(admin_check)
 def edit_user(request, user_id):
     if request.method == "POST":
-        form = UserChangeForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.save()
-            # for now redirect back to item listings. Until detailed page is done
+        user = get_object_or_404(User, pk=user_id)
 
-            log(
-                user=request.user,
-                action="ITEM_TYPE_CREATED",
-                obj=obj,
-                extra={
-                }
-            )
-            return redirect('itemList')
+        if request.POST['user_type'] == "user":
+            user.is_staff = False
+            user.is_superuser = False
+        elif request.POST['user_type'] == "labassistant":
+            user.is_staff = True
+            user.is_superuser = False
+        elif request.POST['user_type'] == "admin":
+            user.is_staff = True
+            user.is_superuser = True
+
+        if "password" in request.POST:
+            if len(request.POST['password']) > 0:
+                print("setting password")
+                user.set_password(request.POST['password'])
+            else:
+                print("blank password, not setting")
+
+        user.save()
+
+        log(
+            user=request.user,
+            action="USER_MODIFIED",
+            obj=user,
+            extra={}
+        )
+
+        return redirect('adminUserList')
     else:
         user = get_object_or_404(User, pk=user_id)
-        form = UserChangeForm(user=user)
-        return render(request, 'admin/editUser.html', {'title': 'Edit User | Admin', 'form': form})
+        user_type = ""
+        if user.is_staff and user.is_superuser:
+            user_type = "admin"
+        elif user.is_staff:
+            user_type = "labassistant"
+        else:
+            user_type = "user"
 
-
-@user_passes_test(admin_check)
-def show_reports(request):
-    print("hi")
-
-
-@user_passes_test(admin_check)
-def show_report(request):
-    print("hi")
-
-
-@user_passes_test(admin_check)
-def add_report(request):
-    print("hi")
+        return render(request, 'admin/editUser.html', {'title': 'Edit User | Admin', 'user': user,'user_type':user_type})
 

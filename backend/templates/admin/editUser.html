@@ -2,9 +2,18 @@
 {% block content %}
 {% load widget_tweaks %}
     <div>
-        <form action="/admin/{{ user.id }}/edit" class="form-signin" method="post" enctype="multipart/form-data">
+        <form action="/admin/user/{{ user.id }}/edit" class="form-signin" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            <select name="user_type">
+                <option value="user" {% if user_type == "user" %}selected{% endif %}>User</option>
+                <option value="labassistant" {% if user_type == "labassistant" %}selected{% endif %}>Lab Assistant</option>
+                <option value="admin" {% if user_type == "admin" %}selected{% endif %}>Admin</option>
+            </select>
+            <br/>
+            {% if user_type != "user" %}
+            <input type="password" name="password">
+            <br/>
+            {% endif %}
             <button type="submit" class="save btn btn-default">Edit User</button>
         </form>
     </div>
