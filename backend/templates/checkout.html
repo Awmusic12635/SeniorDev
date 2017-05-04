@@ -13,6 +13,8 @@
 
         $('.selectUserButton').hide();
 
+        $('#uid').focus();
+
         $('#itemTable').DataTable();
 
         $('.viewButton').on('click', function () {
@@ -135,7 +137,7 @@
 
                     <form id="userSearchFormUsername" class="form-group input-group">
                           {% csrf_token %}
-                          <input placeholder="Search by Username" class="form-control" type="text" size="15" required name="username" id="username">
+                          <input placeholder="Search by RIT Username" class="form-control" type="text" size="15" required name="username" id="username">
                           <span class="input-group-btn">
                              <input class="btn" type="submit" value="Search">
                           </span>
