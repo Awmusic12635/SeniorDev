@@ -91,6 +91,7 @@ class Command(BaseCommand):
             json.dump(merged_list, outfile, indent=4)
         print("" + str(len(itemTypes)) + " Item Types and " + str(len(items)) + " Items added to the json file and "
                                                                                 "ready for import")
+        print("Now run the command: python3 manage.py loaddata olddata.json")
 
 
 
