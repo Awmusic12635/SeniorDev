@@ -3,24 +3,14 @@
 {% load widget_tweaks %}
 <script>
     var selectUser = function(btn){
-        window.location = "/checkout/"+$(btn).attr('data-id')+"/addUser/"+$(btn).attr('username')
+        var username = $(btn).attr('username');
             $.ajax({
                 type: "POST",
                 url: "/admin/user/add",
                 dataType: "json",
                 data:{"username":username},
                 success: function (data) {
-                    var userSelect = "<span>Found: </span>";
-                    data.users.forEach(function (user) {
-                        userSelect += '<div><span>' + user.name + ' - ' + user.username + '</span><button onclick="selectUser(this);" type="button" data-id="{{ checkout.id }}" username="' + user.username + '" class="btn btn-primary btn-xs selectUserButton">Select</button></div>';
-                    });
-
-
-                    if (data.users.length == 0) {
-                        userSelect = "<p>No matching users</p>";
-                    }
-
-                    $('#userSelect').html(userSelect);
+                    window.location="/admin/user";
                 },
                 error: function () {
                     $('#userSelect').html("<p>No matching users</p>");
@@ -35,7 +25,7 @@
             var username = $('#username').val()
             $.ajax({
                 type: "GET",
-                url: "/admin/findUserName/" + username,
+                url: "/checkout/findUserName/" + username,
                 dataType: "json",
                 success: function (data) {
                     var userSelect = "<span>Found: </span>";
@@ -61,7 +51,7 @@
                   <p>Search for user</p>
                   <form id="userSearchFormUsername">
                       {% csrf_token %}
-                      <label for="username">Username:</label>
+                      <label for="username">RIT Username:</label>
                       <input type="text" size="15" required name="username" id="username">
                       <input type="submit" value="Search">
                   </form>
