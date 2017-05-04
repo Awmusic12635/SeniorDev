@@ -35,5 +35,12 @@
         <br>
         <input type="submit" value="Change">
     </form>
+    {% if saved is not None %}
+        {% if saved%}
+            <p>Password saved successfully</p>
+         {% else %}
+            <p>Failed to save password. Please make sure passwords match. </p>
+         {% endif %}
+    {% endif %}
 
 {% endblock %}

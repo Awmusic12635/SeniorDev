@@ -21,7 +21,9 @@ def edit_user(request):
         if request.POST['password'] == request.POST['password2']:
             user.set_password(request.POST['password'])
             user.save()
-
+            return render(request, 'account.html', {'title': 'User Account', 'saved':True})
+        else:
+            return render(request, 'account.html', {'title': 'User Account', 'saved':False})
         log(
             user=request.user,
             action="USER_MODIFIED",
