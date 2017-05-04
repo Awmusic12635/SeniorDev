@@ -78,7 +78,20 @@
                   </li>
                   <li id="checkin-li"><a href="/checkin">Check In</a></li>                  
                   <li id="checkout-li"><a href="/checkout">Check Out</a></li>
+
+                  {% if request.user.is_superuser %}
+                    <li id="admin-li" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">Admin</a>
+                        <ul class="dropdown-menu">
+                          <li><a href="/admin/dashboard">Dashboard</a></li>
+                          <li><a href="/admin/user">Users</a></li>
+                          <li><a href="/report_builder">Reports</a></li>
+                        </ul>
+                      </li>
+                    {% endif %}
                 </ul>
+
+
                 <ul class="nav navbar-nav navbar-right">
                   <li><a href="/checkout">Cart(<span id='cartCount'> </span>) <i class="fa fa-shopping-cart"></i> </a> </li>
                   <li id="user-li" class="dropdown">

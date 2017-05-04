@@ -5,7 +5,7 @@ from .models import Item, ItemCategory, ItemSubCategory, Checkout, CheckoutItem,
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ('serial', 'tag', 'location')
+        fields = ('serial', 'tag', 'location', 'barcode')
 
 
 class ItemTypeForm(forms.ModelForm):
