@@ -3,7 +3,9 @@
 {% load widget_tweaks %}
 <script>
     $(document).ready(function(){
-		$('#checkoutButton').on('click',function(){
+		$('#itemTable').DataTable();
+
+        $('#checkoutButton').on('click',function(){
 	        window.location="/checkout/";
 
 	    });
@@ -19,12 +21,72 @@
 	    $('#reservationsButton').on('click',function(){
 	        window.location="/reservationRequest/pending";
 	    });
+
+	    $('.viewButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id')+"/items";
+        });
+        $('.checkoutItemButton').on('click',function(){
+            window.location="/item/"+$(this).attr('data-id')+"/checkout";
+        });
+        $('#accountButton').on('click',function(){
+            window.location="/user/account";
+        });
 	});
 </script>
 <div class="container-fluid">
     <div class="container-fluid">
+        <h3>Search</h3>
+    </div>
+    <div class="row">
+        <form method="POST" action="/dashboard/search">
+            {% csrf_token %}
+            <input type="text" required name="search" value="{{ searchedText }}" placeholder="Item Name">
+            <input type="submit" value="Search">
+        </form>
+
+        {% if  searched == True %}
+            <h4>Search Results</h4>
+            <table id="itemTable" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-right">Item</th>
+                        <th>Model</th>
+                        <th>Tag</th>
+                        <th>Barcode</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td  class="viewButton text-right" data-id="{{ item.ItemTypeID.id }}"><b>{{ item.ItemTypeID.name }}</b></td>
+                            <td class="viewButton" data-id="{{ item.ItemTypeID.id }}"><small>{{ item.ItemTypeID.model }}</small></td>
+                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.tag }}</small></td>
+                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.barcode }}</small></td>
+                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.location }}</small></td>
+
+                            {% if item.checkoutStatus == 'Checked in' %}
+                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% elif item.checkoutStatus == 'Checked out' %}
+                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% else %}
+                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+    </div>
+
+
+
+    <div class="container-fluid">
         <h3>Dashboard</h3>
     </div>
+
     <div class="row">
     	<div class="col-sm-4 text-center">
     		<button id="allitemsButton" class="btn btn-wide btn-primary btn-lg"><i class="fa fa-2x fa-list" aria-hidden="true"></i><br/>All Items</button>
@@ -48,11 +110,6 @@
     	</div>
 
     </div>
-    <div class="row">
 
-    	<div class="col-sm-4 text-center">
-    		<button id="settingsButton" class="btn btn-wide btn-lg"><i class="fa fa-2x fa-gear" aria-hidden="true"></i><br/>Settings</button>
-    	</div>
-    </div>
 </div>
 {% endblock %}

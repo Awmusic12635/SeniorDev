@@ -1,0 +1,46 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+<script>
+    $(document).ready(function(){
+    });
+
+</script>
+
+    <h3>Account Information</h3>
+
+    <div>
+        <ul>
+            <li>First Name: {{ request.user.first_name }}</li>
+            <li>Last Name: {{ request.user.last_name }}</li>
+            <li>Username: {{ request.user.username }}</li>
+            <li>Email: {{ request.user.email }}</li>
+        </ul>
+    </div>
+
+
+
+    <h3>Change Password</h3>
+    <form action="/user/account/password" class="form-signin" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="oldPassword">Old Password:</label>
+        <input type="password" required name="oldPassword">
+        <br>
+        <label for="newPassword">New Password:</label>
+        <input type="password" required name="password">
+        <br>
+        <label for="newPassword2">Repeat New Password:</label>
+        <input type="password" required name="password2">
+        <br>
+        <input type="submit" value="Change">
+    </form>
+    {% if saved is not None %}
+        {% if saved%}
+            <p>Password saved successfully</p>
+         {% else %}
+            <p>Failed to save password. Please make sure passwords match and you entered your current password correctly </p>
+         {% endif %}
+    {% endif %}
+
+{% endblock %}
