@@ -5,16 +5,16 @@
     $(document).ready(function(){
         $('#itemTable').DataTable();
 
-        $('.viewButton').on('click',function(){
+        $(document).on('click','.viewButton',function(){
             window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id');
         });
-        $('.editButton').on('click',function(){
+        $(document).on('click','.editButton',function(){
             window.location="/item/{{ item_type_id }}/"+$(this).attr('data-id')+"/edit";
         });
         $('#addItemButton').on('click',function(){
             window.location="/item/{{ item_type_id }}/add";
         });
-        $('.checkoutButton').on('click',function(){
+        $(document).on('click','.checkoutButton',function(){
             window.location="/item/"+$(this).attr('data-id')+"/checkout";
         });
     });

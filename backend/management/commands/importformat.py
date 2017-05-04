@@ -41,7 +41,6 @@ class Command(BaseCommand):
             if row['description'] not in itemTypeList:
                 itemTypeName = row['description']
 
-
                 itemTypeList[itemTypeName] = item_type_count
 
                 itemType = {}
