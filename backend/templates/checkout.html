@@ -13,6 +13,8 @@
 
         $('.selectUserButton').hide();
 
+        $('#uid').focus();
+
         $('#itemTable').DataTable();
 
         $('.viewButton').on('click', function () {
@@ -122,61 +124,65 @@
 
 <div class="container-fluid tableHeader">
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
             <h3>Check Out </h3>
         </div>
-        <div class="col-xs-6">
-            <br/>
+        <div class="col-xs-8">
             <div class="row">
-              <div style="margin: 15px;">
-                  <p>Search for user</p>
-                  <form id="userSearchFormUsername">
-                      {% csrf_token %}
-                      <label for="username">Username:</label>
-                      <input type="text" size="15" required name="username" id="username">
-                      <input type="submit" value="Search">
-                  </form>
-                  <form id="userSearchFormID">
-                      {% csrf_token %}
-                      <label for="username">UID:</label>
-                      <input type="password" size="15" required name="uid" id="uid">
-                      <input type="submit" value="Search">
-                  </form>
-
-                  <div>
-                      <div id="userSelect"></div>
-                  </div>
-
-                  </br>
-              </div>  
-                <div class="col-xs-8 text-left">
-                    <b>Checkout To:</b>
-                </div>
-                <div class="col-xs-4 text-left">
-                  <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.person }}</span>
-                </div>
-                <div class="col-xs-8 text-left">
-                    <b>Status:</b>
-                </div>
-                <div class="col-xs-4 text-left">
-                    {% if checkout.status == 'Open' %}
-                        <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.status }}</span>
-                    {% elif checkout.status == 'Closed' %}
-                        <span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ checkout.status }}</span>
-                    {% elif checkout.status == 'Checked in' %}
-                        <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.status }}</span>
-                    {% elif checkout.status == 'Checked out' %}
-                        <span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ checkout.status }}</span>
-                    {% elif checkout.status == 'Pending' %}
-                        <span class="btn btn-warning btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ checkout.status }}</span>
-                    {% else %}
-                        <span class="btn btn-info btn-xs">{{ checkout.status }}</span>
-                    {% endif %}
+                <div class="col-sm-4 text-right">
+                    
                 </div>
 
-              </div>
+                <div class="col-sm-8 text-left">
+
+                    <form id="userSearchFormUsername" class="form-group input-group">
+                          {% csrf_token %}
+                          <input placeholder="Search by RIT Username" class="form-control" type="text" size="15" required name="username" id="username">
+                          <span class="input-group-btn">
+                             <input class="btn" type="submit" value="Search">
+                          </span>
+                    </form>
+                    <form id="userSearchFormID" class="form-group input-group">
+                          {% csrf_token %}
+                          <input placeholder="Search by UID" class="form-control" type="password" size="15" required name="uid" id="uid">
+                          <span class="input-group-btn">
+                            <input class="btn" type="submit" value="Search">
+                          </span>
+                    </form>
+                    <div class="row">
+                        <div id="userSelect"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-9 text-right">
+                            <b>Checkout To:</b>
+                        </div>
+                        <div class="col-xs-3 text-left">
+                                {{ checkout.person }}
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <b>Status:</b>
+                        </div>
+                        <div class="col-xs-3 text-left">
+                            {% if checkout.status == 'Open' %}
+                                <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.status }}</span>
+                            {% elif checkout.status == 'Closed' %}
+                                <span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ checkout.status }}</span>
+                            {% elif checkout.status == 'Checked in' %}
+                                <span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ checkout.status }}</span>
+                            {% elif checkout.status == 'Checked out' %}
+                                <span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ checkout.status }}</span>
+                            {% elif checkout.status == 'Pending' %}
+                                <span class="btn btn-warning btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ checkout.status }}</span>
+                            {% else %}
+                                <span class="btn btn-info btn-xs">{{ checkout.status }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 </div>
 <div class="container-fluid">
     <div class="row">

@@ -34,25 +34,58 @@
     <div class="row">
     <div class="col-sm-12">
         <form action="/item/{{ item.id }}/edit" class="form-category" method="post" enctype="multipart/form-data">
-             <label>Select a Category</label><br/>
-            <select name="categorySelect" id="categorySelect" required>
-                <option value="">-- Select a Category --</option>
+             <label for="categorySelect">Select a Category</label>
+            <select class="form-control" name="categorySelect" id="categorySelect" required>
+                <option value="">Select a Category</option>
                 {% for c in categories %}
                     <option value="{{ c.id }}" {% if c.id == categoryid %} selected='selected'{% endif %} >{{ c.categoryName }}</option>
                 {% endfor %}
             </select>
             <div id="subcategoryDiv">
-                <select name="subCategory" id="subCategory" required>
-                    <option value="">-- Select a Sub Category --</option>
+                <select class="form-control" name="subCategory" id="subCategory" required>
+                    <option value="">Select a Sub Category</option>
                     {% for s in subcategories %}
                         <option value="{{ s.id }}" {% if s == item.subCategoryID %} selected='selected'{% endif %} >{{ s.subCategoryName }}</option>
                     {% endfor %}
                 </select>
 
             </div>
+            <div class="row">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="col-sm-3">
 
-            {% csrf_token %}
-            {{ form.as_p }}
+                    <fieldset class="form-group">
+                      
+                            <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+                            {% if field.label != 'Image' %}
+                                {% if field.label != 'NeedsSignature' %}
+                                <input type="text" class="form-control"
+                                    name="{{ field.name }}"
+                                    id="id_{{ field.name }}"
+                                    value="{{ field.value }}" > 
+                                {% endif %}
+                            {% endif %}
+                            {% if field.label == 'Image' %}
+                            <input type="file" class="form-control"
+                                name="{{ field.name }}"
+                                id="id_{{ field.name }}"
+                                value="{{ field.value }}" > 
+                            {% endif %}
+                            {% if field.label == 'NeedsSignature' %}
+                            <div class="checkbox"><label>
+                                <input type="checkbox"
+                                    name="{{ field.name }}"
+                                    id="id_{{ field.name }}"
+                                    value="{{ field.value }}" > {{ field.label }}
+                            </label></div>
+                            {% endif %}
+                            <p class="help-text">{{ field.help_text }} </p>
+                    </fieldset>
+                </div>
+
+                {% endfor %}
+            </div>
             <div class="text-right">
                 <button type="submit" class="save btn btn-lg btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes</button>
             </div>

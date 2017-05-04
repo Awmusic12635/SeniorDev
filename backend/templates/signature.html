@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Signature Form</title>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+{% extends 'loggedinbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
 
     <!-- signature library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
@@ -51,29 +45,29 @@
 
 
     </script>
-</head>
-<body>
-<div>
-    <p>Person: {{ checkout.person }}</p>
-    <p>Items you are signing for:</p>
+<div class="container">
+    <label>Person:</label> {{ checkout.person }}<br/>
+    <label>Items you are signing for:</label><br/>
     {%  for ci in checkout.checkoutitem_set.all %}
         {%  if ci.item.ItemTypeID.needsSignature == True %}
-            <p> Name: {{ ci.item.ItemTypeID.name}} : Due: {{ ci.dateTimeDue}} : Cost:{{ ci.item.ItemTypeID.cost}}</p>
+            <label>Name:</label> {{ ci.item.ItemTypeID.name}} <label>Due:</label> {{ ci.dateTimeDue}} <label>Cost: </label> $ {{ ci.item.ItemTypeID.cost}}<br/>
         {% endif %}
 
     {% endfor %}
 </div>
+<div class="container text-center">
     <div id="signature-pad">
     <div class="m-signature-pad--body">
       <canvas></canvas>
     </div>
     <div class="m-signature-pad--footer">
-      <div class="description">Sign above</div>
-      <button type="button" class="clearButton">Clear</button>
-      <button type="button" class="saveButton">Save Signature</button>
+      <p class="description text-center"><small>Please sign your name in the box above</small></p>
+      <div class="text-center">
+          <button class="btn" type="button" class="clearButton">Clear</button>
+          <button class="btn btn-success" type="button" class="saveButton">Submit</button>
+      </div>
     </div>
   </div>
-
+</div>
 <div id = "resultsDiv"></div>
-</body>
-</html>
+{% endblock %}

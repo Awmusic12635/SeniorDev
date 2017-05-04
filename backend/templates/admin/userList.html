@@ -16,37 +16,49 @@
         });
     });
 </script>
+<div class="container-fluid tableHeader">
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>System Users</h3>
+        </div>
+        <div class="col-sm-8 text-right">
+            <button id='addUserButton' type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i> Add New User</button>
 
-<button id='addUserButton' type="button" class="btn btn-primary btn-lg">Add User</button>
-
-<table id="userTable" class="display">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Is Staff</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+    <table id="userTable" class="display">
+            <thead>
                 <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.is_staff }}</td>
-                    <td>
-                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs viewButton">View</button>
-                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                    </td>
+                    <th class="text-center">ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Is Staff</th>
+                    <th>Actions</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td class="text-center">{{ user.id }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.is_staff }}</td>
+                        <td>
+                            <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs viewButton"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
+                            <button type="button" data-id="{{ user.id }}" class="btn btn-xs editButton"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

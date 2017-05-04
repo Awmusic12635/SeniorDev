@@ -5,6 +5,8 @@
     $(document).ready(function(){
 		$('#itemTable').DataTable();
 
+        $("#itemSearch").focus();
+
         $('#checkoutButton').on('click',function(){
 	        window.location="/checkout/";
 
@@ -32,59 +34,66 @@
             window.location="/user/account";
         });
 	});
+    $(document).keypress(function(){
+        var inp = String.fromCharCode(event.keyCode);
+        if (/[a-zA-Z0-9-_ ]/.test(inp)) {
+            $("#itemSearch").focus();
+        } 
+    });
 </script>
 <div class="container-fluid">
-    <div class="container-fluid">
-        <h3>Search</h3>
-    </div>
-    <div class="row">
-        <form method="POST" action="/dashboard/search">
-            {% csrf_token %}
-            <input type="text" required name="search" value="{{ searchedText }}" placeholder="Item Name">
-            <input type="submit" value="Search">
-        </form>
-
-        {% if  searched == True %}
-            <h4>Search Results</h4>
-            <table id="itemTable" class="display">
-                <thead>
-                    <tr>
-                        <th class="text-right">Item</th>
-                        <th>Model</th>
-                        <th>Tag</th>
-                        <th>Barcode</th>
-                        <th>Location</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
+        <div class="row">
+            <div class="col-sm-3">
+                <h3>Dashboard</h3>
+            </div>
+            <div class="col-sm-9">
+                <br/>
+                <form method="POST" action="/dashboard/search" class="input-group">
+                    {% csrf_token %}
+                    <input class="form-control" type="text" required name="search" id="itemSearch" value="{{ searchedText }}" placeholder="Search Items by Name or Barcode">
+                    <span class="input-group-btn">
+                        <input class="btn" type="submit" value="Search">
+                    </span>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+            {% if  searched == True %}
+                <h4>Search Results</h4>
+                <table id="itemTable" class="display">
+                    <thead>
                         <tr>
-                            <td  class="viewButton text-right" data-id="{{ item.ItemTypeID.id }}"><b>{{ item.ItemTypeID.name }}</b></td>
-                            <td class="viewButton" data-id="{{ item.ItemTypeID.id }}"><small>{{ item.ItemTypeID.model }}</small></td>
-                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.tag }}</small></td>
-                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.barcode }}</small></td>
-                            <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.location }}</small></td>
-
-                            {% if item.checkoutStatus == 'Checked in' %}
-                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
-                            {% elif item.checkoutStatus == 'Checked out' %}
-                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
-                            {% else %}
-                            <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
-                            {% endif %}
+                            <th class="text-right">Item</th>
+                            <th>Model</th>
+                            <th>Tag</th>
+                            <th>Barcode</th>
+                            <th>Location</th>
+                            <th>Status</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td  class="viewButton text-right" data-id="{{ item.ItemTypeID.id }}"><b>{{ item.ItemTypeID.name }}</b></td>
+                                <td class="viewButton" data-id="{{ item.ItemTypeID.id }}"><small>{{ item.ItemTypeID.model }}</small></td>
+                                <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.tag }}</small></td>
+                                <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.barcode }}</small></td>
+                                <td data-id="{{ item.ItemTypeID.id }}" class="viewButton"><small>{{ item.location }}</small></td>
 
-    </div>
-
-
-
-    <div class="container-fluid">
-        <h3>Dashboard</h3>
+                                {% if item.checkoutStatus == 'Checked in' %}
+                                <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-success btn-xs"><i class="fa fa-check" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                                {% elif item.checkoutStatus == 'Checked out' %}
+                                <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-danger btn-xs"><i class="fa fa-times" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                                {% else %}
+                                <td data-id="{{ item.id }}" class="checkoutItemButton"><span class="btn btn-xs"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ item.checkoutStatus }}</span></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
     </div>
 
     <div class="row">
