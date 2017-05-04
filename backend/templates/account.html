@@ -22,7 +22,7 @@
 
 
     <h3>Change Password</h3>
-    <form action="user/account/password" class="form-signin" method="post" enctype="multipart/form-data">
+    <form action="/user/account/password" class="form-signin" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="oldPassword">Old Password:</label>
         <input type="password" required name="oldPassword">
