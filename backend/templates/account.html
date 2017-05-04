@@ -7,40 +7,81 @@
     });
 
 </script>
+        {% if saved is not None %}
 
-    <h3>Account Information</h3>
+<table class="table" id="alertSubmitted" style="margin-top:-20px;">
+                {% if saved%}
 
-    <div>
-        <ul>
-            <li>First Name: {{ request.user.first_name }}</li>
-            <li>Last Name: {{ request.user.last_name }}</li>
-            <li>Username: {{ request.user.username }}</li>
-            <li>Email: {{ request.user.email }}</li>
-        </ul>
+    <tr class="success text-center"><td>            
+                    Password saved successfully
+                 {% else %}
+    <tr class="warning text-center"><td>            
+
+                    Failed to save password. Please make sure passwords match and you entered your current password correctly 
+</td></tr>
+                 {% endif %}
+            {% endif %}
+
+</table>
+
+<div class="container">
+    <h3>My Account</h3>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <h4>Account Details</h4>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <label>Name:</label>
+                </div>
+                <div class="col-xs-8">
+                    {{ request.user.first_name }}
+                    {{ request.user.last_name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <label>Username:</label>
+                </div>
+                <div class="col-xs-8">
+                    {{ request.user.username }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <label>Email:</label>
+                </div>
+                <div class="col-xs-8">
+                    {{ request.user.email }}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            
+
+            <h3>Change Password</h3>
+            <form action="/user/account/password" class="form-signin" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="oldPassword">Old Password:</label>
+                <input class="form-control" type="password" required name="oldPassword">
+                <br>
+                <label for="newPassword">New Password:</label>
+                <input class="form-control" type="password" required name="password">
+                <br>
+                <label for="newPassword2">Repeat New Password:</label>
+                <input class="form-control" type="password" required name="password2">
+                <br>
+                <input class="btn btn-success" type="submit" value="Update Password">
+            </form>
+        </div>
     </div>
+</div>
 
 
 
-    <h3>Change Password</h3>
-    <form action="/user/account/password" class="form-signin" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="oldPassword">Old Password:</label>
-        <input type="password" required name="oldPassword">
-        <br>
-        <label for="newPassword">New Password:</label>
-        <input type="password" required name="password">
-        <br>
-        <label for="newPassword2">Repeat New Password:</label>
-        <input type="password" required name="password2">
-        <br>
-        <input type="submit" value="Change">
-    </form>
-    {% if saved is not None %}
-        {% if saved%}
-            <p>Password saved successfully</p>
-         {% else %}
-            <p>Failed to save password. Please make sure passwords match and you entered your current password correctly </p>
-         {% endif %}
-    {% endif %}
 
 {% endblock %}
