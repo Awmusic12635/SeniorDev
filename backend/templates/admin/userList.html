@@ -14,9 +14,6 @@
         $('#addUserButton').on('click',function(){
             window.location="/admin/user/add";
         });
-        $('.checkoutButton').on('click',function(){
-            window.location="/admin/user/"+$(this).attr('data-id')+"/promote";
-        });
     });
 </script>
 
@@ -46,7 +43,6 @@
                     <td>
                         <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs viewButton">View</button>
                         <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs editButton">Edit</button>
-                        <button type="button" data-id="{{ user.id }}" class="btn btn-primary btn-xs checkoutButton">Promote To Staff</button>
                     </td>
                 </tr>
             {% endfor %}
