@@ -66,7 +66,7 @@
 
 
         <div class="col-sm-4 item-photo">
-            {% if itemType.image != None %}
+            {% if itemType.image != None and itemType.image.url != None %}
                 <img style="max-width:100%;" src="{{ itemType.image.url }}" />
             {% endif %}
         </div>

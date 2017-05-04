@@ -74,7 +74,9 @@ def edit_item_type(request, item_type_id):
         form = ItemTypeForm(instance=item_type)
         categories = ItemCategory.objects.all()
         subcategories = ItemSubCategory.objects.all()
-        catID = item_type.subCategoryID.itemCategoryID.id
+        catID = ""
+        if item_type.subCategoryID:
+            catID = item_type.subCategoryID.itemCategoryID.id
         return render(request, 'editItemType.html', {'title': "Edit: " + item_type.name, 'form': form, 'item': item_type, 'categories': categories, 'subcategories': subcategories, 'categoryid': catID})
 
 

@@ -57,7 +57,7 @@ class ItemType(TimeStampedModel):
     subCategoryID = models.ForeignKey(ItemSubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    defaultCheckoutLengthDays = models.IntegerField(null=True)
+    defaultCheckoutLengthDays = models.IntegerField(default=1, null=True)
     image = models.FileField(upload_to='uploads/itemImages', null= True)
     generalAccessRule = models.ForeignKey(AccessRule, on_delete=models.CASCADE, null=True)
     manufacturer = models.CharField(max_length=100, null=True)

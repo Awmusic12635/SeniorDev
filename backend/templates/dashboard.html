@@ -22,10 +22,10 @@
 	        window.location="/reservationRequest/pending";
 	    });
 
-	    $('.viewButton').on('click',function(){
+	    $(document).on('click','.viewButton',function(){
             window.location="/item/"+$(this).attr('data-id')+"/items";
         });
-        $('.checkoutItemButton').on('click',function(){
+        $(document).on('click','.checkoutItemButton',function(){
             window.location="/item/"+$(this).attr('data-id')+"/checkout";
         });
         $('#accountButton').on('click',function(){

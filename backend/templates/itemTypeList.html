@@ -4,11 +4,12 @@
 <script>
     $(document).ready(function(){
         $('#itemTable').DataTable();
-
-        $('.viewButton').on('click',function(){
+        $(document).on('click','.viewButton',function(){
             window.location="/item/"+$(this).attr('data-id');
+            console.log("Clicked");
         });
-        $('.editButton').on('click',function(){
+
+        $(document).on('click','.editButton',function(){
             window.location="/item/"+$(this).attr('data-id')+"/edit";
         });
         $('#addItemButton').on('click',function(){
