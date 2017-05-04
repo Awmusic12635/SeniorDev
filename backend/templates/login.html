@@ -10,7 +10,7 @@
                 url: "/user/staff",
                 dataType: "json",
                 success: function (data) {
-                    var userSelect = "<select onChange = 'userSelected(this)' name=userSelect required><option value=''>---</option>";
+                    var userSelect = "<select class='form-control' onChange = 'userSelected(this)' name=userSelect required><option value=''>Select a User</option>";
                     data.users.forEach(function(user){
                         userSelect += '<option value = ' + user + '>'+ user + '</option>';
                     });

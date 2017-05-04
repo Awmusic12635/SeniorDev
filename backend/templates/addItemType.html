@@ -8,7 +8,7 @@
                     var selectedCategory = e.options[e.selectedIndex].value;
                     console.log(selectedCategory);
 
-                    var subSelect = "<select name='subCategory' id='subCategory' required> <option  value=''>-- Select a Sub Category --</option>";
+                    var subSelect = "<select class='form-control' name='subCategory' id='subCategory' required> <option  value=''>Select a Sub Category</option>";
                                 {% for s in subcategories %}
                                     if( "{{ s.itemCategoryID.id }}" == selectedCategory){
                                         subSelect += "<option value='{{ s.id }}'>{{ s.subCategoryName }}</option>";
@@ -34,18 +34,51 @@
     <div class="row">
         <div class="col-sm-12">
             <form id="additemtypeform" action="" class="form-group" method="post" enctype="multipart/form-data">
-                <label>Select a Category</label><br/>
-                <select name="categorySelect" id="categorySelect" required>
-                    <option value="">-- Select a Category --</option>
+                <label>Select a Category</label>
+                <select class="form-control" name="categorySelect" id="categorySelect" required>
+                    <option value="">Select a Category</option>
                     {% for c in categories %}
                         <option value="{{ c.id }}">{{ c.categoryName }}</option>
                     {% endfor %}
                 </select>
-
                 <div id="subcategoryDiv"></div>
 
+                <div class="row">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {% for field in form %}
+                <div class="col-sm-3">
+
+                    <fieldset class="form-group">
+                      
+                            <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+                            {% if field.label != 'Image' %}
+                                {% if field.label != 'NeedsSignature' %}
+                                <input type="text" class="form-control"
+                                    name="{{ field.name }}"
+                                    id="id_{{ field.name }}"
+                                    value="{{ field.value }}" > 
+                                {% endif %}
+                            {% endif %}
+                            {% if field.label == 'Image' %}
+                            <input type="file" class="form-control"
+                                name="{{ field.name }}"
+                                id="id_{{ field.name }}"
+                                value="{{ field.value }}" > 
+                            {% endif %}
+                            {% if field.label == 'NeedsSignature' %}
+                            <div class="checkbox"><label>
+                                <input type="checkbox"
+                                    name="{{ field.name }}"
+                                    id="id_{{ field.name }}"
+                                    value="{{ field.value }}" > {{ field.label }}
+                            </label></div>
+                            {% endif %}
+                            <p class="help-text">{{ field.help_text }} </p>
+                    </fieldset>
+                </div>
+
+                {% endfor %}
+            </div>
                 <div class="text-right">
                     <button id="additemtypebutton" type="submit" class="save btn btn-lg btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Item</button>
                 </div>
