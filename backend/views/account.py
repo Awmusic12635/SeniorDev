@@ -11,25 +11,23 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def show(request):
     form = UserChangeForm(user=request.user)
-    return render(request, 'account.html', {'title': 'User Account', 'form': form})
+    return render(request, 'account.html', {'title': 'User Account'})
 
 
 @login_required
 def edit_user(request):
     if request.method == "POST":
-        form = UserChangeForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.save()
-            # for now redirect back to item listings. Until detailed page is done
+        user = request.user
 
-            log(
-                user=request.user,
-                action="USER_CHANGED_PASSWORD",
-                obj=obj,
-                extra={
-                }
-            )
-            return redirect('itemList')
+        if request.POST['password'] == request.POST['password2']:
+            user.set_password(request.POST['password'])
+            user.save()
+
+        log(
+            user=request.user,
+            action="USER_MODIFIED",
+            obj=user,
+            extra={}
+        )
     return show(request)
 

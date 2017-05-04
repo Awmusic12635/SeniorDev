@@ -25,15 +25,15 @@
 
 
     <h3>Change Password</h3>
-    <form action="/account/password" method="POST">
+    <form action="/account/password" class="form-signin" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="oldPassword">Old Password:</label>
         <input type="password" required name="oldPassword">
         <label for="newPassword">Old Password:</label>
-        <input type="password" required name="newPassword">
+        <input type="password" required name="password">
         <label for="newPassword2">Old Password:</label>
-        <input type="password" required name="newPassword2">
+        <input type="password" required name="password2">
         <input type="submit" value="Change">
-
     </form>
+
 {% endblock %}
