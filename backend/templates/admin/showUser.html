@@ -9,15 +9,60 @@
         });
     });
 </script>
-<button id='editUserButton' type="button"  class="btn btn-primary btn-lg">Edit User</button>
-    <div>
-        <ul>
-            <li>ID: {{user.id}}</li>
-            <li>First Name: {{ user.first_name }}</li>
-            <li>Last Name: {{ user.last_name }}</li>
-            <li>Username: {{ user.username }}</li>
-            <li>Email: {{ user.email }}</li>
-            <li>Is Staff: {{ user.is_staff }}</li>
-        </ul>
+<div class="container tableHeader">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>User Details</h3>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button id='editUserButton' type="button"  class="btn btn-primary btn-lg">Edit User</button>
+        </div>
     </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 text-right">
+            <label>ID:</label>
+        </div>
+        <div class="col-sm-9">
+            {{user.id}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 text-right">
+            <label>Full Name:</label>
+        </div>
+        <div class="col-sm-9">
+            {{user.first_name}} {{user.last_name}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 text-right">
+            <label>Username:</label>
+        </div>
+        <div class="col-sm-9">
+            {{user.username}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 text-right">
+            <label>Email:</label>
+        </div>
+        <div class="col-sm-9">
+            {{user.email}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 text-right">
+            <label>Is Staff:</label>
+        </div>
+        <div class="col-sm-9">
+            {{user.is_staff}}
+        </div>
+    </div>
+</div>
 {% endblock %}

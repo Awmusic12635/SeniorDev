@@ -48,14 +48,19 @@
         });
     });
 </script>
-                  <p>Search for user</p>
-                  <form id="userSearchFormUsername">
-                      {% csrf_token %}
-                      <label for="username">RIT Username:</label>
-                      <input type="text" size="15" required name="username" id="username">
-                      <input type="submit" value="Search">
-                  </form>
-                  <div>
-                      <div id="userSelect"></div>
-                  </div>
+<div class="container tableHeader">
+    <h3>Search for User</h3>
+</div>
+<div class="container">
+    <form id="userSearchFormUsername" class="input-group">
+        {% csrf_token %}
+        <input class="form-control" type="text" size="15" placeholder="RIT Username" required name="username" id="username">
+        <span class="input-group-btn">
+          <input class="btn" type="submit" value="Search">
+        </span>
+    </form>
+    <div>
+        <div id="userSelect"></div>
+    </div>
+</div>
 {% endblock %}
