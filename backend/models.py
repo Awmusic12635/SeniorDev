@@ -44,7 +44,7 @@ class ItemSubCategory(TimeStampedModel):
     subCategoryName = models.CharField(max_length=100)
     subCategoryDescription = models.CharField(max_length=500)
     parentSubCategoryID = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
-    defaultCheckoutLengthDays = models.IntegerField(null=True)
+    defaultCheckoutLengthDays = models.IntegerField(default=1, null=True)
     tracker = FieldTracker()
 
     def __str__(self):

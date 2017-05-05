@@ -30,9 +30,9 @@ def add_subcategory(request, category_id):
                 extra={
                 }
             )
-            # for now redirect back to the same page
-            #return redirect('categoryView', category_id = category_id)
-            return redirect('categoryList')
+            #for now redirect back to the same page
+            return redirect('categoryView', category_id = category_id)
+        return redirect('subcategoryAdd')
     else:
         form = ItemSubCategoryForm()
         return render(request, 'addSubCategory.html', {'title': 'Add Sub Category', 'form': form})
