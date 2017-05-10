@@ -1,4 +1,4 @@
-{% extends 'loggedinbase.html' %}
+{% extends 'loggedoutbase.html' %}
 {% block content %}
 {% load widget_tweaks %}
 
@@ -41,10 +41,22 @@
          var canvas = document.querySelector("canvas");
          var signaturePad = new SignaturePad(canvas);
 
+            function resizeCanvas() {
+                var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+                signaturePad.clear(); // otherwise isEmpty() might return incorrect value
+            }
+
+            window.addEventListener("resize", resizeCanvas);
+            resizeCanvas();
+
      });
 
 
     </script>
+    <body>
 <div class="container">
     <label>Person:</label> {{ checkout.person }}<br/>
     <label>Items you are signing for:</label><br/>
@@ -57,17 +69,17 @@
 </div>
 <div class="container text-center">
     <div id="signature-pad">
-    <div class="m-signature-pad--body">
-      <canvas></canvas>
+        <div class="m-signature-pad--body">
+          <canvas></canvas>
+        </div>
+        <div class="m-signature-pad--footer">
+          <p class="description text-center"><small>Please sign your name in the box above</small></p>
+          <div class="text-center">
+              <button class="btn clearButton" type="button">Clear</button>
+              <button class="btn btn-success saveButton" type="button">Submit</button>
+          </div>
+        </div>
     </div>
-    <div class="m-signature-pad--footer">
-      <p class="description text-center"><small>Please sign your name in the box above</small></p>
-      <div class="text-center">
-          <button class="btn" type="button" class="clearButton">Clear</button>
-          <button class="btn btn-success" type="button" class="saveButton">Submit</button>
-      </div>
-    </div>
-  </div>
 </div>
 <div id = "resultsDiv"></div>
 {% endblock %}

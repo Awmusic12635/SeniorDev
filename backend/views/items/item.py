@@ -58,9 +58,9 @@ def edit_item_type(request, item_type_id):
 
             #build the extras for the log
             extras = {}
-            for key in oldValues:
-                extras.update({'old-'+key: oldValues[key]})
-                extras.update({'new-'+key: obj.tracker.previous(key)})
+            #for key in oldValues:
+            #    extras.update({'old-'+key: oldValues[key]})
+            #    extras.update({'new-'+key: obj.tracker.previous(key)})
 
             log(
                 user=request.user,
@@ -69,7 +69,8 @@ def edit_item_type(request, item_type_id):
                 extra=extras
             )
             # for now redirect back to item listings. Until detailed page is done
-            return redirect('itemList')
+            return redirect('itemType', item_type_id=item_type_id)
+        return redirect('itemEdit', item_type_id=item_type_id)
     else:
         form = ItemTypeForm(instance=item_type)
         categories = ItemCategory.objects.all()

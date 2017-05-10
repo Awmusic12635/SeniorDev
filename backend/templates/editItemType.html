@@ -77,7 +77,7 @@
                                 <input type="checkbox"
                                     name="{{ field.name }}"
                                     id="id_{{ field.name }}"
-                                    value="{{ field.value }}" > {{ field.label }}
+                                {% if field.value %} checked {% endif %}> {{ field.label }}
                             </label></div>
                             {% endif %}
                             <p class="help-text">{{ field.help_text }} </p>

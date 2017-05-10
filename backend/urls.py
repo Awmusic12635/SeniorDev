@@ -18,8 +18,8 @@ urlpatterns = [
     #items
     url(r'^item/$', item.list_item_types, name='itemList'),
     url(r'^item/add$', item.add_item_type, name='items'),
-    url(r'^item/(?P<item_type_id>\d*)$', item.show_item_type, name='items'),
-    url(r'^item/(?P<item_type_id>\d*)/edit$', item.edit_item_type, name='items'),
+    url(r'^item/(?P<item_type_id>\d*)/$', item.show_item_type, name='itemType'),
+    url(r'^item/(?P<item_type_id>\d*)/edit$', item.edit_item_type, name='itemEdit'),
     url(r'^item/(?P<item_type_id>\d*)/delete$', item.delete_item_type, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/add$', item.add_item, name='items'),
     url(r'^item/(?P<item_type_id>\d*)/items$', item.list_items, name='items'),
@@ -29,7 +29,7 @@ urlpatterns = [
     #category
     url(r'^category/$', category.list_categories, name='categoryList'),
     url(r'^category/add$', category.add_category, name='categoryAdd'),
-    url(r'^category/(?P<category_id>\d*)$', category.view_category, name='categoryView'),
+    url(r'^category/(?P<category_id>\d*)/$', category.view_category, name='categoryView'),
     url(r'^category/(?P<category_id>\d*)/edit$', category.edit_category, name='categoryEdit'),
     url(r'^category/(?P<category_id>\d*)/subcategory$', subcategory.add_subcategory, name='subcategoryAdd'),
     url(r'^category/(?P<category_id>\d*)/subcategory/(?P<subcategory_id>\d*)$', subcategory.view_subcategory, name='subcategoryView'),
